@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #use $1, $2, $3, ... to access arguements passed by terminal
 if [ -z "$1" ]; then
