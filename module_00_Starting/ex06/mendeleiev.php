@@ -88,8 +88,8 @@ $htmlContent .= " </table>
 fclose($element);
 
 if (file_put_contents('mendeleiev.html', $htmlContent) !== false) {
-	echo "File created successfully: mendeleiev.html\n";
-} 
-else {
-	echo "Error creating file: mendeleiev.html\n";
-}
+        echo "File created successfully: mendeleiev.html\n";
+    } 
+    else {
+        echo "Error creating file: mendeleiev.html\n";
+    }
