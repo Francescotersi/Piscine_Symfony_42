@@ -26,7 +26,6 @@ class Elem {
         }
         else {
             throw new MyException();
-            return;
         }
     }
 
@@ -54,9 +53,6 @@ class Elem {
         if (in_array($this->element, $this->voidTags)) {
             return "<" . $this->element . $this->getAttributesHtml() .">\n\t";
         }
-        // else {
-        //     return "<" . $this->element . ">\n\t";
-        // }
 
         if ($this->content === "") {
             return "<" . $this->element . $this->getAttributesHtml() . "></" . $this->element . ">\n";

@@ -12,10 +12,10 @@ class TemplateEngine {
 
     public function createFile($fileName) {
         if (file_put_contents($fileName . ".html", $this->getTemplate())) {
-        	echo "File created successfully: mendeleiev.html\n";
+        	echo "File created successfully: " . $fileName . ".html\n";
         } 
         else {
-        	echo "Error creating file: mendeleiev.html\n";
+        	echo "Error creating file: " . $fileName . ".html\n";
         }
     }
 }
