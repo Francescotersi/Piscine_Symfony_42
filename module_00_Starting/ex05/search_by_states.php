@@ -26,10 +26,10 @@ function search_by_states($string) {
     $hash = [];
     $hash = strtok($string, ",");
     $result = [];
+    $keyState = "";
 
     while ($hash !== false) {
         $cleanString = trim($hash);
-        echo "|" . $cleanString . "|\n";
         if (isset($states[$cleanString])) {
             if (isset($capitals[$states[$cleanString]])) {
                 $result[] = $capitals[$states[$cleanString]]. " is the capital of " . $cleanString;
@@ -37,10 +37,13 @@ function search_by_states($string) {
         }
         else {
             $keyCap = array_search($cleanString, $capitals);
-            if ($keyCap !== false) 
+            if ($keyCap !== false) {
                 $keyState = array_search($keyCap, $states);
                 if ($keyState !== false) {
                     $result[] = $cleanString . " is the capital of " . $keyState;
+                }
+                else
+                    $result[] = $cleanString . " is neither a capital nor a state";
             }
             else
                 $result[] = $cleanString . " is neither a capital nor a state";
