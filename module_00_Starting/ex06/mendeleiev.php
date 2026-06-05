@@ -68,8 +68,8 @@ for ($i = 1; $i <= 7; $i++) {
             $htmlContent .= "               <h4>" . $elementData['name'] . "</h4>\n";
             $htmlContent .= "               <ul>\n";
             $htmlContent .= "                   <li>" . $elementData['small'] . " (" . $elementData['number'] . ")</li>\n";
-            $htmlContent .= "                   <li>Massa: " . $elementData['molar'] . "</li>\n";
-            $htmlContent .= "                   <li>Gusci: " . $elementData['electron'] . "</li>\n";
+            $htmlContent .= "                   <li>Mass: " . $elementData['molar'] . "</li>\n";
+            $htmlContent .= "                   <li>Electron: " . $elementData['electron'] . "</li>\n";
             $htmlContent .= "               </ul>\n";
             $htmlContent .= "           </td>\n";
         }
