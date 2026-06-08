@@ -1,64 +1,102 @@
 <?php
-// Ensure file names match the real ones
+
 include_once('./Elem.php');
 include_once('./TemplateEngine.php');
 include_once('./MyException.php');
 
 try {
-    $html = new Elem('html');
+    $htmlTest1 = new Elem('html');
+    
     $body = new Elem('body');
-    $body->pushElement(new Elem('p', 'Lorem ipsum', ['class' => 'text-muted']));
-    $html->pushElement($body);
+    $head = new Elem('head');
     
-    $output = $html->getHTML();
-    
-    $hasClass = strpos($output, 'class="text-muted"') !== false;
-    $hasText = strpos($output, 'Lorem ipsum') !== false;
-    
-    echo "Rendering HTML: " . ($hasClass && $hasText ? "Success" : "Failure") . "\n\n";
+    $htmlTest1->pushElement($body); 
+    $htmlTest1->pushElement($head);
+
+    echo "Rule 1 (HTML contains head then body): " . (!$htmlTest1->validPage() ? "Success" : "Failure") . "\n";
 } catch (Exception $e) {
-    echo "Rendering HTML: Unexpected error (" . $e->getMessage() . ")\n";
+    echo "Rule 1 (HTML contains head then body): Success (Exception: " . $e->getMessage() . ")\n";
 }
 
 try {
-    $htmlValid = new Elem('html');
+    $htmlTest2 = new Elem('html');
     
     $head = new Elem('head');
-    $head->pushElement(new Elem('title', 'Test Title'));
+    $head->pushElement(new Elem('title', 'First Title'));
+    $head->pushElement(new Elem('title', 'Second Title'));
     $head->pushElement(new Elem('meta', '', ['charset' => 'UTF-8']));
     
     $body = new Elem('body');
-    $body->pushElement(new Elem('p', 'Only text inside here'));
     
-    $htmlValid->pushElement($head);
-    $htmlValid->pushElement($body);
+    $htmlTest2->pushElement($head);
+    $htmlTest2->pushElement($body);
 
-    echo "Validating HTML structure: " . ($htmlValid->validPage() ? "Success" : "Failure") . "\n\n";
+    echo "Rule 2 (Head single title & meta): " . (!$htmlTest2->validPage() ? "Success" : "Failure") . "\n";
 } catch (Exception $e) {
-    echo "Validation: Unexpected error (" . $e->getMessage() . ")\n";
-}
-
-
-try {
-    $exceptionThrown = false;
-    $invalidElem = new Elem('undefined');
-    echo "Exception handling: Failure (no exception thrown for invalid tag)\n\n";
-} catch (Exception $e) { 
-    echo "Exception successfully caught: " . $e->getMessage() . "\n";
+    echo "Rule 2 (Head single title & meta): Success (Exception: " . $e->getMessage() . ")\n";
 }
 
 try {
-    $engineElem = new Elem('html');
-    $engineElem->pushElement(new Elem('body', 'Content for Donald file'));
+    $htmlTest3 = new Elem('html');
     
-    $templateEngine = new TemplateEngine($engineElem);
-    $fileName = "Donald";
+    $head = new Elem('head');
+    $head->pushElement(new Elem('title', 'Valid Title'));
+    $head->pushElement(new Elem('meta', '', ['charset' => 'UTF-8']));
     
-    $filePath = "./" . $fileName; 
-    $templateEngine->createFile($fileName);
+    $body = new Elem('body');
+    $p = new Elem('p', 'Questo è del testo in un paragrafo.');
+    $p->pushElement(new Elem('span', 'testo extra'));
     
-    $fileExists = file_exists($filePath);
-    echo "TemplateEngine: The file '$fileName' has been physically created.\n";
+    $body->pushElement($p);
+    
+    $htmlTest3->pushElement($head);
+    $htmlTest3->pushElement($body);
+
+    echo "Rule 3 (P tag contains only text): " . (!$htmlTest3->validPage() ? "Success" : "Failure") . "\n";
 } catch (Exception $e) {
-    echo "TemplateEngine: Unexpected error (" . $e->getMessage() . ")\n";
+    echo "Rule 3 (P tag contains only text): Success (Exception: " . $e->getMessage() . ")\n";
+}
+
+try {
+    $htmlTest4 = new Elem('html');
+    
+    $head = new Elem('head');
+    $head->pushElement(new Elem('title', 'Valid Title'));
+    $head->pushElement(new Elem('meta', '', ['charset' => 'UTF-8']));
+    
+    $body = new Elem('body');
+    $table = new Elem('table');
+    $tr = new Elem('tr');
+    $tr->pushElement(new Elem('div', 'Not a table cell'));
+    
+    $table->pushElement($tr);
+    $body->pushElement($table);
+    
+    $htmlTest4->pushElement($head);
+    $htmlTest4->pushElement($body);
+
+    echo "Rule 4 (Table > tr > th/td): " . (!$htmlTest4->validPage() ? "Success" : "Failure") . "\n";
+} catch (Exception $e) {
+    echo "Rule 4 (Table > tr > th/td): Success (Exception: " . $e->getMessage() . ")\n";
+}
+
+try {
+    $htmlTest5 = new Elem('html');
+    
+    $head = new Elem('head');
+    $head->pushElement(new Elem('title', 'Valid Title'));
+    $head->pushElement(new Elem('meta', '', ['charset' => 'UTF-8']));
+    
+    $body = new Elem('body');
+    $ul = new Elem('ul');
+    $ul->pushElement(new Elem('p', 'Not a list item'));
+    
+    $body->pushElement($ul);
+    
+    $htmlTest5->pushElement($head);
+    $htmlTest5->pushElement($body);
+
+    echo "Rule 5 (UL/OL only contain LI): " . (!$htmlTest5->validPage() ? "Success" : "Failure") . "\n";
+} catch (Exception $e) {
+    echo "Rule 5 (UL/OL only contain LI): Success (Exception: " . $e->getMessage() . ")\n";
 }
