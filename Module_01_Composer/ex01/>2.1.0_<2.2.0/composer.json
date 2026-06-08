@@ -1,0 +1,17 @@
+{
+    "name": "francesco/2.1.0_2.2.0",
+    "autoload": {
+        "psr-4": {
+            "Francesco\\210220\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Francesco Tersillo",
+            "email": "francescotersillo@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": ">2.1.0 <2.2.0"
+    }
+}
