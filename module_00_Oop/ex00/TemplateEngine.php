@@ -20,10 +20,10 @@ class TemplateEngine {
         }
 
         if (file_put_contents($fileName . ".html", $htmlContent)) {
-        	echo "File created successfully: mendeleiev.html\n";
+        	echo "File created successfully: " . $fileName . ".html\n";
         } 
         else {
-        	echo "Error creating file: mendeleiev.html\n";
+        	echo "Error creating file: " . $fileName . ".html\n";
         }
     }
 }
