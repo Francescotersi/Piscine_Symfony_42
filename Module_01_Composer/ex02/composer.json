@@ -1,0 +1,17 @@
+{
+    "name": "francesco/ex02",
+    "autoload": {
+        "psr-4": {
+            "Francesco\\Ex02\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Francesco Tersillo",
+            "email": "francescotersillo@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^12.5"
+    }
+}
