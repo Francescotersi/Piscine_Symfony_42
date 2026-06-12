@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 
 class ex00_Controller {
 
-    // #[Route('/e00/firstpage', name:'ex00_firstpage')]   metodo moderno per definire una route
-    /**
-     * @Route("/e00/firstpage", name="ex00Firstpage")
-     */
+    // /**
+    //  * @Route("/e00/firstpage", name="ex00_firstpage") no more supported in the latest symfony release
+    //  */
+    #[Route('/e00/firstpage', name:'ex00_firstpage')]
     public function index(): Response
     {
         return new Response(
