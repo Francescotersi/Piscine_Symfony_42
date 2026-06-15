@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h2>Welcome to the Raxip world</h2>
+    {% if error_message is defined %}
+        <div style="color: red; font-weight: bold; margin-bottom: 20px;">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+    <p>Choose one of our films</p>
+    
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{{ path('ex01_article', { 'article': article }) }}">
+                    Read about the film: {{ article|capitalize }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
