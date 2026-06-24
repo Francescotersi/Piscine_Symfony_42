@@ -11,8 +11,6 @@ class ex01Controller extends AbstractController
 {
     private const PAGES = ['wall-e', 'up', 'madagascar'];
 
-
-
     #[Route('/e01', name:'ex01_main')]
     public function index(): Response
     {
