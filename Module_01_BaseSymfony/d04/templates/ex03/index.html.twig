@@ -1,0 +1,52 @@
+{# templates/color/index.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sfumature di Colore</title>
+    <style>
+        /* Un minimo di stile per far sembrare la tabella ordinata */
+        table { 
+            border-collapse: collapse; 
+            margin: 20px; 
+        }
+        th { 
+            padding: 10px; 
+            border: 1px solid #333; 
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+        }
+        /* I bordi delle celle per distinguerle meglio */
+        td { 
+            border: 1px solid #000; 
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Color Shades Table</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Black</th>
+                <th>Red</th>
+                <th>Blue</th>
+                <th>Green</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Inizio del ciclo per generare le righe dinamiche #}
+            {% for row in shades_data %}
+                <tr>
+                    {# Applichiamo l'altezza, la larghezza e il colore di sfondo passati dal Controller #}
+                    <td style="height: 40px; width: 80px; background-color: {{ row.black }};"></td>
+                    <td style="height: 40px; width: 80px; background-color: {{ row.red }};"></td>
+                    <td style="height: 40px; width: 80px; background-color: {{ row.blue }};"></td>
+                    <td style="height: 40px; width: 80px; background-color: {{ row.green }};"></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
