@@ -19,7 +19,7 @@
                 </xs:complexType>
             </xs:element>
             <xs:element name="exclude" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
+                <xs:complexType>cl
                     <xs:group ref="pathGroup"/>
                 </xs:complexType>
             </xs:element>
