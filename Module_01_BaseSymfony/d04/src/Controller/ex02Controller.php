@@ -22,7 +22,7 @@ class ex02Controller extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $message = $noteModel->message;
-            
+
             if ($noteModel->includeTimestamp) {
                 $timestamp = (new \DateTime())->format('Y-m-d H:i:s');
                 $line = sprintf('%s - %s', $timestamp, $message);
