@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SQL Table Setup{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Database Table Generator</h1>
+        <p>Click the button below to execute the raw SQL query and create the database table.</p>
+        {% if message %}
+            <div>
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{{ path('ex00') }}">
+            <button type="submit">
+                Create Database Table
+            </button>
+        </form>
+        <form method="POST" action="{{ path('ex00') }}">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit">Eliminate table</button>
+        </form>
+    </div>
+{% endblock %}
