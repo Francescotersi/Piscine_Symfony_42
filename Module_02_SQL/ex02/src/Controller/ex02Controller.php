@@ -60,7 +60,7 @@ class ex02Controller extends AbstractController {
             $data = $form->getData();
             $birthdate = $data['birthdate'];
             if ($birthdate instanceof \DateTimeInterface) {
-                $birthdate = $birthdate->format('Y-m-d H:i:s');
+                $birthdate = $birthdate->format('Y-m-d');
             }
 
             $sql = "INSERT INTO users (username, name, email, enable, birthdate, address)
@@ -93,5 +93,12 @@ class ex02Controller extends AbstractController {
         ]);
     }
 
-    // aggiungi drop table come path almeno puoi testare per bene
+    #[Route(path:'/ex02/delete', name:'ex02_deleteTable')]
+    public function deleteTable(): Response {
+        $sql = 'DROP TABLE IF EXISTS users';
+        
+        $this->connection->executeStatement($sql);
+
+        return new Response("Success: Table deleted");
+    }
 }

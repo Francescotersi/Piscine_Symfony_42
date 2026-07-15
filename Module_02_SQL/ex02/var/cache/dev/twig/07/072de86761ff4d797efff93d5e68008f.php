@@ -101,7 +101,7 @@ class __TwigTemplate_1b61e408357c5a42fb6efa56632cda3b extends Template
         <br>
         <a href=\"";
         // line 13
-        yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex02_updateTable");
+        yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex02_listTable");
         yield "\">View Database Content &rarr;</a>
     </div>
 
@@ -150,7 +150,7 @@ class __TwigTemplate_1b61e408357c5a42fb6efa56632cda3b extends Template
             {{ form_widget(form) }}
         {{ form_end(form) }}        
         <br>
-        <a href=\"{{ path(\x27ex02_updateTable\x27) }}\">View Database Content &rarr;</a>
+        <a href=\"{{ path(\x27ex02_listTable\x27) }}\">View Database Content &rarr;</a>
     </div>
 
 {% endblock %}", "database/updateTable.html.twig", "/home/francesco/Desktop/Piscine_Symfony_42/Module_02_SQL/ex02/templates/database/updateTable.html.twig");

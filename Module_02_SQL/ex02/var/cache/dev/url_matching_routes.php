@@ -11,6 +11,7 @@ return [
         '/ex02/new' => [[['_route' => 'ex02_newTable', '_controller' => 'App\\Controller\\ex02Controller::tableSetUp'], null, null, null, false, false, null]],
         '/ex02/update' => [[['_route' => 'ex02_updateTable', '_controller' => 'App\\Controller\\ex02Controller::tableUpdate'], null, null, null, false, false, null]],
         '/ex02/list' => [[['_route' => 'ex02_listTable', '_controller' => 'App\\Controller\\ex02Controller::listTable'], null, null, null, false, false, null]],
+        '/ex02/delete' => [[['_route' => 'ex02_deleteTable', '_controller' => 'App\\Controller\\ex02Controller::deleteTable'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

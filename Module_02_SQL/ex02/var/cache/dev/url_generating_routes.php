@@ -7,7 +7,9 @@ return [
     'ex02_newTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::tableSetUp'], [], [['text', '/ex02/new']], [], [], []],
     'ex02_updateTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::tableUpdate'], [], [['text', '/ex02/update']], [], [], []],
     'ex02_listTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::listTable'], [], [['text', '/ex02/list']], [], [], []],
+    'ex02_deleteTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::deleteTable'], [], [['text', '/ex02/delete']], [], [], []],
     'App\Controller\ex02Controller::tableSetUp' => [[], ['_controller' => 'App\\Controller\\ex02Controller::tableSetUp'], [], [['text', '/ex02/new']], [], [], []],
     'App\Controller\ex02Controller::tableUpdate' => [[], ['_controller' => 'App\\Controller\\ex02Controller::tableUpdate'], [], [['text', '/ex02/update']], [], [], []],
     'App\Controller\ex02Controller::listTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::listTable'], [], [['text', '/ex02/list']], [], [], []],
+    'App\Controller\ex02Controller::deleteTable' => [[], ['_controller' => 'App\\Controller\\ex02Controller::deleteTable'], [], [['text', '/ex02/delete']], [], [], []],
 ];

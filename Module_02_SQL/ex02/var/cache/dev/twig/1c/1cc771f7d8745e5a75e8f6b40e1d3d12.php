@@ -91,38 +91,58 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Username</th>
                     <th>Name</th>
                     <th>Email (Unique)</th>
+                    <th>Enable</th>
+                    <th>Birthdate</th>
+                    <th>Adress</th>
                 </tr>
             </thead>
             <tbody>
             ";
-        // line 19
+        // line 23
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 19, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 23, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
-            // line 20
+            // line 24
             yield "                <tr>
                     <td>";
-            // line 21
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "id", [], "any", false, false, false, 21), "html", null, true);
+            // line 25
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "id", [], "any", false, false, false, 25), "html", null, true);
             yield "</td>
                     <td>";
-            // line 22
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 22), "html", null, true);
+            // line 26
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "username", [], "any", false, false, false, 26), "html", null, true);
             yield "</td>
                     <td>";
-            // line 23
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 23), "html", null, true);
+            // line 27
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 27), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 28
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 28), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 29
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "enable", [], "any", false, false, false, 29), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 30
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "birthdate", [], "any", false, false, false, 30), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 31
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "address", [], "any", false, false, false, 31), "html", null, true);
             yield "</td>
                 </tr>
             ";
             $context['_iterated'] = true;
         }
-        // line 25
+        // line 33
         if (!$context['_iterated']) {
-            // line 26
+            // line 34
             yield "                <tr>
                     <td colspan=\"3\">No data currently in the database.</td>
                 </tr>
@@ -132,14 +152,14 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
         unset($context['_seq'], $context['_key'], $context['user'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent);
         $context += $_parent;
-        // line 30
+        // line 38
         yield "            </tbody>
         </table>
         
         <br>
         <a href=\"";
-        // line 34
-        yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("exercise_new");
+        // line 42
+        yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex02_updateTable");
         yield "\">&larr; Insert New Record</a>
     </div>
 
@@ -171,7 +191,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  142 => 34,  136 => 30,  126 => 26,  124 => 25,  117 => 23,  113 => 22,  109 => 21,  106 => 20,  101 => 19,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  162 => 42,  156 => 38,  146 => 34,  144 => 33,  137 => 31,  133 => 30,  129 => 29,  125 => 28,  121 => 27,  117 => 26,  113 => 25,  110 => 24,  105 => 23,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -189,16 +209,24 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Username</th>
                     <th>Name</th>
                     <th>Email (Unique)</th>
+                    <th>Enable</th>
+                    <th>Birthdate</th>
+                    <th>Adress</th>
                 </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
+                    <td>{{ user.enable }}</td>
+                    <td>{{ user.birthdate }}</td>
+                    <td>{{ user.address }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -209,7 +237,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
         </table>
         
         <br>
-        <a href=\"{{ path(\x27exercise_new\x27) }}\">&larr; Insert New Record</a>
+        <a href=\"{{ path(\x27ex02_updateTable\x27) }}\">&larr; Insert New Record</a>
     </div>
 
 {% endblock %}", "database/listTable.html.twig", "/home/francesco/Desktop/Piscine_Symfony_42/Module_02_SQL/ex02/templates/database/listTable.html.twig");
