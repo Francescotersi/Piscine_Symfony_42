@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Sql table form show and list {% endblock %}
+
+{% block body %}
+
+    <div style="max-width: 500px; margin: 20px auto;">
+        <h2>Create New Entry</h2>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}        
+        <br>
+        <a href="{{ path('ex02_updateTable') }}">View Database Content &rarr;</a>
+    </div>
+
+{% endblock %}
