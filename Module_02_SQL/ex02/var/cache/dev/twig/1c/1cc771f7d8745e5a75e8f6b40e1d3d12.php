@@ -93,7 +93,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
                     <th>ID</th>
                     <th>Username</th>
                     <th>Name</th>
-                    <th>Email (Unique)</th>
+                    <th>Email</th>
                     <th>Enable</th>
                     <th>Birthdate</th>
                     <th>Adress</th>
@@ -124,25 +124,32 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
             // line 28
             yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 28), "html", null, true);
             yield "</td>
-                    <td>";
+                    ";
             // line 29
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "enable", [], "any", false, false, false, 29), "html", null, true);
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["user"], "enable", [], "any", false, false, false, 29)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 30
+                yield "                        <td>yes</td>
+                    ";
+            } else {
+                // line 32
+                yield "                        <td>no</td>
+                    ";
+            }
+            // line 34
+            yield "                    <td>";
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "birthdate", [], "any", false, false, false, 34), "html", null, true);
             yield "</td>
                     <td>";
-            // line 30
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "birthdate", [], "any", false, false, false, 30), "html", null, true);
-            yield "</td>
-                    <td>";
-            // line 31
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "address", [], "any", false, false, false, 31), "html", null, true);
+            // line 35
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "address", [], "any", false, false, false, 35), "html", null, true);
             yield "</td>
                 </tr>
             ";
             $context['_iterated'] = true;
         }
-        // line 33
+        // line 37
         if (!$context['_iterated']) {
-            // line 34
+            // line 38
             yield "                <tr>
                     <td colspan=\"3\">No data currently in the database.</td>
                 </tr>
@@ -152,13 +159,13 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
         unset($context['_seq'], $context['_key'], $context['user'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent);
         $context += $_parent;
-        // line 38
+        // line 42
         yield "            </tbody>
         </table>
         
         <br>
         <a href=\"";
-        // line 42
+        // line 46
         yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex02_updateTable");
         yield "\">&larr; Insert New Record</a>
     </div>
@@ -191,7 +198,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  162 => 42,  156 => 38,  146 => 34,  144 => 33,  137 => 31,  133 => 30,  129 => 29,  125 => 28,  121 => 27,  117 => 26,  113 => 25,  110 => 24,  105 => 23,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  169 => 46,  163 => 42,  153 => 38,  151 => 37,  144 => 35,  139 => 34,  135 => 32,  131 => 30,  129 => 29,  125 => 28,  121 => 27,  117 => 26,  113 => 25,  110 => 24,  105 => 23,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -211,7 +218,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
                     <th>ID</th>
                     <th>Username</th>
                     <th>Name</th>
-                    <th>Email (Unique)</th>
+                    <th>Email</th>
                     <th>Enable</th>
                     <th>Birthdate</th>
                     <th>Adress</th>
@@ -224,7 +231,11 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
                     <td>{{ user.username }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.enable }}</td>
+                    {% if user.enable %}
+                        <td>yes</td>
+                    {% else %}
+                        <td>no</td>
+                    {% endif %}
                     <td>{{ user.birthdate }}</td>
                     <td>{{ user.address }}</td>
                 </tr>

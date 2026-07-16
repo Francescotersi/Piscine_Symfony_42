@@ -13,7 +13,7 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>Name</th>
-                    <th>Email (Unique)</th>
+                    <th>Email</th>
                     <th>Enable</th>
                     <th>Birthdate</th>
                     <th>Adress</th>
@@ -26,7 +26,11 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.enable }}</td>
+                    {% if user.enable %}
+                        <td>yes</td>
+                    {% else %}
+                        <td>no</td>
+                    {% endif %}
                     <td>{{ user.birthdate }}</td>
                     <td>{{ user.address }}</td>
                 </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Doctrine\DBAL\Connection;
 
 // to check if the table exist run:
@@ -40,6 +41,7 @@ class ex02Controller extends AbstractController {
 
     #[Route(path:"/ex02/update", name:"ex02_updateTable")]
     public function tableUpdate(Request $request): Response {
+        try {
         $form = $this->createFormBuilder()
             ->add("username", TextType::class, ["label"=> "Username"])
             ->add("name", TextType::class, ["label"=> "Name"])
@@ -49,7 +51,7 @@ class ex02Controller extends AbstractController {
                                             'Yes' => true,
                                             'No' => false,
                                         ]])
-            ->add("birthdate", DateType::class, ["label"=> "BirthDate"])
+            ->add("birthdate", DateTimeType::class, ["label"=> "BirthDate"])
             ->add("address", TextType::class, ["label"=> "Address"])
             ->add("submit", SubmitType::class, ["label"=> "Submit!"])
             ->getForm();
@@ -60,7 +62,7 @@ class ex02Controller extends AbstractController {
             $data = $form->getData();
             $birthdate = $data['birthdate'];
             if ($birthdate instanceof \DateTimeInterface) {
-                $birthdate = $birthdate->format('Y-m-d');
+                $birthdate = $birthdate->format('Y-m-d H:i:s');
             }
 
             $sql = "INSERT INTO users (username, name, email, enable, birthdate, address)
@@ -80,25 +82,36 @@ class ex02Controller extends AbstractController {
         }
         return $this->render('database/updateTable.html.twig', [
             'form' => $form->createView(),
-        ]); 
+        ]);
+        } catch (Exception $e) {
+            return new Response('Error: cant update table');
+        }
     }
 
     #[Route(path:"/ex02/list", name:"ex02_listTable")]
     public function listTable(): Response {
+        try {
         $sql = "SELECT * FROM users";
         $results = $this->connection->fetchAllAssociative($sql);
 
         return $this->render('database/listTable.html.twig', [
             'users' => $results,
         ]);
+        } catch (Exception $e) {
+            return new Response("Error: Cant list the table");
+        }
     }
 
     #[Route(path:'/ex02/delete', name:'ex02_deleteTable')]
     public function deleteTable(): Response {
+        try {
         $sql = 'DROP TABLE IF EXISTS users';
         
         $this->connection->executeStatement($sql);
-
+        
         return new Response("Success: Table deleted");
+        }   catch (Exception $e) {
+            return new Response("Error: Table not deleted");
+        }
     }
 }
