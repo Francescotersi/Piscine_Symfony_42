@@ -8,6 +8,7 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
+        '/ex02/new' => [[['_route' => 'ex03_newTable', '_controller' => 'App\\Controller\\ex03Controller::newTable'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

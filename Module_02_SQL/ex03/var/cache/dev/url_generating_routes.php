@@ -4,4 +4,6 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
+    'ex03_newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex02/new']], [], [], []],
+    'App\Controller\ex03Controller::newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex02/new']], [], [], []],
 ];
