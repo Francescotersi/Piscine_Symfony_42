@@ -4,6 +4,12 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
-    'ex03_newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex02/new']], [], [], []],
-    'App\Controller\ex03Controller::newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex02/new']], [], [], []],
+    'ex03_newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex03/new']], [], [], []],
+    'ex03_deleteTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::deleteTable'], [], [['text', '/ex03/delete']], [], [], []],
+    'ex03_listTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::listTable'], [], [['text', '/ex03/list']], [], [], []],
+    'ex03_updateTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::updateTable'], [], [['text', '/ex03/update']], [], [], []],
+    'App\Controller\ex03Controller::newTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::newTable'], [], [['text', '/ex03/new']], [], [], []],
+    'App\Controller\ex03Controller::deleteTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::deleteTable'], [], [['text', '/ex03/delete']], [], [], []],
+    'App\Controller\ex03Controller::listTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::listTable'], [], [['text', '/ex03/list']], [], [], []],
+    'App\Controller\ex03Controller::updateTable' => [[], ['_controller' => 'App\\Controller\\ex03Controller::updateTable'], [], [['text', '/ex03/update']], [], [], []],
 ];

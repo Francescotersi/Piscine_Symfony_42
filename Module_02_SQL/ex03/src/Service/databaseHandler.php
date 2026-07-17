@@ -4,30 +4,23 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\DBAL\Exception;
 
 class databaseHandler {
 
-    public function __construct(private EntityManagerInterface $manager,
-                                private SchemaTool $schemaTool, private $metadatas) {
-        $metadatas = $manager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($manager);
-    }
+    private SchemaTool $schemaTool;
+    private array $metadatas;
 
-    public function getAll(String $tableName): array {
-        $result = $this->manager->getAll($tableName);
-        return $result;
-    }
-
-    public function newEntity($entity): void {
-        $this->manager->persist($entity);
-        $this->manager->flush();        
+    public function __construct(private EntityManagerInterface $manager) {
+        $this->metadatas = $manager->getMetadataFactory()->getAllMetadata();
+        $this->schemaTool = new SchemaTool($manager);
     }
 
     public function newTable(): String {
         try {
             $this->schemaTool->updateSchema($this->metadatas);
             return "Sucess";
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return "Failed";
         }
     }
@@ -36,8 +29,23 @@ class databaseHandler {
         try {
             $this->schemaTool->dropSchema($this->metadatas);
             return "Success";
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return "Failed";
         }
     }
+
+    public function fetchAll(String $tableName): array {
+        try {
+            $result = $this->manager->getRepository($tableName)->findAll();
+            return $result;
+        } catch (\Exception $e) {
+            return [];  
+        }
+    }
+
+    public function newEntity($entity): void {
+        $this->manager->persist($entity);
+        $this->manager->flush();
+    }
+
 }
