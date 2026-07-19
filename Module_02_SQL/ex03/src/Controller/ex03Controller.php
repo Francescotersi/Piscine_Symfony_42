@@ -45,8 +45,9 @@ class ex03Controller extends AbstractController {
             if ($birth instanceof \DateTimeInterface) {
                 $user->setBirthdate($birth->format('Y-m-d H:i:s'));
             }
-            $dbHandler->newEntity($user);
-            return $this->redirectToRoute('ex03_listTable');
+            if ($dbHandler->newEntity($user)) {
+                return $this->redirectToRoute('ex03_listTable');
+            }
         }
 
         return $this->render('database/updateTable.html.twig', [

@@ -5,6 +5,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class databaseHandler {
 
@@ -19,7 +20,7 @@ class databaseHandler {
     public function newTable(): String {
         try {
             $this->schemaTool->updateSchema($this->metadatas);
-            return "Sucess";
+            return "Success: tables created";
         } catch (Exception $e) {
             return "Failed";
         }
@@ -28,7 +29,7 @@ class databaseHandler {
     public function deleteTable(): String {
         try {
             $this->schemaTool->dropSchema($this->metadatas);
-            return "Success";
+            return "Success: all tables deletes";
         } catch (Exception $e) {
             return "Failed";
         }
@@ -43,9 +44,14 @@ class databaseHandler {
         }
     }
 
-    public function newEntity($entity): void {
-        $this->manager->persist($entity);
-        $this->manager->flush();
+    public function newEntity($entity): bool {
+        try {
+            $this->manager->persist($entity);
+            $this->manager->flush();
+            return true;
+        } catch (UniqueConstraintViolationException $e) {
+            return false;
+        }
     }
 
 }

@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
-#[UniqueEntity(fields: ['username', 'email'], message: 'This fields is alredy in use choose another one')]
+#[UniqueEntity(fields: ['username'], message: 'This username is already in use, choose another one')]
+#[UniqueEntity(fields: ['email'], message: 'This email is already in use, choose another one')]
 class userModel {
 
     #[ORM\Id]
