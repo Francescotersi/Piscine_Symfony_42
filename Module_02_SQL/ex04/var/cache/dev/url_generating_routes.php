@@ -4,4 +4,14 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
+    'ex04_newTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::newTable'], [], [['text', '/ex04/new']], [], [], []],
+    'ex04_deleteTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::deleteTable'], [], [['text', '/ex04/delete/table']], [], [], []],
+    'ex04_addUser' => [[], ['_controller' => 'App\\Controller\\ex04Controller::addUser'], [], [['text', '/ex04/add']], [], [], []],
+    'ex04_listTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::listTable'], [], [['text', '/ex04/list']], [], [], []],
+    'ex04_deleteUser' => [['id'], ['_controller' => 'App\\Controller\\ex04Controller::deleteUser'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/ex04/delete']], [], [], []],
+    'App\Controller\ex04Controller::newTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::newTable'], [], [['text', '/ex04/new']], [], [], []],
+    'App\Controller\ex04Controller::deleteTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::deleteTable'], [], [['text', '/ex04/delete/table']], [], [], []],
+    'App\Controller\ex04Controller::addUser' => [[], ['_controller' => 'App\\Controller\\ex04Controller::addUser'], [], [['text', '/ex04/add']], [], [], []],
+    'App\Controller\ex04Controller::listTable' => [[], ['_controller' => 'App\\Controller\\ex04Controller::listTable'], [], [['text', '/ex04/list']], [], [], []],
+    'App\Controller\ex04Controller::deleteUser' => [['id'], ['_controller' => 'App\\Controller\\ex04Controller::deleteUser'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/ex04/delete']], [], [], []],
 ];

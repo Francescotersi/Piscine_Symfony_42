@@ -11,16 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\DBAL\Connection;
 use Exception;
 
-class Ex04Controller extends AbstractController {
+class ex04Controller extends AbstractController {
 
     public function __construct(private Connection $connection) {}
 
-    #[Route(path:"/new", name:"ex04_newTable")]
+    #[Route(path:"/ex04/new", name:"ex04_newTable")]
     public function newTable(): Response {
         $sql = "
             CREATE TABLE IF NOT EXISTS users (
             id INTEGER  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-            username VARCHAR(255) UNIQUE NOT NULL,
+            username VARCHAR(255) UNIQUE NOT NULL
             );
         ";
         $this->connection->executeStatement($sql);
@@ -28,7 +28,7 @@ class Ex04Controller extends AbstractController {
         return new Response("Success: Table created");
     }
 
-    #[Route(path:"/delete/table", name:"ex04_deleteTable")]
+    #[Route(path:"/ex04/delete/table", name:"ex04_deleteTable")]
     public function deleteTable(): Response {
         try {
         $sql = "DROP TABLE IF EXISTS users";
@@ -41,7 +41,7 @@ class Ex04Controller extends AbstractController {
         }
     }
 
-    #[Route(path:"/add", name:"ex04_addUser")]
+    #[Route(path:"/ex04/add", name:"ex04_addUser")]
     public function addUser(Request $request): Response {
         try {
             $form = $this->createFormBuilder()
@@ -59,7 +59,7 @@ class Ex04Controller extends AbstractController {
 
                 $this->connection->executeStatement($sql, ['username' => $data['username']]);
 
-                return $this->redirectToRoute('ex02_listTable');
+                return $this->redirectToRoute('ex04_listTable');
         }
         return $this->render('database/updateTable.html.twig', [
             'form' => $form->createView(),
@@ -69,7 +69,7 @@ class Ex04Controller extends AbstractController {
         }
     }
 
-    #[Route(path:"/list", name:"ex04_listTable")]
+    #[Route(path:"/ex04/list", name:"ex04_listTable")]
     public function listTable(): Response {
         try {
         $sql = "SELECT * FROM users";
@@ -83,7 +83,7 @@ class Ex04Controller extends AbstractController {
         }
     }
 
-    #[Route(path:"/delete/{id}", name:"ex04_deleteUser")]
+    #[Route(path:"/ex04/delete/{id}", name:"ex04_deleteUser")]
     public function deleteUser(int $id): Response {
         $sqlSelect = 'SELECT * FROM users WHERE id = :id';
         $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $id]);
@@ -95,7 +95,7 @@ class Ex04Controller extends AbstractController {
         $sqlDelete = 'DELETE FROM users WHERE id = :id';
         $this->connection->executeStatement($sqlDelete, ['id' => $id]);
 
-        $this->addFlash('success', 'Utente ' . $user['username'] . ' eliminato con successo.');
+        $this->addFlash('success', 'Utente "' . $user['username'] . '" eliminato con successo.');
 
         return $this->redirectToRoute('ex04_listTable');
 

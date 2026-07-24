@@ -4,6 +4,12 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        {{ message }}
+    </div>
+    {% endfor %}
+
     <div style="max-width: 600px; margin: 20px auto;">
         <h2>Database Content</h2>
         
@@ -30,7 +36,7 @@
         </table>
         
         <br>
-        <a href="{{ path('ex04_updateTable') }}">&larr; Insert New Record</a>
+        <a href="{{ path('ex04_addUser') }}">&larr; Insert New Record</a>
     </div>
 
 {% endblock %}
