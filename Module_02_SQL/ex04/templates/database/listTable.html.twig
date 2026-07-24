@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Listing the database {% endblock %}
+
+{% block body %}
+
+    <div style="max-width: 600px; margin: 20px auto;">
+        <h2>Database Content</h2>
+        
+        <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No data currently in the database.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <br>
+        <a href="{{ path('ex04_updateTable') }}">&larr; Insert New Record</a>
+    </div>
+
+{% endblock %}

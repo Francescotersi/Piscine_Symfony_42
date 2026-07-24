@@ -11,14 +11,15 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'deecf9d6b2672fb73429f9b28fdee35f' => __DIR__ . '/..' . '/symfony/polyfill-deepclone/bootstrap.php',
         '606a39d89246991a373564698c2d8383' => __DIR__ . '/..' . '/symfony/polyfill-php85/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '89efb1254ef2d1c5d80096acd12c4098' => __DIR__ . '/..' . '/twig/twig/src/Resources/core.php',
         'ffecb95d45175fd40f75be8a23b34f90' => __DIR__ . '/..' . '/twig/twig/src/Resources/debug.php',
         'c7baa00073ee9c61edf148c51917cfb4' => __DIR__ . '/..' . '/twig/twig/src/Resources/escaper.php',
         'f844ccf1d25df8663951193c3fc307c8' => __DIR__ . '/..' . '/twig/twig/src/Resources/string_loader.php',
-        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -32,6 +33,7 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
             'Symfony\\Polyfill\\Php85\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Icu\\' => 26,
             'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
             'Symfony\\Polyfill\\DeepClone\\' => 27,
             'Symfony\\Flex\\' => 13,
@@ -42,11 +44,16 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarExporter\\' => 30,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\TypeInfo\\' => 27,
             'Symfony\\Component\\String\\' => 25,
             'Symfony\\Component\\Runtime\\' => 26,
             'Symfony\\Component\\Routing\\' => 26,
+            'Symfony\\Component\\PropertyInfo\\' => 31,
+            'Symfony\\Component\\PropertyAccess\\' => 33,
+            'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\Form\\' => 23,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\EventDispatcher\\' => 34,
@@ -95,6 +102,10 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
+        'Symfony\\Polyfill\\Intl\\Icu\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-icu',
+        ),
         'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
@@ -135,6 +146,10 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
+        'Symfony\\Component\\TypeInfo\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/type-info',
+        ),
         'Symfony\\Component\\String\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
@@ -147,6 +162,18 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
         array (
             0 => __DIR__ . '/..' . '/symfony/routing',
         ),
+        'Symfony\\Component\\PropertyInfo\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/property-info',
+        ),
+        'Symfony\\Component\\PropertyAccess\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/property-access',
+        ),
+        'Symfony\\Component\\OptionsResolver\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
         'Symfony\\Component\\HttpKernel\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-kernel',
@@ -154,6 +181,10 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
         'Symfony\\Component\\HttpFoundation\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Symfony\\Component\\Form\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/form',
         ),
         'Symfony\\Component\\Finder\\' =>
         array (
@@ -230,14 +261,19 @@ class ComposerStaticInite8d3a95da1ed2c87bca868e4168fd74a
     );
 
     public static $classMap = array (
+        'Collator' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/Collator.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DeepClone\\ClassNotFoundException' => __DIR__ . '/..' . '/symfony/polyfill-deepclone/Resources/stubs/ClassNotFoundException.php',
         'DeepClone\\NotInstantiableException' => __DIR__ . '/..' . '/symfony/polyfill-deepclone/Resources/stubs/NotInstantiableException.php',
         'DelayedTargetValidation' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/DelayedTargetValidation.php',
         'Filter\\FilterException' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/Filter/FilterException.php',
         'Filter\\FilterFailedException' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/Filter/FilterFailedException.php',
+        'IntlDateFormatter' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/IntlDateFormatter.php',
+        'IntlListFormatter' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/IntlListFormatter.php',
+        'Locale' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/Locale.php',
         'NoDiscard' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/NoDiscard.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'NumberFormatter' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/Resources/stubs/NumberFormatter.php',
         '©' => __DIR__ . '/..' . '/symfony/cache/Traits/ValueWrapper.php',
     );
 
