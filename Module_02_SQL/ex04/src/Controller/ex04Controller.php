@@ -84,21 +84,25 @@ class ex04Controller extends AbstractController {
     }
 
     #[Route(path:"/ex04/delete/{id}", name:"ex04_deleteUser")]
-    public function deleteUser(int $id): Response {
+    public function deleteUser(string $id): Response {
+        if (!ctype_digit($id)) {
+            return new Response('Error: invalid user ID', Response::HTTP_NOT_FOUND);
+        }
+
+        $userId = (int) $id;
         $sqlSelect = 'SELECT * FROM users WHERE id = :id';
-        $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $id]);
+        $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
 
         if (!$user) {
-            throw $this->createNotFoundException('Nessun utente trovato con ID: ' . $id);
+            return new Response('Error: no user with this ID has been found ' . $userId, Response::HTTP_NOT_FOUND);
         }
 
         $sqlDelete = 'DELETE FROM users WHERE id = :id';
-        $this->connection->executeStatement($sqlDelete, ['id' => $id]);
+        $this->connection->executeStatement($sqlDelete, ['id' => $userId]);
 
-        $this->addFlash('success', 'Utente "' . $user['username'] . '" eliminato con successo.');
+        $this->addFlash('success', 'User "' . $user['username'] . '" erased');
 
         return $this->redirectToRoute('ex04_listTable');
-
     }
 
 }

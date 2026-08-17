@@ -112,7 +112,7 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-
+                    <th>Erase</th>
                 </tr>
             </thead>
             <tbody>
@@ -132,13 +132,17 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
             // line 28
             yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "username", [], "any", false, false, false, 28), "html", null, true);
             yield "</td>
+                    <td> <form method=\"post\" action=\"";
+            // line 29
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex04_deleteUser", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["user"], "id", [], "any", false, false, false, 29)]), "html", null, true);
+            yield "\"> <button type=\"submit\">Delete</button> </form> </td>
                 </tr>
             ";
             $context['_iterated'] = true;
         }
-        // line 30
+        // line 31
         if (!$context['_iterated']) {
-            // line 31
+            // line 32
             yield "                <tr>
                     <td colspan=\"3\">No data currently in the database.</td>
                 </tr>
@@ -148,13 +152,13 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
         unset($context['_seq'], $context['_key'], $context['user'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent);
         $context += $_parent;
-        // line 35
+        // line 36
         yield "            </tbody>
         </table>
         
         <br>
         <a href=\"";
-        // line 39
+        // line 40
         yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex04_addUser");
         yield "\">&larr; Insert New Record</a>
     </div>
@@ -187,7 +191,7 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  158 => 39,  152 => 35,  142 => 31,  140 => 30,  133 => 28,  129 => 27,  126 => 26,  121 => 25,  106 => 12,  96 => 9,  93 => 8,  89 => 7,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  162 => 40,  156 => 36,  146 => 32,  144 => 31,  137 => 29,  133 => 28,  129 => 27,  126 => 26,  121 => 25,  106 => 12,  96 => 9,  93 => 8,  89 => 7,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -212,7 +216,7 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-
+                    <th>Erase</th>
                 </tr>
             </thead>
             <tbody>
@@ -220,6 +224,7 @@ class __TwigTemplate_110159dd513f8b0bb1a8c5b37e910f01 extends Template
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.username }}</td>
+                    <td> <form method=\"post\" action=\"{{ path(\x27ex04_deleteUser\x27, {\x27id\x27: user.id}) }}\"> <button type=\"submit\">Delete</button> </form> </td>
                 </tr>
             {% else %}
                 <tr>

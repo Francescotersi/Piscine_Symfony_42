@@ -18,7 +18,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-
+                    <th>Erase</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +26,7 @@
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.username }}</td>
+                    <td> <form method="post" action="{{ path('ex04_deleteUser', {'id': user.id}) }}"> <button type="submit">Delete</button> </form> </td>
                 </tr>
             {% else %}
                 <tr>

@@ -16,7 +16,7 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerBruGGdU\App_KernelDevDebugContainer([
     'container.build_hash' => 'BruGGdU',
-    'container.build_id' => '50533b22',
-    'container.build_time' => 1784904113,
+    'container.build_id' => 'd502176d',
+    'container.build_time' => 1786970983,
     'container.runtime_mode' => \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? 'web=0' : 'web=1',
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerBruGGdU');
