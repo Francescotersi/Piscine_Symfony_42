@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Insert user data</h1>
+    
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+    
+    <br>
+    <a href="{{ path('ex05_listTable') }}">View Database Content</a>
+{% endblock %}
