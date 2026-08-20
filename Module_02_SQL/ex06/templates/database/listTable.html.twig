@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Listing the database {% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div style="max-width: 600px; margin: 20px auto;">
+        <h2>Database Content</h2>
+        
+        <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Enable</th>
+                    <th>Birthdate</th>
+                    <th>Address</th>
+                    <th>Edit</th>
+                    <th>Erase</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.enable ? 'true' : 'false' }}</td>
+                    <td>{{ user.birthdate ?: '-' }}</td>
+                    <td>{{ user.address ?: '-' }}</td>
+                    <td> <form method="get" action="{{ path('ex06_updateUser', {'id' : user.id}) }}"> <button type="submit">Edit </button> </form> </td>
+                    <td> <form method="post" action="{{ path('ex06_deleteUser', {'id': user.id}) }}"> <button type="submit">Delete</button> </form> </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">No data currently in the database.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

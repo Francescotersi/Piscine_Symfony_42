@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Editing a user {% endblock %}
+
+{% block body %}
+
+    <div style="max-width: 500px; margin: 20px auto;">
+        <h2>
+            {% if user is defined and user %}
+                Editing Entry #{{ user.id }}
+            {% else %}
+                No entry found
+            {% endif %}
+        </h2>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}        
+        <br>
+        <a href="{{ path('ex06_listTable') }}">&larr; Back to list</a>
+    </div>
+
+{% endblock %}
