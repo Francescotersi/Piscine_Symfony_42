@@ -1,0 +1,53 @@
+
+{% block title %} ORM Doctrine {% endblock %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Project Database Content</h1>
+    
+    <table border="1" cellpadding="10">
+        <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Enable</th>
+                    <th>Birthdate</th>
+                    <th>Adress</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if user.enable %}
+                        <td>yes</td>
+                    {% else %}
+                        <td>no</td>
+                    {% endif %}
+                    <td>{{ user.birthdate }}</td>
+                    <td>{{ user.address }}</td>
+                    <td>
+                        <form action="{{ path('ex07_deleteUser', {id: user.id}) }}" method="post" onsubmit="return confirm('Delete this user?');">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+            <tr>
+                <td colspan="8">No records found in the database.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="{{ path('ex07_addUser') }}">Add New Data</a>
+
+{% endblock %}
