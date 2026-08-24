@@ -69,4 +69,10 @@ class databaseHandler {
         }
     }
 
+    public function getByID(int $id): ?userModel {
+            return $this->manager
+                ->getRepository(userModel::class)
+                ->find($id);
+    }
+
 }

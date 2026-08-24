@@ -36,7 +36,11 @@ class ex05Controller extends AbstractController {
 
     #[Route(path:"/ex05/delete/{id}", name:"ex05_deleteUser", methods:["POST"])]
     public function deleteUser(int $id, databaseHandler $dbHandler): Response {
-        $dbHandler->deleteEntity($id);
+        if ($dbHandler->deleteEntity($id)) {
+            $this->addFlash('success', 'User deleted successfully.');
+        } else {
+            $this->addFlash('error', 'User not found or could not be deleted.');
+        }
 
         return $this->redirectToRoute('ex05_listTable');
     }

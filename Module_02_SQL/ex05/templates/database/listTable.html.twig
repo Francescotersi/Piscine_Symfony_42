@@ -5,6 +5,14 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+        <div style="color: green;">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="color: red;">{{ message }}</div>
+    {% endfor %}
+
     <h1>Project Database Content</h1>
     
     <table border="1" cellpadding="10">
