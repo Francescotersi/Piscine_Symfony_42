@@ -35,13 +35,14 @@ class ex08Controller extends AbstractController {
                 email VARCHAR(255) NOT NULL,
                 enable BOOLEAN NOT NULL,
                 birthdate TIMESTAMP NULL
+
                 );
             ";
             $this->connection->executeStatement($sql);
 
-            $this->addFlash('success', 'La tabella persons è stata creata con successo!');
+            $this->addFlash('success', 'Persons table has been created');
         } catch (Exception $e) {
-            $this->addFlash('error', 'Errore durante la creazione: ' . $e->getMessage());
+            $this->addFlash('error', 'Error while creatng Persons table: ' . $e->getMessage());
         }
         return $this->redirectToRoute('homePage');
     }
@@ -62,5 +63,32 @@ class ex08Controller extends AbstractController {
         return $this->redirectToRoute('homePage');
     }
 
+    #[Route(path:"/otherTables", name:"otherTables")]
+    public function otherTables(): Response {
+        try {
+            $sql = "
+                CREATE TABLE IF NOT EXISTS bank_accounts (
+                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                money INTEGER NOT NULL,
+                owner_id INTEGER NOT NULL UNIQUE,
+                FOREIGN KEY (owner_id) REFERENCES persons(id)
+                ON DELETE CASCADE
+                );
+
+                CREATE TABLE IF NOT EXISTS addresses (
+                id INTEGER  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                road VARCHAR(255) NOT NULL,
+                owner_id INT,
+                FOREIGN KEY (owner_id) REFERENCES persons(id)
+                );
+            ";
+            $this->connection->executeStatement($sql);
+
+            $this->addFlash('success', 'Addresses and bank_accounts tables have been created');
+        } catch (Exception $e) {
+            $this->addFlash('error', 'Error while creatng Addresses and Bank_accounts table: ' . $e->getMessage());
+        }
+        return $this->redirectToRoute('homePage');
+    }
 
 }

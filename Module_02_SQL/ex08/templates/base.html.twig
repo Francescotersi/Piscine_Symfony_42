@@ -13,6 +13,20 @@
             <div style="color: red;">{{ message }}</div>
         {% endfor %}
 
-        {% block body %}{% endblock %}
+        {% block body %}
+        <h1>Pannello di controllo Database</h1>
+            
+            <ul>
+                <li>
+                    <a href="{{ path('newTable') }}">Create initial table (persons)</a>
+                </li>
+                <li>
+                    <a href="{{ path('addColumn') }}">Add 'marital_status' column to persons</a>
+                </li>
+                <li>
+                    <a href="{{ path('otherTables') }}">Create 'bank_accounts' and 'addresses' tables</a>
+                </li>
+            </ul>
+        {% endblock %}
     </body>
 </html>

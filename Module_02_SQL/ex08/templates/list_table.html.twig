@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>List Tables</h1>
+
+	{% if personColumnExists|default(false) %}
+		<p>esiste</p>
+	{% else %}
+		<p>non esiste</p>
+	{% endif %}
+
+{% endblock %}
