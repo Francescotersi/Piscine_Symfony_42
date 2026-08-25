@@ -52,7 +52,9 @@ class ex08Controller extends AbstractController {
         try {
             $sql = "
                 ALTER TABLE persons
-                ADD COLUMN IF NOT EXISTS marital_status ENUM('single', 'married', 'widower');
+                ADD COLUMN IF NOT EXISTS marital_status VARCHAR(20) 
+                CHECK (marital_status IN ('single', 'married', 'widower')
+                );
             ";
             $this->connection->executeStatement($sql);
             $this->addFlash('success', 'Column successfully added!');
@@ -90,5 +92,5 @@ class ex08Controller extends AbstractController {
         }
         return $this->redirectToRoute('homePage');
     }
-
+    
 }
