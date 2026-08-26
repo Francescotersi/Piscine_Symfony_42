@@ -35,7 +35,6 @@ class ex08Controller extends AbstractController {
                 email VARCHAR(255) NOT NULL,
                 enable BOOLEAN NOT NULL,
                 birthdate TIMESTAMP NULL
-
                 );
             ";
             $this->connection->executeStatement($sql);
