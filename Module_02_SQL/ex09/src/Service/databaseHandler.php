@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\userModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\DBAL\Exception;
@@ -55,9 +54,9 @@ class databaseHandler {
         }
     }
 
-    public function deleteEntity(int $id): bool {
+    public function deleteEntity(string $className, int $id): bool {
         try {
-            $entity = $this->manager->getRepository(userModel::class)->find($id);
+            $entity = $this->manager->getRepository($className)->find($id);
             if (!$entity) {
                 return false;
             }
@@ -69,9 +68,9 @@ class databaseHandler {
         }
     }
 
-    public function getByID(int $id): ?userModel {
+    public function getByID(string $className, int $id) {
             return $this->manager
-                ->getRepository(userModel::class)
+                ->getRepository($className)
                 ->find($id);
     }
 

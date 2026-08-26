@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+// php bin/console make:migration
+// php bin/console doctrine:migrations:migrate
 
 #[ORM\Entity]
 #[ORM\Table(name: 'persons')]
-#[UniqueEntity(fields: ['username'], message: 'This username is already in use, choose another one')]
-#[UniqueEntity(fields: ['email'], message: 'This email is already in use, choose another one')]
 class personEntity {
 
     #[ORM\Id]
@@ -36,6 +38,21 @@ class personEntity {
     #[ORM\Column(type:"string", length:255)]
     #[Assert\NotBlank(message: 'The birthdate cannot be empty.')]
     private ?string $birthdate;
+
+    // #[ORM\Column(type:"integer")]
+    // private ?int $rings = 4;
+
+
+    #[ORM\OneToOne(targetEntity: bankAccountEntity::class, inversedBy: 'owner', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'bank_account_id', referencedColumnName: 'id', nullable: true)]
+    private ?bankAccountEntity $bankAccount = null;
+
+    #[ORM\OneToMany(targetEntity: addressEntity::class, mappedBy: 'person', cascade: ['persist', 'remove'])]
+    private Collection $addresses;
+
+    public function __construct() {
+        $this->addresses = new ArrayCollection();
+    }
 
 // ----------------------------------------------------------
 
@@ -88,4 +105,36 @@ class personEntity {
         return $this;
     }
 
+    public function getBankAccount(): ?bankAccountEntity {
+        return $this->bankAccount;
+    }
+
+    public function setBankAccount(?bankAccountEntity $bankAccount): self {
+        $this->bankAccount = $bankAccount;
+        if ($bankAccount !== null && $bankAccount->getOwner() !== $this) {
+            $bankAccount->setOwner($this);
+        }
+        return $this;
+    }
+
+    public function getAddresses(): Collection {
+        return $this->addresses;
+    }
+
+    public function addAddress(addressEntity $address): self {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setPerson($this);
+        }
+        return $this;
+    }
+
+    public function removeAddress(addressEntity $address): self {
+        if ($this->addresses->removeElement($address)) {
+            if ($address->getPerson() === $this) {
+                $address->setPerson(null);
+            }
+        }
+        return $this;
+    }
 }
