@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block body %}
+    <h1>Upload a .txt file</h1>
+
+    {% for message in app.flashes('success') %}
+        <div style="color: green; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="color: red; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <form action="/read" method="POST" enctype="multipart/form-data">
+        <label for="txtFile">Seleziona un file .txt con gli username (uno per riga):</label><br><br>
+        <input type="file" name="txtFile" id="txtFile" accept=".txt" required>
+        <br><br>
+        <button type="submit">Upload & Process</button>
+    </form>
+{% endblock %}
+
