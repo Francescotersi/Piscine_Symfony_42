@@ -122,30 +122,4 @@ class ex10Controller extends AbstractController {
         ]);
     }
 
-    #[Route(path:'/drop', name:'ex10_dropTables')]
-    public function dropTables(EntityManagerInterface $em): Response {
-        $messages = [];
-
-        // 1. Eliminiamo fisicamente la tabella SQL_table
-        try {
-            $this->connection->executeStatement('DROP TABLE IF EXISTS "SQL_table"');
-            $messages[] = "SQL_table distrutta con successo.";
-        } catch (\Exception $e) {
-            $messages[] = "Errore distruzione SQL_table: " . $e->getMessage();
-        }
-
-        // 2. Eliminiamo fisicamente l'ORM_table usando lo SchemaTool
-        try {
-            $schemaTool = new SchemaTool($em);
-            $metadata = $em->getClassMetadata(ORMTable::class);
-            // dropSchema distruggerà le tabelle delle entità passate
-            $schemaTool->dropSchema([$metadata]);
-            $messages[] = "ORM_table distrutta con successo (tramite SchemaTool).";
-        } catch (\Exception $e) {
-            $messages[] = "Errore distruzione ORM_table: " . $e->getMessage();
-        }
-
-        $responseHtml = implode('<br>', $messages) . "<br><br><a href='/new'>Ricrea Tabelle (Torna a /new)</a>";
-        return new Response($responseHtml);
-    }
 }
