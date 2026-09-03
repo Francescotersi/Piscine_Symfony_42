@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\personEntity;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
