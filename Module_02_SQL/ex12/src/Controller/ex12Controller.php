@@ -34,10 +34,13 @@ class ex12Controller extends AbstractController {
     #[Route(path:"/create", name:"ex12_createPerson")]
     public function createPerson(EntityManagerInterface $em): Response {
         $person = new personEntity();
+        $newBankAccount = new bankAccountEntity();
         $uniq = uniqid();
         $person->setUsername("user_" . $uniq);
         $person->setName("Name " . $uniq);
         $person->setEmail("email_" . $uniq . "@test.com");
+        $newBankAccount->setBalance(rand(0, 100000));
+        $person->setBankAccount($newBankAccount);
 
         $em->persist($person);
         $em->flush();

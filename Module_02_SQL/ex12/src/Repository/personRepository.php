@@ -24,7 +24,7 @@ class personRepository extends ServiceEntityRepository
         string $order = 'ASC'
     ): array {
         $qb = $this->createQueryBuilder('person');
-        $qb->innerJoin('person.bankAccount', 'bank')
+        $qb->leftJoin('person.bankAccount', 'bank')
            ->addSelect('bank');
 
         if (!empty($name)) {
