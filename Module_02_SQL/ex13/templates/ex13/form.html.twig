@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style>
+        .form-group { margin-bottom: 15px; }
+        .form-error { color: red; font-size: 0.9em; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+
+    <p><a href="{{ path('ex13_listTable') }}">&larr; Torna alla lista</a></p>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        
+        <div style="margin-top: 20px;">
+            <button type="submit">Salva Dipendente</button>
+        </div>
+    {{ form_end(form) }}
+</body>
+</html>

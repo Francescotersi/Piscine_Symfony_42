@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Dipendenti</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .btn { padding: 5px 10px; text-decoration: none; border: 1px solid #ccc; background: #eee; color: #333; cursor: pointer; display: inline-block; }
+        .btn-edit { background: #4CAF50; color: white; border: none; }
+        .btn-delete { background: #f44336; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>Dipendenti</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="error">{{ message }}</div>
+    {% endfor %}
+
+    <p><a href="{{ path('ex13_createEmployee') }}">+ Crea Nuovo Dipendente</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Email</th>
+                <th>Posizione</th>
+                <th>Manager</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td>{{ emp.firstname }}</td>
+                <td>{{ emp.lastname }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.position }}</td>
+                <td>{{ emp.manager ? emp.manager.email : 'Nessuno' }}</td>
+                <td class="actions">
+                    <a href="{{ path('ex13_editEmployee', {id: emp.id}) }}" class="btn btn-edit">Modifica</a>
+                    <form action="{{ path('ex13_deleteEmployee', {id: emp.id}) }}" method="POST" style="display:inline;" onsubmit="return confirm('Sei sicuro di voler eliminare questo dipendente?');">
+                        <button type="submit" class="btn btn-delete">Elimina</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Nessun dipendente trovato nel database.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
