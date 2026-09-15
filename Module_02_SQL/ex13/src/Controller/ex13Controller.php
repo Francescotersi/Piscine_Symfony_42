@@ -42,7 +42,7 @@ class ex13Controller extends AbstractController {
         $employee = $employeeRepository->find($id);
 
         if (!$employee) {
-            $this->addFlash('error', 'Dipendente non trovato!');
+            $this->addFlash('error', 'Employee not found!');
             return $this->redirectToRoute('ex13_listTable');
         }
 
@@ -51,13 +51,13 @@ class ex13Controller extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', 'Dipendente aggiornato con successo!');
+            $this->addFlash('success', 'Employee updated successfully!');
             return $this->redirectToRoute('ex13_listTable');
         }
 
         return $this->render('ex13/form.html.twig', [
             'form' => $form->createView(),
-            'title' => 'Modifica Dipendente'
+            'title' => 'Edit Employee'
         ]);
     }
 
@@ -66,11 +66,11 @@ class ex13Controller extends AbstractController {
         $employee = $employeeRepository->find($id);
 
         if (!$employee) {
-            $this->addFlash('error', 'Impossibile eliminare: Dipendente non trovato!');
+            $this->addFlash('error', 'Cannot delete: Employee not found!');
         } else {
             $em->remove($employee);
             $em->flush();
-            $this->addFlash('success', 'Dipendente eliminato con successo!');
+            $this->addFlash('success', 'Employee deleted successfully!');
         }
 
         return $this->redirectToRoute('ex13_listTable');
@@ -85,18 +85,18 @@ class ex13Controller extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($employee);
             $em->flush();
-            $this->addFlash('success', 'Nuovo dipendente creato con successo!');
+            $this->addFlash('success', 'New employee created successfully!');
             return $this->redirectToRoute('ex13_listTable');
         }
 
         return $this->render('ex13/form.html.twig', [
             'form' => $form->createView(),
-            'title' => 'Crea nuovo Dipendente'
+            'title' => 'Create new Employee'
         ]);
     }
 
     #[Route(path:'/seed', name:'ex13_seedEmployee')]
     public function seedEmployee(): Response {
-        return new Response('Seed non implementato.');
+        return new Response('Seed not implemented.');
     }
 }

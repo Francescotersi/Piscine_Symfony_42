@@ -12,7 +12,7 @@ use App\Repository\EmployeeRepository;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 #[ORM\Table(name:'employee')]
-#[UniqueEntity('email', message: 'Questa email è già in uso da un altro dipendente.')]
+#[UniqueEntity('email', message: 'This email is already in use by another employee.')]
 class Employee {
 
     #[ORM\Id]
@@ -47,7 +47,7 @@ class Employee {
     private ?int $hours = null;
 
     #[ORM\Column(type: "integer")]
-    #[Assert\Range(max: 1000000, maxMessage: "Il salario è troppo alto.")]
+    #[Assert\Range(max: 2147483647, maxMessage: "The salary is too high.")]
     private ?int $salary = null;
 
     #[ORM\Column(type: "string", length: 100)]

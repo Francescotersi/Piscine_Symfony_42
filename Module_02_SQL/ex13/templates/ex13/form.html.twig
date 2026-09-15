@@ -11,13 +11,13 @@
 <body>
     <h1>{{ title }}</h1>
 
-    <p><a href="{{ path('ex13_listTable') }}">&larr; Torna alla lista</a></p>
+    <p><a href="{{ path('ex13_listTable') }}">&larr; Back to list</a></p>
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
         
         <div style="margin-top: 20px;">
-            <button type="submit">Salva Dipendente</button>
+            <button type="submit">Save Employee</button>
         </div>
     {{ form_end(form) }}
 </body>

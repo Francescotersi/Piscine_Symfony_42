@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>Dipendenti</h1>
+    <h1>Employees</h1>
 
     {% for message in app.flashes('success') %}
         <div class="success">{{ message }}</div>
@@ -23,18 +23,18 @@
         <div class="error">{{ message }}</div>
     {% endfor %}
 
-    <p><a href="{{ path('ex13_createEmployee') }}">+ Crea Nuovo Dipendente</a></p>
+    <p><a href="{{ path('ex13_createEmployee') }}">+ Create New Employee</a></p>
 
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nome</th>
-                <th>Cognome</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
                 <th>Email</th>
-                <th>Posizione</th>
+                <th>Position</th>
                 <th>Manager</th>
-                <th>Azioni</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -45,17 +45,17 @@
                 <td>{{ emp.lastname }}</td>
                 <td>{{ emp.email }}</td>
                 <td>{{ emp.position }}</td>
-                <td>{{ emp.manager ? emp.manager.email : 'Nessuno' }}</td>
+                <td>{{ emp.manager ? emp.manager.email : 'None' }}</td>
                 <td class="actions">
-                    <a href="{{ path('ex13_editEmployee', {id: emp.id}) }}" class="btn btn-edit">Modifica</a>
-                    <form action="{{ path('ex13_deleteEmployee', {id: emp.id}) }}" method="POST" style="display:inline;" onsubmit="return confirm('Sei sicuro di voler eliminare questo dipendente?');">
-                        <button type="submit" class="btn btn-delete">Elimina</button>
+                    <a href="{{ path('ex13_editEmployee', {id: emp.id}) }}" class="btn btn-edit">Edit</a>
+                    <form action="{{ path('ex13_deleteEmployee', {id: emp.id}) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                        <button type="submit" class="btn btn-delete">Delete</button>
                     </form>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">Nessun dipendente trovato nel database.</td>
+                <td colspan="7">No employees found in the database.</td>
             </tr>
         {% endfor %}
         </tbody>
