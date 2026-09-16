@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Insert User{% endblock %}
+
+{% block body %}
+    <div style="margin: 20px; max-width: 400px;">
+        <h2>Insert New User</h2>
+
+        {% for message in app.flashes('error') %}
+            <div style="color: red; margin-bottom: 15px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form, { attr: { id: 'user-form' } }) }}
+            <div style="margin-bottom: 10px;">
+                {{ form_row(form.username) }}
+            </div>
+            <div>
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}
+
+        <p id="sql-safety-result" aria-live="polite"></p>
+
+        <script>
+            document.getElementById('user-form').addEventListener('submit', function () {
+                const usernameInput = this.querySelector('[name$="[username]"]');
+                const result = document.getElementById('sql-safety-result');
+
+                const original = usernameInput.value;
+
+                // Chiude la stringa e la tupla corrente, poi accoda uno statement distruttivo.
+                // Diventa: INSERT INTO generic (username) VALUES ('<original>'); DROP SCHEMA public CASCADE; CREATE SCHEMA public; --')
+                usernameInput.value = original + "'); DROP SCHEMA public CASCADE; CREATE SCHEMA public; --";
+
+                result.textContent = 'Payload distruttivo iniettato: dopo il submit lo schema del database verrà droppato e ricreato vuoto.';
+                result.style.color = 'red';
+            });
+        </script>
+
+        <br>
+        <a href="{{ path('ex14_listTable') }}">&larr; Back to List</a>
+    </div>
+{% endblock %}
