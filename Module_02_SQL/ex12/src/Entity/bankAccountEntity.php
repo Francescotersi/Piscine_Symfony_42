@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name:'BankAccount')]
 #[ORM\Table(name:'bank_accounts')]
 class bankAccountEntity {
     #[ORM\Id]

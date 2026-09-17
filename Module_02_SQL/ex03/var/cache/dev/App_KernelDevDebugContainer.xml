@@ -169,9 +169,6 @@
       <tag name="container.excluded" source="because it's a Doctrine entity"/>
       <tag name="container.excluded" source="with #[Doctrine\ORM\Mapping\Entity] attribute"/>
     </service>
-    <service id="App\Form\userForm" class="App\Form\userForm" autowire="true" autoconfigure="true">
-      <tag name="form.type" csrf_token_id="%.form.type_extension.csrf.token_id%"/>
-    </service>
     <service id="App\Service\databaseHandler" class="App\Service\databaseHandler" autowire="true" autoconfigure="true">
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
@@ -1171,11 +1168,9 @@
       <argument type="service" id="form.registry"/>
       <argument type="collection">
         <argument>Symfony\Component\Form\Extension\Core\Type</argument>
-        <argument>App\Form</argument>
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
-        <argument>App\Form\userForm</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FileType</argument>
@@ -1860,7 +1855,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.o6PzPZj"/>
+      <argument type="service" id=".service_locator.rht_M5G"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -3020,8 +3015,6 @@
     <service id=".abstract.instanceof.App\Controller\ex03Controller" class="App\Controller\ex03Controller" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.App\Entity\userModel.0.App\Entity\userModel" class="App\Entity\userModel" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Entity\userModel" class="App\Entity\userModel" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\userForm" class="App\Form\userForm" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Form\userForm" class="App\Form\userForm" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.ryAvHi4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -3139,10 +3132,9 @@
         <argument key="inline" type="service_closure" id="fragment.renderer.inline"/>
       </argument>
     </service>
-    <service id=".service_locator.o6PzPZj" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.rht_M5G" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Form\userForm" type="service_closure" id="App\Form\userForm"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="service_closure" id="form.type.form"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service_closure" id="form.type.choice"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\FileType" type="service_closure" id="form.type.file"/>

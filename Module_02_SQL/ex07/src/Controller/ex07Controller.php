@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\userModel;
-use App\Form\userForm;
 use App\Service\databaseHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class ex07Controller extends AbstractController {
@@ -55,7 +59,28 @@ class ex07Controller extends AbstractController {
         if ($user === null) {
             return new Response("Error: user not found in database");
         }
-        $form = $this->createForm(userForm::class, $user);
+        $form = $this->createFormBuilder($user)
+            ->add('username', TextType::class, ['label' => 'Username'])
+            ->add('name', TextType::class, ['label' => 'Name'])
+            ->add('email', EmailType::class, ['label' => 'Email'])
+            ->add('enable', ChoiceType::class, [
+                'label' => 'Enable',
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false,
+                ],
+            ])
+            ->add('birthdate', DateTimeType::class, [
+                'label' => 'Birthdate',
+                'widget' => 'single_text',
+                'input' => 'string',
+                'html5' => true,
+            ])
+            ->add('address', TextType::class, ['label' => 'Address'])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Save Note',
+            ])
+            ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($dbHandler->newEntity($user)) {
