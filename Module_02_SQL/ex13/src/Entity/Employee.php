@@ -12,6 +12,7 @@ use App\Repository\EmployeeRepository;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 #[ORM\Table(name:'employee')]
+#[ORM\Table(name:'employees')]
 #[UniqueEntity('email', message: 'This email is already in use by another employee.')]
 class Employee {
 

@@ -17,6 +17,7 @@ class ex11Controller extends AbstractController {
         try {
             $sql = '                
                 CREATE TABLE IF NOT EXISTS person (
+                CREATE TABLE IF NOT EXISTS persons (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 username VARCHAR(255) NOT NULL,
                 name VARCHAR(255) NOT NULL,
@@ -27,6 +28,7 @@ class ex11Controller extends AbstractController {
                 money INTEGER NOT NULL,
                 owner_id INTEGER NOT NULL UNIQUE,
                 FOREIGN KEY (owner_id) REFERENCES person(id)
+                FOREIGN KEY (owner_id) REFERENCES persons(id)
                 ON DELETE CASCADE
                 );
             ';
@@ -57,6 +59,7 @@ class ex11Controller extends AbstractController {
             $sql = '
                 SELECT p.id, p.username, p.name, p.email, b.money
                 FROM person p
+                FROM persons p
                 JOIN bank_accounts b ON p.id = b.owner_id
                 WHERE 1=1
             ';
@@ -96,6 +99,7 @@ class ex11Controller extends AbstractController {
             foreach ($users as $u) {
                 $result = $this->connection->executeQuery(
                     'INSERT INTO person (username, name, email) VALUES (:u, :n, :e) RETURNING id',
+                    'INSERT INTO persons (username, name, email) VALUES (:u, :n, :e) RETURNING id',
                     ['u' => $u[0], 'n' => $u[1], 'e' => $u[2]]
                 );
                 $personId = $result->fetchOne();
