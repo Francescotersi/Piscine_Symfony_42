@@ -27,7 +27,7 @@ class ex14Controller extends AbstractController {
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating table: ' . $e->getMessage());
         }
-        return new Response("Success: new table created");
+        return $this->redirectToRoute('ex14_listTable');
     }
 
     #[Route(path:'/drop', name:'ex14_dropTable')]
@@ -35,11 +35,10 @@ class ex14Controller extends AbstractController {
         try {
             $this->connection->executeStatement('DROP TABLE IF EXISTS generic CASCADE;');
             $this->addFlash('success', 'Table generic deleted successfully');
-            return new Response("Success: Table deleted");
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error while deleting table: ' . $e->getMessage());
-            return new Response("Error: Table not deleted");
         }
+        return $this->redirectToRoute('ex14_listTable');
     }
 
     #[Route(path:'/seed/{number}', name:'ex14_seedTable')]
@@ -47,7 +46,7 @@ class ex14Controller extends AbstractController {
         $newusers = (int) $number;
         if ($newusers <= 0) {
             $this->addFlash('error', 'The number must be greater than 0.');
-            return new Response('Invalid number', Response::HTTP_BAD_REQUEST);
+            return $this->redirectToRoute('ex14_listTable');
         }
         $names = ['goofy', 'mickey', 'donald', 'daisy', 'minnie', 'pluto', 'chip', 'dale', 'poo', 'piglet'];
         try {
@@ -70,7 +69,7 @@ class ex14Controller extends AbstractController {
             }
             $this->addFlash('error', 'Error during seed: ' . $e->getMessage());
         }
-        return new Response("Seed completed: $newusers random users created.");
+        return $this->redirectToRoute('ex14_listTable');
     }
 
     #[Route(path: '/list', name: 'ex14_listTable', methods: ['GET'])]

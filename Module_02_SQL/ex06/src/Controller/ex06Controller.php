@@ -34,10 +34,11 @@ class ex06Controller extends AbstractController {
             ";
             $this->connection->executeStatement($sql);
 
-            return new Response("Success: Table created");
+            $this->addFlash('success', 'Success: Table created');
         } catch (Exception $e) {
-            return new Response("Error: Table not created - " . $e->getMessage());
+            $this->addFlash('error', 'Error: Table not created - ' . $e->getMessage());
         }
+        return $this->redirectToRoute('ex06_listTable');
     }
 
     #[Route(path:"/ex06/delete/table", name:"ex06_deleteTable")]
@@ -47,10 +48,11 @@ class ex06Controller extends AbstractController {
         
         $this->connection->executeStatement($sql);
         
-        return new Response("Success: Table deleted");
+        $this->addFlash('success', 'Success: Table deleted');
         }   catch (Exception $e) {
-            return new Response("Error: Table not deleted");
+            $this->addFlash('error', 'Error: Table not deleted');
         }
+        return $this->redirectToRoute('ex06_listTable');
     }
 
     #[Route(path:"/ex06/add", name:"ex06_addUser")]
@@ -102,7 +104,8 @@ class ex06Controller extends AbstractController {
             'user' => null,
         ]);
         } catch (Exception $e) {
-            return new Response('Error: cant add user - ' . $e->getMessage());
+            $this->addFlash('error', 'Error: cant add user - ' . $e->getMessage());
+            return $this->redirectToRoute('ex06_listTable');
         }
     }
 
@@ -116,14 +119,18 @@ class ex06Controller extends AbstractController {
             'users' => $results,
         ]);
         } catch (Exception $e) {
-            return new Response("Error: Cant list the table ----> " . $e->getMessage());
+            $this->addFlash('error', 'Error: Cant list the table ----> ' . $e->getMessage());
+            return $this->render('database/listTable.html.twig', [
+                'users' => [],
+            ]);
         }
     }
 
     #[Route(path:"/ex06/delete/{id}", name:"ex06_deleteUser")]
     public function deleteUser(string $id): Response {
         if (!ctype_digit($id)) {
-            return new Response('Error: invalid user ID', Response::HTTP_NOT_FOUND);
+            $this->addFlash('error', 'Error: invalid user ID');
+            return $this->redirectToRoute('ex06_listTable');
         }
 
         $userId = (int) $id;
@@ -131,7 +138,8 @@ class ex06Controller extends AbstractController {
         $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
 
         if (!$user) {
-            return new Response('Error: no user with this ID has been found ' . $userId, Response::HTTP_NOT_FOUND);
+            $this->addFlash('error', 'Error: no user with this ID has been found ' . $userId);
+            return $this->redirectToRoute('ex06_listTable');
         }
 
         $sqlDelete = 'DELETE FROM users_data WHERE id = :id';
@@ -146,7 +154,8 @@ class ex06Controller extends AbstractController {
     public function updateUser(string $id, Request $request): Response {
         try {
             if (!ctype_digit($id)) {
-                return new Response('Error: invalid user ID');
+                $this->addFlash('error', 'Error: invalid user ID');
+                return $this->redirectToRoute('ex06_listTable');
             }
 
             $userId = (int) $id;
@@ -154,7 +163,8 @@ class ex06Controller extends AbstractController {
             $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
 
             if (!$user) {
-                return new Response('Error: no user with this ID has been found ' . $userId, Response::HTTP_NOT_FOUND);
+                $this->addFlash('error', 'Error: no user with this ID has been found ' . $userId);
+                return $this->redirectToRoute('ex06_listTable');
             }
 
             $birthdate = null;
@@ -224,7 +234,8 @@ class ex06Controller extends AbstractController {
             'user' => $user,
         ]);
         } catch (Exception $e) {
-            return new Response('Error: cant update user - ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            $this->addFlash('error', 'Error: cant update user - ' . $e->getMessage());
+            return $this->redirectToRoute('ex06_listTable');
         }
     }
 }

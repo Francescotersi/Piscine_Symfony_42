@@ -20,13 +20,15 @@ class ex05Controller extends AbstractController {
     #[Route(path:"/ex05/new", name:"ex05_newTable")]
     public function newTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->newTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex05_listTable');
     }
 
     #[Route(path:"/ex05/delete", name:"ex05_deleteTable")]
     public function deleteTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->deleteTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex05_listTable');
     }
 
     #[Route(path:"/ex05/list", name:"ex05_listTable")]

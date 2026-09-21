@@ -17,13 +17,15 @@ class ex09Controller extends AbstractController {
     #[Route(path:"/new", name:"ex09_newTable")]
     public function newTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->newTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex09_list');
     }
 
     #[Route(path:"/delete", name:"ex09_deleteTable")]
     public function deleteTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->deleteTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex09_list');
     }
 
     #[Route(path:"/person/create", name:"ex09_createPerson")]
@@ -39,14 +41,16 @@ class ex09Controller extends AbstractController {
         $em->persist($person);
         $em->flush();
 
-        return new Response("Created PersonEntity with ID: " . $person->getId());
+        $this->addFlash('success', 'Created PersonEntity with ID: ' . $person->getId());
+        return $this->redirectToRoute('ex09_list');
     }
 
     #[Route(path:"/person/{id}/add-bank-account", name:"ex09_addBankAccount")]
     public function addBankAccount(int $id, EntityManagerInterface $em): Response {
         $person = $em->getRepository(personEntity::class)->find($id);
         if (!$person) {
-            return new Response("Person not found", 404);
+            $this->addFlash('error', 'Person not found');
+            return $this->redirectToRoute('ex09_list');
         }
         $account = new bankAccountEntity();
         $account->setBalance(rand(100, 5000));
@@ -55,14 +59,16 @@ class ex09Controller extends AbstractController {
         $em->persist($person);
         $em->flush();
 
-        return new Response("Created Bank Account ID: " . $account->getId() . " and assigned to Person ID: " . $person->getId());
+        $this->addFlash('success', 'Created Bank Account ID: ' . $account->getId() . ' and assigned to Person ID: ' . $person->getId());
+        return $this->redirectToRoute('ex09_list');
     }
 
     #[Route(path:"/person/{id}/add-address", name:"ex09_addAddress")]
     public function addAddress(int $id, EntityManagerInterface $em): Response {
         $person = $em->getRepository(personEntity::class)->find($id);
         if (!$person) {
-            return new Response("Person not found", 404);
+            $this->addFlash('error', 'Person not found');
+            return $this->redirectToRoute('ex09_list');
         }
         $address = new addressEntity();
         $address->setAddress("Main Street " . rand(1, 100));
@@ -71,7 +77,8 @@ class ex09Controller extends AbstractController {
         $em->persist($person);
         $em->flush();
 
-        return new Response("Created Address ID: " . $address->getId() . " and assigned to Person ID: " . $person->getId());
+        $this->addFlash('success', 'Created Address ID: ' . $address->getId() . ' and assigned to Person ID: ' . $person->getId());
+        return $this->redirectToRoute('ex09_list');
     }
 
     #[Route(path:"/list", name:"ex09_list")]

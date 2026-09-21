@@ -20,13 +20,15 @@ class ex07Controller extends AbstractController {
     #[Route(path:"/ex07/new", name:"ex07_newTable")]
     public function newTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->newTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex07_listTable');
     }
 
     #[Route(path:"/ex07/delete", name:"ex07_deleteTable")]
     public function deleteTable(databaseHandler $dbHandler): Response {
         $message = $dbHandler->deleteTable();
-        return new Response($message);
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('ex07_listTable');
     }
 
     #[Route(path:"/ex07/list", name:"ex07_listTable")]
@@ -57,7 +59,8 @@ class ex07Controller extends AbstractController {
             $user = $dbHandler->getByID($id);
         }
         if ($user === null) {
-            return new Response("Error: user not found in database");
+            $this->addFlash('error', 'Error: user not found in database');
+            return $this->redirectToRoute('ex07_listTable');
         }
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class, ['label' => 'Username'])

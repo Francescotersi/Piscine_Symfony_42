@@ -24,8 +24,8 @@ class ex04Controller extends AbstractController {
             );
         ";
         $this->connection->executeStatement($sql);
-
-        return new Response("Success: Table created");
+        $this->addFlash('success', 'Success: Table created');
+        return $this->redirectToRoute('ex04_listTable');
     }
 
     #[Route(path:"/ex04/delete/table", name:"ex04_deleteTable")]
@@ -35,10 +35,11 @@ class ex04Controller extends AbstractController {
         
         $this->connection->executeStatement($sql);
         
-        return new Response("Success: Table deleted");
+        $this->addFlash('success', 'Success: Table deleted');
         }   catch (Exception $e) {
-            return new Response("Error: Table not deleted");
+            $this->addFlash('error', 'Error: Table not deleted');
         }
+        return $this->redirectToRoute('ex04_listTable');
     }
 
     #[Route(path:"/ex04/add", name:"ex04_addUser")]
@@ -65,7 +66,8 @@ class ex04Controller extends AbstractController {
             'form' => $form->createView(),
         ]);
         } catch (Exception $e) {
-            return new Response('Error: cant update table');
+            $this->addFlash('error', 'Error: cant update table');
+            return $this->redirectToRoute('ex04_listTable');
         }
     }
 
@@ -79,14 +81,18 @@ class ex04Controller extends AbstractController {
             'users' => $results,
         ]);
         } catch (Exception $e) {
-            return new Response("Error: Cant list the table");
+            $this->addFlash('error', 'Error: Cant list the table');
+            return $this->render('database/listTable.html.twig', [
+                'users' => [],
+            ]);
         }
     }
 
     #[Route(path:"/ex04/delete/{id}", name:"ex04_deleteUser")]
     public function deleteUser(string $id): Response {
         if (!ctype_digit($id)) {
-            return new Response('Error: invalid user ID', Response::HTTP_NOT_FOUND);
+            $this->addFlash('error', 'Error: invalid user ID');
+            return $this->redirectToRoute('ex04_listTable');
         }
 
         $userId = (int) $id;
@@ -94,7 +100,8 @@ class ex04Controller extends AbstractController {
         $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
 
         if (!$user) {
-            return new Response('Error: no user with this ID has been found ' . $userId, Response::HTTP_NOT_FOUND);
+            $this->addFlash('error', 'Error: no user with this ID has been found ' . $userId);
+            return $this->redirectToRoute('ex04_listTable');
         }
 
         $sqlDelete = 'DELETE FROM users WHERE id = :id';

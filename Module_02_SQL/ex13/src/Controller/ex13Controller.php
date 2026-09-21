@@ -29,10 +29,11 @@ class ex13Controller extends AbstractController {
             $schemaTool->updateSchema($metadata);
             $schemaTool->dropSchema($metadata);
             $schemaTool->createSchema($metadata);
-            return new Response('Successfully created/updated Employee table.');
+            $this->addFlash('success', 'Successfully created/updated Employee table.');
         } catch (\Exception $e) {
-            return new Response('Error: ' . $e->getMessage());
+            $this->addFlash('error', 'Error: ' . $e->getMessage());
         }
+        return $this->redirectToRoute('ex13_listTable');
     }
 
     #[Route(path:'/list', name:'ex13_listTable')]
@@ -165,6 +166,7 @@ class ex13Controller extends AbstractController {
 
     #[Route(path:'/seed', name:'ex13_seedEmployee')]
     public function seedEmployee(): Response {
-        return new Response('Seed not implemented.');
+        $this->addFlash('error', 'Seed not implemented.');
+        return $this->redirectToRoute('ex13_listTable');
     }
 }

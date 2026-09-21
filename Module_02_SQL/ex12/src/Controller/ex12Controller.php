@@ -24,11 +24,12 @@ class ex12Controller extends AbstractController {
                 $em->getClassMetadata(bankAccountEntity::class)
             ];
             $schemaTool->updateSchema($metadata);
-            return new Response('Successfully created two tables');
+            $this->addFlash('success', 'Successfully created two tables');
         }
         catch (\Exception $e) {
-            return new Response('Error while creating two tables: ' . $e->getMessage());
+            $this->addFlash('error', 'Error while creating two tables: ' . $e->getMessage());
         }
+        return $this->redirectToRoute('ex12_listTable');
     }
 
     #[Route(path:"/create", name:"ex12_createPerson")]
@@ -45,7 +46,8 @@ class ex12Controller extends AbstractController {
         $em->persist($person);
         $em->flush();
 
-        return new Response("Created PersonEntity with ID: " . $person->getId());
+        $this->addFlash('success', 'Created PersonEntity with ID: ' . $person->getId());
+        return $this->redirectToRoute('ex12_listTable');
     }
 
     #[Route(path:'/seed', name:'ex12_seedTable')]

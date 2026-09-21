@@ -39,7 +39,7 @@ class ex10Controller extends AbstractController {
         catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating SQL_table table: ' . $e->getMessage());
         }
-        return new Response("Success: Tables created successfully");
+        return $this->redirectToRoute('ex10_listTables');
     }
 
     #[Route(path:'/read', name:'ex10_readFile')]

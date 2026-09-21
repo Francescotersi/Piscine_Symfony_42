@@ -36,7 +36,7 @@ class ex11Controller extends AbstractController {
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating tables: ' . $e->getMessage());
         }
-        return new Response("Success: new table created");
+        return $this->redirectToRoute('ex11_listTable');
     }
 
     #[Route(path:"/list", name:"ex11_listTable", methods:["GET"])]
@@ -76,7 +76,10 @@ class ex11Controller extends AbstractController {
                 'accounts' => $results,
             ]);
         } catch (\Exception $e) {
-            return new Response("Error while ordering: " . $e->getMessage());
+            $this->addFlash('error', 'Error while ordering: ' . $e->getMessage());
+            return $this->render('listTable.html.twig', [
+                'accounts' => [],
+            ]);
         }
     }
 

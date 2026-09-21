@@ -35,8 +35,8 @@ class ex02Controller extends AbstractController {
             );
         ";
         $this->connection->executeStatement($sql);
-
-        return new Response("Success: Table created");
+        $this->addFlash('success', 'Success: Table created');
+        return $this->redirectToRoute('ex02_listTable');
     }
 
     #[Route(path:"/ex02/update", name:"ex02_updateTable")]
@@ -84,7 +84,8 @@ class ex02Controller extends AbstractController {
             'form' => $form->createView(),
         ]);
         } catch (Exception $e) {
-            return new Response('Error: cant update table');
+            $this->addFlash('error', 'Error: cant update table');
+            return $this->redirectToRoute('ex02_listTable');
         }
     }
 
@@ -98,7 +99,10 @@ class ex02Controller extends AbstractController {
             'users' => $results,
         ]);
         } catch (Exception $e) {
-            return new Response("Error: Cant list the table");
+            $this->addFlash('error', 'Error: Cant list the table');
+            return $this->render('database/listTable.html.twig', [
+                'users' => [],
+            ]);
         }
     }
 
@@ -109,9 +113,10 @@ class ex02Controller extends AbstractController {
         
         $this->connection->executeStatement($sql);
         
-        return new Response("Success: Table deleted");
+        $this->addFlash('success', 'Success: Table deleted');
         }   catch (Exception $e) {
-            return new Response("Error: Table not deleted");
+            $this->addFlash('error', 'Error: Table not deleted');
         }
+        return $this->redirectToRoute('ex02_listTable');
     }
 }
