@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        {% if app.user %}
+            <h1>Welcome back, {{ app.user.userIdentifier }}!</h1>
+            <p>You are currently logged in.</p>
+            <a href="{{ path('e01_logout') }}">
+                <button type="button">Logout</button>
+            </a>
+        {% else %}
+            <h1>Welcome, Visitor!</h1>
+            <p>Log in or sign up to continue:</p>
+            <p>
+                <a href="{{ path('e01_login') }}">Login</a> | 
+                <a href="{{ path('e01_register') }}">Sign Up</a>
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registrazione{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        <h1>Create an account</h1>
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username) }}
+            {{ form_row(registrationForm.plainPassword.first) }}
+            {{ form_row(registrationForm.plainPassword.second) }}
+
+            <button type="submit" style="margin-top: 10px;">Sign Up</button>
+        {{ form_end(registrationForm) }}
+
+        <p><a href="{{ path('e01_login') }}">Already have an account? Log in</a></p>
+        <p><a href="{{ path('e01_home') }}">Back to Home</a></p>
+    </div>
+{% endblock %}
