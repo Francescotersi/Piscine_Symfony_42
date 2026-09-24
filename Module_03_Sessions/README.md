@@ -2,7 +2,7 @@
 
 ## Comandi Utili
 
-- php bin/console doctrine:schema:update --force => Forza l`update dei database senza uso di file di migrazione
+- `php bin/console doctrine:schema:update --force` => Forza l'update del database senza uso di file di migrazione.
 
 ## Rotte del Progetto
 
@@ -19,3 +19,10 @@
 - `/e02/admin` - Pannello admin con la lista di tutti gli utenti/admin e i tasti per eliminarli.
 - `/e02/admin/delete/user/{id}` - Elimina l'utente selezionato.
 - `/e02/admin/delete/admin/{id}` - Elimina l'amministratore selezionato (non permette di auto-eliminarsi).
+
+### Esercizio 03
+
+- `/e03/homepage` (o `/`) - Homepage aggiornata che mostra la lista dei post ordinati dal più recente al più vecchio.
+- `/e03/post/new` - Pagina con il form per creare un nuovo post (accessibile solo da utenti loggati).
+- `/e03/post/{id}` - Pagina di dettaglio con il contenuto completo del post (accessibile solo da utenti loggati).
+
