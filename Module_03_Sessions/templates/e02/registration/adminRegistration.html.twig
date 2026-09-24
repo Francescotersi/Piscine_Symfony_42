@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register Admin{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        <h1>Register New Admin</h1>
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username) }}
+            {{ form_row(registrationForm.plainPassword) }}
+            <button type="submit" style="margin-top: 10px;">Register Admin</button>
+        {{ form_end(registrationForm) }}
+
+        <p><a href="{{ path('e01_home') }}">Back to Home</a></p>
+    </div>
+{% endblock %}

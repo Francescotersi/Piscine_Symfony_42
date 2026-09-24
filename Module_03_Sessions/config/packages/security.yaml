@@ -7,8 +7,15 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\E01Bundle\Entity\User
+                class: App\Entity\User
                 property: username
+        app_admin_provider:
+            entity:
+                class: App\E02Bundle\Entity\Admin
+                property: username
+        all_user_provider:
+            chain:
+                providers: [app_user_provider, app_admin_provider]
 
     firewalls:
         dev:
@@ -17,7 +24,7 @@ security:
             security: false
         main:
             lazy: true
-            provider: app_user_provider
+            provider: all_user_provider
 
             form_login:
                 login_path: e01_login
@@ -31,8 +38,8 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/e02/admin/register, roles: PUBLIC_ACCESS }
+        - { path: ^/e02/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Panel - Users & Admins{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px;">
+        <h1>Admin Dashboard</h1>
+        <p>Logged in as: <strong>{{ app.user.userIdentifier }}</strong> ({{ app.user.roles|join(', ') }})</p>
+        <p><a href="{{ path('e01_home') }}">Back to Home</a> | <a href="{{ path('e01_logout') }}">Logout</a></p>
+
+        {% for message in app.flashes('error') %}
+            <p style="color: red; font-weight: bold;">{{ message }}</p>
+        {% endfor %}
+
+        <h2>All Users & Admins</h2>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; max-width: 800px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Type / Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                    <tr>
+                        <td>{{ u.id }}</td>
+                        <td>{{ u.username }}</td>
+                        <td><span style="color: green;">User (ROLE_USER)</span></td>
+                        <td>
+                            <form method="post" action="{{ path('e02_delete_user', {'id': u.id}) }}" onsubmit="return confirm('Delete this user?');" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ u.id) }}">
+                                <button type="submit" style="color: red;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% for a in admins %}
+                    <tr>
+                        <td>{{ a.id }}</td>
+                        <td>{{ a.username }}</td>
+                        <td><strong style="color: blue;">Admin (ROLE_ADMIN)</strong></td>
+                        <td>
+                            {% if app.user is same as(a) or (app.user.userIdentifier == a.username) %}
+                                <em style="color: gray;">Current User (Self)</em>
+                            {% else %}
+                                <form method="post" action="{{ path('e02_delete_admin', {'id': a.id}) }}" onsubmit="return confirm('Delete this admin?');" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_admin_' ~ a.id) }}">
+                                    <button type="submit" style="color: red;">Delete</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
