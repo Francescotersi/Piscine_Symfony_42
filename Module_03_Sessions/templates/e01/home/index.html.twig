@@ -7,16 +7,38 @@
         {% if app.user %}
             <h1>Welcome back, {{ app.user.userIdentifier }}!</h1>
             <p>You are currently logged in.</p>
-            <a href="{{ path('e01_logout') }}">
-                <button type="button">Logout</button>
-            </a>
+            <p>
+                <a href="{{ path('e03_post_new') }}"><button type="button">+ Create New Post</button></a>
+                <a href="{{ path('e01_logout') }}"><button type="button">Logout</button></a>
+            </p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <p><a href="{{ path('e02_admin') }}">Go to Admin Panel</a></p>
+            {% endif %}
         {% else %}
             <h1>Welcome, Visitor!</h1>
-            <p>Log in or sign up to continue:</p>
+            <p>Log in or sign up to interact:</p>
             <p>
                 <a href="{{ path('e01_login') }}">Login</a> | 
                 <a href="{{ path('e01_register') }}">Sign Up</a>
             </p>
+        {% endif %}
+
+        <hr style="margin: 25px 0;">
+
+        <h2>Latest Posts</h2>
+        {% if posts is empty %}
+            <p>No posts created yet.</p>
+        {% else %}
+            <ul style="line-height: 1.8;">
+                {% for post in posts %}
+                    <li>
+                        <a href="{{ path('e03_post_show', {'id': post.id}) }}">
+                            <strong>{{ post.title }}</strong>
+                        </a>
+                        — by <em>{{ post.author.username }}</em> on {{ post.created|date('d/m/Y H:i') }}
+                    </li>
+                {% endfor %}
+            </ul>
         {% endif %}
     </div>
 {% endblock %}

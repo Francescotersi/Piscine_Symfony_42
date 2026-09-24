@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <div style="padding: 20px; max-width: 700px;">
+        <h1>{{ post.title }}</h1>
+        <p style="color: #666;">
+            By <strong>{{ post.author.username }}</strong> on {{ post.created|date('d/m/Y H:i') }}
+        </p>
+        <hr>
+        <div style="margin: 20px 0; line-height: 1.6;">
+            <p>{{ post.content|nl2br }}</p>
+        </div>
+        <hr>
+        <p><a href="{{ path('e01_home') }}">Back to Homepage</a></p>
+    </div>
+{% endblock %}

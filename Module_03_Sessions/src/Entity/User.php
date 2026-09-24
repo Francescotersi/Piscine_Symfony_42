@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\E03Bundle\Entity\Post;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -25,6 +27,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface{
     #[ORM\Column]
     private array $roles = [];
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: 'App\E03Bundle\Entity\Post')]
+    private Collection $posts;
+
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function setPosts(Collection $posts): static
+    {
+        $this->posts = $posts;
+        return $this;
+    }
 
     public function getId(): ?int {
         return $this->id;
