@@ -15,7 +15,13 @@
                 <p><a href="{{ path('e02_admin') }}">Go to Admin Panel</a></p>
             {% endif %}
         {% else %}
-            <h1>Welcome, Visitor!</h1>
+            <h1>Welcome, {{ app.session.get('anonimous_name') }}!</h1>
+            {% set seconds = app.session.get('seconds_since_last_request') %}
+            {% if seconds is not null %}
+                <p>Time since last request: <strong>{{ seconds }}</strong> second{{ seconds == 1 ? '' : 's' }}.</p>
+            {% else %}
+                <p>This is your first request!</p>
+            {% endif %}
             <p>Log in or sign up to interact:</p>
             <p>
                 <a href="{{ path('e01_login') }}">Login</a> | 
