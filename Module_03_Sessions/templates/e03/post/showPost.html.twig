@@ -13,6 +13,14 @@
             <p>{{ post.content|nl2br }}</p>
         </div>
         <hr>
-        <p><a href="{{ path('e01_home') }}">Back to Homepage</a></p>
+        <p>
+            <a href="{{ path('e05_post_like', {'postId': post.id}) }}">
+                <button type='button'>Like ( {{ post.getLikesCount() }} )</button>
+            </a>
+            <a href="{{ path('e05_post_dislike', { 'postId': post.id }) }}">
+                <button type='button'>Dislike ( {{ post.getDislikesCount() }} )</button>
+            </a>
+        </p>
+        <p><a href="{{ path('e01_home') }}">Back to Homepage<bu</a></p>
     </div>
 {% endblock %}

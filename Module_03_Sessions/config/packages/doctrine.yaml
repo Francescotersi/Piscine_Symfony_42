@@ -20,6 +20,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            E04Bundle:
+                mapping: false
+            E05Bundle:
+                mapping: false
 
 when@test:
     doctrine:

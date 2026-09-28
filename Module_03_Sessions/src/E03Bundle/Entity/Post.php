@@ -33,6 +33,12 @@ class Post
     #[ORM\JoinColumn(name: 'admin_author_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?Admin $authorAdmin = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $likes = [];
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $dislikes = [];
+
 
     public function __construct() {
         $this->created = new DateTime();
@@ -78,5 +84,41 @@ class Post
 
     public function setContent($content) {
         $this->content = $content;
+    }
+
+    public function getLikes(): array
+    {
+        return $this->likes ?? [];
+    }
+    public function getDislikes(): array
+    {
+        return $this->dislikes ?? [];
+    }
+    public function getLikesCount(): int
+    {
+        return count($this->likes);
+    }
+    public function getDislikesCount(): int
+    {
+        return count($this->dislikes);
+    }
+
+    public function toggleLike(string $voterId): void
+    {
+        $this->dislikes = array_values(array_diff($this->dislikes, [$voterId]));
+        if (in_array($voterId, $this->likes)) {
+            $this->likes = array_values(array_diff($this->likes, [$voterId]));
+        } else {
+            $this->likes[] = $voterId;
+        }
+    }
+    public function toggleDislike(string $voterId): void
+    {
+        $this->likes = array_values(array_diff($this->likes, [$voterId]));
+        if (in_array($voterId, $this->dislikes)) {
+            $this->dislikes = array_values(array_diff($this->dislikes, [$voterId]));
+        } else {
+            $this->dislikes[] = $voterId;
+        }
     }
 }
