@@ -32,8 +32,8 @@ class personEntity {
     private ?string $email;
 
     #[ORM\Column(type:"boolean")]
-    #[Assert\NotBlank(message: 'The enable feature cannot be empty.')]
-    private ?string $enable;
+    #[Assert\NotNull(message: 'The enable feature cannot be empty.')]
+    private ?bool $enable;
 
     #[ORM\Column(type:"string", length:255)]
     #[Assert\NotBlank(message: 'The birthdate cannot be empty.')]
@@ -91,7 +91,7 @@ class personEntity {
         return $this->enable;
     }
 
-    public function setEnable(string $enable) {
+    public function setEnable(bool $enable) {
         $this->enable = $enable;
         return $this;
     }

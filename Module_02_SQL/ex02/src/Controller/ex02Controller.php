@@ -73,7 +73,7 @@ class ex02Controller extends AbstractController {
                 'username' => $data['username'],
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'enable' => $data['enable'],
+                'enable' => $data['enable'] ? 'true' : 'false',
                 'birthdate' => $birthdate,
                 'address' => $data['address'],
             ]);
