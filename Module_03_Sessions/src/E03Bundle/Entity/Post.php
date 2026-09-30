@@ -4,7 +4,10 @@ namespace App\E03Bundle\Entity;
 
 use App\Entity\User;
 use App\E02Bundle\Entity\Admin;
+use App\E05Bundle\Entity\PostVote;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -33,15 +36,13 @@ class Post
     #[ORM\JoinColumn(name: 'admin_author_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     private ?Admin $authorAdmin = null;
 
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $likes = [];
-
-    #[ORM\Column(type: 'json', nullable: true)]
-    private ?array $dislikes = [];
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostVote::class)]
+    private Collection $votes;
 
 
     public function __construct() {
         $this->created = new DateTime();
+        $this->votes = new ArrayCollection();
     }
 
     public function getCreated(): DateTime {
@@ -86,39 +87,24 @@ class Post
         $this->content = $content;
     }
 
-    public function getLikes(): array
-    {
-        return $this->likes ?? [];
-    }
-    public function getDislikes(): array
-    {
-        return $this->dislikes ?? [];
-    }
     public function getLikesCount(): int
     {
-        return count($this->likes);
+        $count = 0;
+        foreach ($this->votes as $vote) {
+            if ($vote->getType() === 'LIKE') {
+                $count++;
+            }
+        }
+        return $count;
     }
     public function getDislikesCount(): int
     {
-        return count($this->dislikes);
-    }
-
-    public function toggleLike(string $voterId): void
-    {
-        $this->dislikes = array_values(array_diff($this->dislikes, [$voterId]));
-        if (in_array($voterId, $this->likes)) {
-            $this->likes = array_values(array_diff($this->likes, [$voterId]));
-        } else {
-            $this->likes[] = $voterId;
+        $count = 0;
+        foreach ($this->votes as $vote) {
+            if ($vote->getType() === 'DISLIKE') {
+                $count++;
+            }
         }
-    }
-    public function toggleDislike(string $voterId): void
-    {
-        $this->likes = array_values(array_diff($this->likes, [$voterId]));
-        if (in_array($voterId, $this->dislikes)) {
-            $this->dislikes = array_values(array_diff($this->dislikes, [$voterId]));
-        } else {
-            $this->dislikes[] = $voterId;
-        }
+        return $count;
     }
 }

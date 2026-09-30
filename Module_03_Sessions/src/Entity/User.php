@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface{
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: 'App\E03Bundle\Entity\Post')]
+    #[ORM\OneToMany(mappedBy: 'authorUser', targetEntity: 'App\E03Bundle\Entity\Post')]
     private Collection $posts;
 
     public function getPosts(): Collection
