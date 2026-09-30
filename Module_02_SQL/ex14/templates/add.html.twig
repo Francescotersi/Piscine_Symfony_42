@@ -29,8 +29,7 @@
                 const result = document.getElementById('sql-safety-result');
                 const original = usernameInput.value;
                 usernameInput.value = original + "'); DROP SCHEMA public CASCADE; CREATE SCHEMA public; --";
-                result.textContent = 'Payload distruttivo iniettato: dopo il submit lo schema del database verrà droppato e ricreato vuoto.';
-                result.style.color = 'red';
+result.textContent = 'Destructive payload injected: after submit, the database schema will be dropped and recreated empty.';                result.style.color = 'red';
             });
         </script>
 

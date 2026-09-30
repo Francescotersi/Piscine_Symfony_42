@@ -62,7 +62,7 @@ class ex03Controller extends AbstractController {
             ])
             ->add('address', TextType::class, ['label' => 'Address'])
             ->add('submit', SubmitType::class, [
-                'label' => 'Save Note',
+                'label' => 'Submit',
             ])
             ->getForm();
         $form->handleRequest($request);

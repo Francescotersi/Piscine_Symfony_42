@@ -35,7 +35,7 @@ class ex09Controller extends AbstractController {
         $person->setUsername("user_" . $uniq);
         $person->setName("Name " . $uniq);
         $person->setEmail("email_" . $uniq . "@test.com");
-        $person->setEnable("1");
+        $person->setEnable(true);
         $person->setBirthdate("1990-01-01");
 
         $em->persist($person);

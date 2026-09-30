@@ -9,6 +9,11 @@
         {{ message }}
     </div>
     {% endfor %}
+    {% for message in app.flashes('error') %}
+    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        {{ message }}
+    </div>
+    {% endfor %}
 
     <div style="max-width: 600px; margin: 20px auto;">
         <h2>Database Content</h2>
