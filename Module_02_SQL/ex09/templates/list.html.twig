@@ -17,6 +17,7 @@
                 <th>Bank Account Balance</th>
                 <th>Addresses</th>
                 <th>Actions</th>
+                {# <th>Rings</th> #}
             </tr>
         </thead>
         <tbody>
@@ -48,7 +49,7 @@
                         <a href="/person/{{ person.id }}/add-bank-account">Add Bank Account</a><br>
                         <a href="/person/{{ person.id }}/add-address">Add Address</a>
                     </td>
-                    <td>{{ person.rings }}</td>
+                    {# <td>{{ person.rings }}</td> #}
                 </tr>
             {% else %}
                 <tr>

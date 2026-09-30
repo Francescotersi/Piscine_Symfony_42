@@ -105,6 +105,15 @@ class personEntity {
         return $this;
     }
 
+    public function getRings(): ?int {
+        return $this->rings;
+    }
+
+    public function setRings(int $rings): self {
+        $this->rings = $rings;
+        return $this;
+    }
+
     public function getBankAccount(): ?bankAccountEntity {
         return $this->bankAccount;
     }
