@@ -6,7 +6,7 @@
     <div style="padding: 20px; max-width: 700px;">
         <h1>{{ post.title }}</h1>
         <p style="color: #666;">
-            By <strong>{{ post.author.username }}</strong> on {{ post.created|date('d/m/Y H:i') }}
+            By <strong>{{ post.author.username }}[{{ post.author.getReputation() }}]</strong> on {{ post.created|date('d/m/Y H:i') }}
         </p>
         <hr>
         <div style="margin: 20px 0; line-height: 1.6;">

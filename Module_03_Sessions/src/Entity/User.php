@@ -7,7 +7,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\common\Collections\ArrayCollection;
+use Doctrine\common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -29,6 +30,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface{
 
     #[ORM\OneToMany(mappedBy: 'authorUser', targetEntity: 'App\E03Bundle\Entity\Post')]
     private Collection $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     public function getPosts(): Collection
     {
@@ -75,5 +81,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface{
     {
         $this->password = $password;
         return $this;
+    }
+
+    public function getReputation(): int
+    {
+        $reputation = 0;
+        foreach ($this->posts as $post) {
+            $reputation += $post->getLikesCount() - $post->getDislikesCount();
+        }
+        return $reputation;
     }
 }

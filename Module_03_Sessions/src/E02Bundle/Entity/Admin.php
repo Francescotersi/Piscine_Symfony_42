@@ -3,13 +3,12 @@
 namespace App\E02Bundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\E03Bundle\Entity\Post;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'admins')]
@@ -29,6 +28,17 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface {
     #[ORM\Column]
     private array $roles = ['ROLE_ADMIN'];
 
+    #[ORM\OneToMany(mappedBy: 'authorAdmin', targetEntity: Post::class)]
+    private Collection $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
 
     public function getId(): ?int
     {
@@ -67,5 +77,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface {
 
     public function getUserIdentifier(): string{
         return (string)$this->username;
+    }
+
+    public function getReputation(): int
+    {
+        $reputation = 0;
+        foreach ($this->posts as $post) {
+            $reputation += $post->getLikesCount() - $post->getDislikesCount();
+        }
+        return $reputation;
     }
 }

@@ -5,7 +5,7 @@
 {% block body %}
     <div style="padding: 20px;">
         {% if app.user %}
-            <h1>Welcome back, {{ app.user.userIdentifier }}!</h1>
+            <h1>Welcome back, {{ app.user.userIdentifier }}[{{ app.user.getReputation() }}]!</h1>
             <p>You are currently logged in.</p>
             <p>
                 <a href="{{ path('e03_post_new') }}"><button type="button">+ Create New Post</button></a>
@@ -41,7 +41,10 @@
                         <a href="{{ path('e03_post_show', {'id': post.id}) }}">
                             <strong>{{ post.title }}</strong>
                         </a>
-                        — by <em>{{ post.author.username }}</em> on {{ post.created|date('d/m/Y H:i') }}
+                        — by <em>{{ post.author.username }}[{{ post.author.getReputation() }}]</em> on {{ post.created|date('d/m/Y H:i') }}
+                        <br>
+                        likes :({{ post.likesCount }})
+                        dislikes :({{ post.dislikesCount }})
                     </li>
                 {% endfor %}
             </ul>

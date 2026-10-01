@@ -26,7 +26,7 @@
                 {% for u in users %}
                     <tr>
                         <td>{{ u.id }}</td>
-                        <td>{{ u.username }}</td>
+                        <td>{{ u.username }}[{{ u.getReputation() }}]</td>
                         <td><span style="color: green;">User (ROLE_USER)</span></td>
                         <td>
                             <form method="post" action="{{ path('e02_delete_user', {'id': u.id}) }}" onsubmit="return confirm('Delete this user?');" style="display:inline;">
@@ -39,7 +39,7 @@
                 {% for a in admins %}
                     <tr>
                         <td>{{ a.id }}</td>
-                        <td>{{ a.username }}</td>
+                        <td>{{ a.username }}[{{ a.getReputation() }}]</td>
                         <td><strong style="color: blue;">Admin (ROLE_ADMIN)</strong></td>
                         <td>
                             {% if app.user is same as(a) or (app.user.userIdentifier == a.username) %}
