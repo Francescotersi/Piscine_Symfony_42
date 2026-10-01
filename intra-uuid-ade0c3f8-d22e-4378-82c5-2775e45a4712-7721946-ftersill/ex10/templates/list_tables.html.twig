@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ex10 - List Tables{% endblock %}
+
+{% block body %}
+    <h1>SQL_table (Raw SQL)</h1>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 50%; text-align: left; margin-bottom: 40px;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in sql_data %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.username }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">No data in SQL_table.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>ORM_table (Doctrine ORM)</h1>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 50%; text-align: left;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in orm_data %}
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.username }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">No data in ORM_table.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

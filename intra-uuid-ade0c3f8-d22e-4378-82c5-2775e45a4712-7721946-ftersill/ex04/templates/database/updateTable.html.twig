@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Submit the user to the database {% endblock %}
+
+{% block body %}
+
+    <div style="max-width: 500px; margin: 20px auto;">
+        <h2>Create New Entry</h2>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}        
+        <br>
+        <a href="{{ path('ex04_listTable') }}">View Database Content &rarr;</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <style>
+        .form-group { margin-bottom: 15px; }
+        .form-error { color: red; font-size: 0.9em; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+    </style>
+    <h1>{{ title }}</h1>
+
+    {% for message in app.flashes('error') %}
+        <div class="form-error">{{ message }}</div>
+    {% endfor %}
+
+    <p><a href="{{ path('ex13_listTable') }}">&larr; Back to list</a></p>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        
+        <div style="margin-top: 20px;">
+            <button type="submit">Save Employee</button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

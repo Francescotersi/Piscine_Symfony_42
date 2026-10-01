@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+    </head>
+    <body>
+        {% for message in app.flashes('success') %}
+            <div style="color: green;">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div style="color: red;">{{ message }}</div>
+        {% endfor %}
+
+        {% block body %}
+        <h1>DB control table</h1>
+            
+            <ul>
+                <li>
+                    <a href="{{ path('newTable') }}">Create initial table (persons)</a>
+                </li>
+                <li>
+                    <a href="{{ path('addColumn') }}">Add 'marital_status' column to persons</a>
+                </li>
+                <li>
+                    <a href="{{ path('otherTables') }}">Create 'bank_accounts' and 'addresses' tables</a>
+                </li>
+            </ul>
+        {% endblock %}
+    </body>
+</html>

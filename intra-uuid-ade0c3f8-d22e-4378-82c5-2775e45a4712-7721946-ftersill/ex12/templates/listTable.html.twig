@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} List persons Table {% endblock %}
+
+{% block body %}
+    <form method="GET" action="{{ path('ex12_listTable') }}">
+        <label>Nome Persona:
+            <input type="text" name="name" value="{{ app.request.query.get('name') }}" placeholder="Es. Mario">
+        </label>
+        
+        <label>Saldo Minimo:
+            <input type="number" name="min_money" value="{{ app.request.query.get('min_money') }}" placeholder="Es. 1000">
+        </label>
+        
+        <label>Ordina per:
+            <select name="sort">
+                <option value="name" {% if app.request.query.get('sort') == 'name' %}selected{% endif %}>Name</option>
+                <option value="username" {% if app.request.query.get('sort') == 'username' %}selected{% endif %}>Username</option>
+                <option value="money" {% if app.request.query.get('sort') == 'money' %}selected{% endif %}>Balance</option>
+            </select>
+        </label>
+
+        <label>Direzione:
+            <select name="order">
+                <option value="ASC" {% if app.request.query.get('order') == 'ASC' %}selected{% endif %}>Low to High</option>
+                <option value="DESC" {% if app.request.query.get('order') == 'DESC' %}selected{% endif %}>High to Low</option>
+            </select>
+        </label>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+     {% for message in app.flashes('success') %}
+        <div style="color: green; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="color: red; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Balance (Money)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for person in people %}
+                <tr>
+                    <td>{{ person.id }}</td>
+                    <td>{{ person.username }}</td>
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.email }}</td>
+                    <td>{{ person.bankAccount ? person.bankAccount.balance : '0' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No user Found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
