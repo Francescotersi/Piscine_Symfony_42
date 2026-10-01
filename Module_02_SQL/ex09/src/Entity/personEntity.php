@@ -39,7 +39,7 @@ class personEntity {
     #[Assert\NotBlank(message: 'The birthdate cannot be empty.')]
     private ?string $birthdate;
 
-    #[ORM\Column(type:"integer")]
+    #[ORM\Column(type:"integer", options: ["default" => 4])]
     private ?int $rings = 4;
 
 

@@ -45,11 +45,11 @@
                             <em>No Addresses</em>
                         {% endif %}
                     </td>
+                    <td>{{ person.rings }}</td>
                     <td>
                         <a href="/person/{{ person.id }}/add-bank-account">Add Bank Account</a><br>
                         <a href="/person/{{ person.id }}/add-address">Add Address</a>
                     </td>
-                    {# <td>{{ person.rings }}</td> #}
                 </tr>
             {% else %}
                 <tr>

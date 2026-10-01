@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260930131734 extends AbstractMigration
+final class Version20261001125854 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -19,6 +19,7 @@ final class Version20260930131734 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE persons ADD rings INT DEFAULT 4 NOT NULL');
     }
 
