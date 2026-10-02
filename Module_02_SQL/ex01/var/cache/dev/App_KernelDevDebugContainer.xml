@@ -172,6 +172,9 @@
       <tag name="container.excluded" source="because it's a Doctrine entity"/>
       <tag name="container.excluded" source="with #[Doctrine\ORM\Mapping\Entity] attribute"/>
     </service>
+    <service id="App\Service\databaseHandler" class="App\Service\databaseHandler" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ContainerBag">
       <argument type="service" id="service_container"/>
     </service>
@@ -342,7 +345,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" priority="-50">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.XUWqNIi"/>
+      <argument type="service" id=".service_locator.YTOj06D"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" priority="-100">controller.argument_value_resolver</tag>
@@ -1435,7 +1438,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.XUWqNIi"/>
+      <argument type="service" id=".service_locator.YTOj06D"/>
     </service>
     <service id="debug.console.argument_resolver" class="Symfony\Component\Console\ArgumentResolver\TraceableArgumentResolver">
       <tag name="container.decorator" id="console.argument_resolver" inner="debug.console.argument_resolver.inner"/>
@@ -2661,29 +2664,29 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.1vYpZ1B" method="withContext"/>
     </service>
-    <service id=".service_locator.DtKQrXP" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.N26aNU." class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="manager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="dbHandler" type="service_closure" id="App\Service\databaseHandler"/>
       </argument>
     </service>
-    <service id=".service_locator.DtKQrXP.App\Controller\ex01Controller::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.N26aNU..App\Controller\ex01Controller::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ex01Controller::index()"/>
       <argument>App\Controller\ex01Controller::index()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.DtKQrXP" method="withContext"/>
+      <factory service=".service_locator.N26aNU." method="withContext"/>
     </service>
-    <service id=".service_locator.XUWqNIi" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.YTOj06D" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
-        <argument key="App\Controller\ex01Controller::index" type="service_closure" id=".service_locator.DtKQrXP.App\Controller\ex01Controller::index()"/>
+        <argument key="App\Controller\ex01Controller::index" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex01Controller::index()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
-        <argument key="App\Controller\ex01Controller:index" type="service_closure" id=".service_locator.DtKQrXP.App\Controller\ex01Controller::index()"/>
+        <argument key="App\Controller\ex01Controller:index" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex01Controller::index()"/>
       </argument>
     </service>
     <service id=".service_locator.nqEKT7G" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -3477,7 +3480,7 @@
     <service id="doctrine.migrations.metadata_storage" alias="doctrine.migrations.storage.table_storage"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.ryAvHi4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.XUWqNIi"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.YTOj06D"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.W55Po6X"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -3488,7 +3491,7 @@
     <service id="twig.error_renderer.html.inner" alias="error_handler.error_renderer.html"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.c0wzfI4" alias=".service_locator.1vYpZ1B"/>
-    <service id=".service_locator.F787FGq" alias=".service_locator.DtKQrXP"/>
+    <service id=".service_locator.cxiN4nA" alias=".service_locator.N26aNU."/>
     <service id=".service_locator.SYPUa4V" alias=".service_locator.TJNRSaV"/>
   </services>
 </container>

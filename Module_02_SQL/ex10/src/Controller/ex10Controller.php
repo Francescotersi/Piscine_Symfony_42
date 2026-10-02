@@ -2,48 +2,42 @@
 
 namespace App\Controller;
 
-use App\Entity\ORMTable;
+use App\Repository\ORMTableRepository;
+use App\Service\SqlDatabaseManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
 
+class ex10Controller extends AbstractController
+{
+    public function __construct(
+        private SqlDatabaseManager $sqlManager,
+        private ORMTableRepository $ormRepository
+    ) {
+    }
 
-class ex10Controller extends AbstractController {
-
-    public function __construct(private Connection $connection) {}
-
-    #[Route(path:'/new', name:'ex10_newTable')]
-    public function newTable(EntityManagerInterface $manager): Response {
+    #[Route(path: '/new', name: 'ex10_newTable')]
+    public function newTable(): Response
+    {
         try {
-            $sql = '                
-                CREATE TABLE IF NOT EXISTS "SQL_table" (
-                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                username VARCHAR(255) NOT NULL
-            )';
-
-            $this->connection->executeStatement($sql);
+            $this->sqlManager->createTable();
             $this->addFlash('success', 'SQL_table table has been created');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating SQL_table table: ' . $e->getMessage());
         }
-        try{
-            $schemaTool = new SchemaTool($manager);
-            $metadata = $manager->getClassMetadata(ORMTable::class);
-            $schemaTool->updateSchema([$metadata]);
+        try {
+            $this->ormRepository->createSchema();
             $this->addFlash('success', 'SQL_table table has been created');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating SQL_table table: ' . $e->getMessage());
         }
         return $this->redirectToRoute('ex10_listTables');
     }
 
-    #[Route(path:'/read', name:'ex10_readFile')]
-    public function readFile(Request $request, EntityManagerInterface $em): Response {
+    #[Route(path: '/read', name: 'ex10_readFile')]
+    public function readFile(Request $request): Response
+    {
         if ($request->isMethod('POST')) {
             $file = $request->files->get('txtFile');
 
@@ -65,38 +59,26 @@ class ex10Controller extends AbstractController {
                 }
                 $usernames = array_unique($usernames);
                 try {
-                    $this->connection->executeStatement('
-                        CREATE TABLE IF NOT EXISTS "SQL_table" (
-                            id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                            username VARCHAR(255) NOT NULL
-                        )
-                    ');
+                    $this->sqlManager->createTable();
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Impossibile creare la tabella: ' . $e->getMessage());
                 }
 
                 foreach ($usernames as $username) {
                     $username = trim($username);
-                    if (empty($username)) continue;
+                    if (empty($username)) {
+                        continue;
+                    }
 
                     try {
-                        $this->connection->executeStatement(
-                            'INSERT INTO "SQL_table" (username) VALUES (:username)',
-                            ['username' => $username]
-                        );
+                        $this->sqlManager->insertUser($username);
                     } catch (\Exception $e) {
                         $this->addFlash('error', 'Raw SQL Error: ' . $e->getMessage());
                     }
-
-                    $existing = $em->getRepository(ORMTable::class)->findOneBy(['username' => $username]);
-                    if (!$existing) {
-                        $ormEntry = new ORMTable();
-                        $ormEntry->setUsername($username);
-                        $em->persist($ormEntry);
-                    }
                 }
+
                 try {
-                    $em->flush();
+                    $this->ormRepository->saveUsernames($usernames);
                     $this->addFlash('success', "usernames successfully inserted into both tables!");
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Error during ORM flush: ' . $e->getMessage());
@@ -108,18 +90,18 @@ class ex10Controller extends AbstractController {
         return $this->render('read_file.html.twig');
     }
 
-    #[Route(path:'/list', name:'ex10_listTables')]
-    public function listTables(EntityManagerInterface $em): Response {
+    #[Route(path: '/list', name: 'ex10_listTables')]
+    public function listTables(): Response
+    {
         try {
-            $sqlData = $this->connection->fetchAllAssociative('SELECT * FROM "SQL_table" ORDER BY id ASC');
+            $sqlData = $this->sqlManager->getAllUsers();
         } catch (\Exception $e) {
-            $sqlData = []; 
+            $sqlData = [];
         }
-        $ormData = $em->getRepository(ORMTable::class)->findAll();
+        $ormData = $this->ormRepository->getAll();
         return $this->render('list_tables.html.twig', [
             'sql_data' => $sqlData,
             'orm_data' => $ormData,
         ]);
     }
-
 }

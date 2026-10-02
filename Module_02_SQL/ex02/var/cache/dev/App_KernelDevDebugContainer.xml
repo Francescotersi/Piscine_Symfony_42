@@ -160,10 +160,13 @@
       <tag name="controller.service_arguments"/>
       <tag name="routing.controller"/>
       <tag name="container.service_subscriber"/>
-      <argument type="service" id="doctrine.dbal.default_connection"/>
+      <argument type="service" id="App\Service\SqlDatabaseManager"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.TJNRSaV.App\Controller\ex02Controller"/>
       </call>
+    </service>
+    <service id="App\Service\SqlDatabaseManager" class="App\Service\SqlDatabaseManager" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.dbal.default_connection"/>
     </service>
     <service id="parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ContainerBag">
       <argument type="service" id="service_container"/>

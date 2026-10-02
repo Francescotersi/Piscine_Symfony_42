@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\SqlDatabaseManager;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,28 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Doctrine\DBAL\Connection;
 
-class ex06Controller extends AbstractController {
+class ex06Controller extends AbstractController
+{
+    public function __construct(private SqlDatabaseManager $dbManager)
+    {
+    }
 
-    public function __construct(private Connection $connection) {}
-
-    #[Route(path:"/ex06/new", name:"ex06_newTable")]
-    public function newTable(): Response {
+    #[Route(path: "/ex06/new", name: "ex06_newTable")]
+    public function newTable(): Response
+    {
         try {
-            $sql = "
-                CREATE TABLE IF NOT EXISTS users_data (
-                id INTEGER  GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                username VARCHAR(255) NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL,
-                enable BOOLEAN NOT NULL,
-                birthdate TIMESTAMP NULL,
-                address TEXT
-                );
-            ";
-            $this->connection->executeStatement($sql);
-
+            $this->dbManager->createTable();
             $this->addFlash('success', 'Success: Table created');
         } catch (Exception $e) {
             $this->addFlash('error', 'Error: Table not created - ' . $e->getMessage());
@@ -41,83 +32,73 @@ class ex06Controller extends AbstractController {
         return $this->redirectToRoute('ex06_listTable');
     }
 
-    #[Route(path:"/ex06/delete/table", name:"ex06_deleteTable")]
-    public function deleteTable(): Response {
+    #[Route(path: "/ex06/delete/table", name: "ex06_deleteTable")]
+    public function deleteTable(): Response
+    {
         try {
-        $sql = "DROP TABLE IF EXISTS users_data";
-        
-        $this->connection->executeStatement($sql);
-        
-        $this->addFlash('success', 'Success: Table deleted');
-        }   catch (Exception $e) {
+            $this->dbManager->dropTable();
+            $this->addFlash('success', 'Success: Table deleted');
+        } catch (Exception $e) {
             $this->addFlash('error', 'Error: Table not deleted');
         }
         return $this->redirectToRoute('ex06_listTable');
     }
 
-    #[Route(path:"/ex06/add", name:"ex06_addUser")]
-    public function addUser(Request $request): Response {
+    #[Route(path: "/ex06/add", name: "ex06_addUser")]
+    public function addUser(Request $request): Response
+    {
         try {
             $form = $this->createFormBuilder()
-                ->add("username", TextType::class, ["label"=> "Username"])
-                ->add("name", TextType::class, ["label"=> "Name"])
-                ->add("email", EmailType::class, ["label"=> "Email"])
+                ->add("username", TextType::class, ["label" => "Username"])
+                ->add("name", TextType::class, ["label" => "Name"])
+                ->add("email", EmailType::class, ["label" => "Email"])
                 ->add("enable", ChoiceType::class, [
-                    "label"=> "Enable",
+                    "label" => "Enable",
                     'choices' => [
                         'Yes' => true,
                         'No' => false,
                     ],
                 ])
                 ->add("birthdate", DateTimeType::class, [
-                    "label"=> "BirthDate",
+                    "label" => "BirthDate",
                     'required' => false,
                 ])
                 ->add("address", TextType::class, [
-                    "label"=> "Address",
+                    "label" => "Address",
                     'required' => false,
                 ])
-                ->add("submit", SubmitType::class, ["label"=> "Submit"])
+                ->add("submit", SubmitType::class, ["label" => "Submit"])
                 ->getForm();
 
             $form->handleRequest($request);
-             if ($form->isSubmitted()) {
+            if ($form->isSubmitted()) {
                 $data = $form->getData();
                 $birthdate = $data['birthdate']?->format('Y-m-d H:i:s');
+                $data['birthdate'] = $birthdate;
 
-                $sql = "INSERT INTO users_data (username, name, email, enable, birthdate, address)
-                        VALUES (:username, :name, :email, :enable, :birthdate, :address)";
-
-                $this->connection->executeStatement($sql, [
-                    'username' => $data['username'],
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'enable' => $data['enable'] ? 'true' : 'false',
-                    'birthdate' => $birthdate,
-                    'address' => $data['address'],
-                ]);
+                $this->dbManager->addUser($data);
 
                 return $this->redirectToRoute('ex06_listTable');
-        }
-        return $this->render('database/addUser.html.twig', [
-            'form' => $form->createView(),
-            'user' => null,
-        ]);
+            }
+            return $this->render('database/addUser.html.twig', [
+                'form' => $form->createView(),
+                'user' => null,
+            ]);
         } catch (Exception $e) {
             $this->addFlash('error', 'Error: cant add user - ' . $e->getMessage());
             return $this->redirectToRoute('ex06_listTable');
         }
     }
 
-    #[Route(path:"/ex06/list", name:"ex06_listTable")]
-    public function listTable(): Response {
+    #[Route(path: "/ex06/list", name: "ex06_listTable")]
+    public function listTable(): Response
+    {
         try {
-        $sql = "SELECT * FROM users_data";
-        $results = $this->connection->fetchAllAssociative($sql);
+            $results = $this->dbManager->getAllUsers();
 
-        return $this->render('database/listTable.html.twig', [
-            'users' => $results,
-        ]);
+            return $this->render('database/listTable.html.twig', [
+                'users' => $results,
+            ]);
         } catch (Exception $e) {
             $this->addFlash('error', 'Error: Cant list the table ----> ' . $e->getMessage());
             return $this->render('database/listTable.html.twig', [
@@ -126,32 +107,31 @@ class ex06Controller extends AbstractController {
         }
     }
 
-    #[Route(path:"/ex06/delete/{id}", name:"ex06_deleteUser")]
-    public function deleteUser(string $id): Response {
+    #[Route(path: "/ex06/delete/{id}", name: "ex06_deleteUser")]
+    public function deleteUser(string $id): Response
+    {
         if (!ctype_digit($id)) {
             $this->addFlash('error', 'Error: invalid user ID');
             return $this->redirectToRoute('ex06_listTable');
         }
 
         $userId = (int) $id;
-        $sqlSelect = 'SELECT * FROM users_data WHERE id = :id';
-        $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
+        $user = $this->dbManager->getUserById($userId);
 
         if (!$user) {
             $this->addFlash('error', 'Error: no user with this ID has been found ' . $userId);
             return $this->redirectToRoute('ex06_listTable');
         }
 
-        $sqlDelete = 'DELETE FROM users_data WHERE id = :id';
-        $this->connection->executeStatement($sqlDelete, ['id' => $userId]);
-
+        $this->dbManager->deleteUserById($userId);
         $this->addFlash('success', 'User "' . $user['username'] . '" erased');
 
         return $this->redirectToRoute('ex06_listTable');
     }
 
-    #[Route(path:"/ex06/update/{id}", name:"ex06_updateUser")]
-    public function updateUser(string $id, Request $request): Response {
+    #[Route(path: "/ex06/update/{id}", name: "ex06_updateUser")]
+    public function updateUser(string $id, Request $request): Response
+    {
         try {
             if (!ctype_digit($id)) {
                 $this->addFlash('error', 'Error: invalid user ID');
@@ -159,8 +139,7 @@ class ex06Controller extends AbstractController {
             }
 
             $userId = (int) $id;
-            $sqlSelect = 'SELECT * FROM users_data WHERE id = :id';
-            $user = $this->connection->fetchAssociative($sqlSelect, ['id' => $userId]);
+            $user = $this->dbManager->getUserById($userId);
 
             if (!$user) {
                 $this->addFlash('error', 'Error: no user with this ID has been found ' . $userId);
@@ -180,59 +159,42 @@ class ex06Controller extends AbstractController {
                 'birthdate' => $birthdate,
                 'address' => $user['address'],
             ])
-                ->add("username", TextType::class, ["label"=> "Username"])
-                ->add("name", TextType::class, ["label"=> "Name"])
-                ->add("email", EmailType::class, ["label"=> "Email"])
+                ->add("username", TextType::class, ["label" => "Username"])
+                ->add("name", TextType::class, ["label" => "Name"])
+                ->add("email", EmailType::class, ["label" => "Email"])
                 ->add("enable", ChoiceType::class, [
-                    "label"=> "Enable",
+                    "label" => "Enable",
                     'choices' => [
                         'Yes' => true,
                         'No' => false,
                     ],
                 ])
                 ->add("birthdate", DateTimeType::class, [
-                    "label"=> "BirthDate",
+                    "label" => "BirthDate",
                     'required' => false,
                 ])
                 ->add("address", TextType::class, [
-                    "label"=> "Address",
+                    "label" => "Address",
                     'required' => false,
                 ])
-                ->add("submit", SubmitType::class, ["label"=> "Submit"])
+                ->add("submit", SubmitType::class, ["label" => "Submit"])
                 ->getForm();
 
             $form->handleRequest($request);
-             if ($form->isSubmitted()) {
+            if ($form->isSubmitted()) {
                 $data = $form->getData();
                 $birthdate = $data['birthdate']?->format('Y-m-d H:i:s');
+                $data['birthdate'] = $birthdate;
 
-                $sql = "UPDATE users_data
-                        SET username = :username,
-                            name = :name,
-                            email = :email,
-                            enable = :enable,
-                            birthdate = :birthdate,
-                            address = :address
-                        WHERE id = :id";
-
-                $this->connection->executeStatement($sql, [
-                    'id' => $userId,
-                    'username' => $data['username'],
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'enable' => $data['enable'] ? 'true' : 'false',
-                    'birthdate' => $birthdate,
-                    'address' => $data['address'],
-                ]);
+                $this->dbManager->updateUser($userId, $data);
 
                 $this->addFlash('success', 'User updated');
-
                 return $this->redirectToRoute('ex06_listTable');
-        }
-        return $this->render('database/editUser.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user,
-        ]);
+            }
+            return $this->render('database/editUser.html.twig', [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]);
         } catch (Exception $e) {
             $this->addFlash('error', 'Error: cant update user - ' . $e->getMessage());
             return $this->redirectToRoute('ex06_listTable');

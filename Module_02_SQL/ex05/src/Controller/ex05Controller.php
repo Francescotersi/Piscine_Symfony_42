@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\userModel;
+use App\Repository\userModelRepository;
 use App\Service\databaseHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,35 +15,38 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
-class ex05Controller extends AbstractController {
-
-    #[Route(path:"/ex05/new", name:"ex05_newTable")]
-    public function newTable(databaseHandler $dbHandler): Response {
+class ex05Controller extends AbstractController
+{
+    #[Route(path: "/ex05/new", name: "ex05_newTable")]
+    public function newTable(databaseHandler $dbHandler): Response
+    {
         $message = $dbHandler->newTable();
         $this->addFlash('success', $message);
         return $this->redirectToRoute('ex05_listTable');
     }
 
-    #[Route(path:"/ex05/delete", name:"ex05_deleteTable")]
-    public function deleteTable(databaseHandler $dbHandler): Response {
+    #[Route(path: "/ex05/delete", name: "ex05_deleteTable")]
+    public function deleteTable(databaseHandler $dbHandler): Response
+    {
         $message = $dbHandler->deleteTable();
         $this->addFlash('success', $message);
         return $this->redirectToRoute('ex05_listTable');
     }
 
-    #[Route(path:"/ex05/list", name:"ex05_listTable")]
-    public function listTable(databaseHandler $dbHandler): Response {
-        $users = $dbHandler->fetchAll(userModel::class);
+    #[Route(path: "/ex05/list", name: "ex05_listTable")]
+    public function listTable(userModelRepository $userRepository): Response
+    {
+        $users = $userRepository->getAll();
 
         return $this->render('database/listTable.html.twig', [
             'users' => $users,
         ]);
     }
 
-    #[Route(path:"/ex05/delete/{id}", name:"ex05_deleteUser", methods:["POST"])]
-    public function deleteUser(int $id, databaseHandler $dbHandler): Response {
-        if ($dbHandler->deleteEntity($id)) {
+    #[Route(path: "/ex05/delete/{id}", name: "ex05_deleteUser", methods: ["POST"])]
+    public function deleteUser(int $id, userModelRepository $userRepository): Response
+    {
+        if ($userRepository->removeById($id)) {
             $this->addFlash('success', 'User deleted successfully.');
         } else {
             $this->addFlash('error', 'User not found or could not be deleted.');
@@ -51,8 +55,9 @@ class ex05Controller extends AbstractController {
         return $this->redirectToRoute('ex05_listTable');
     }
 
-    #[Route(path:"/ex05/add", name:"ex05_updateTable")]
-    public function updateTable(Request $request, databaseHandler $dbHandler): Response {
+    #[Route(path: "/ex05/add", name: "ex05_updateTable")]
+    public function updateTable(Request $request, userModelRepository $userRepository): Response
+    {
         $user = new userModel();
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class, ['label' => 'Username'])
@@ -83,8 +88,10 @@ class ex05Controller extends AbstractController {
             if ($birth instanceof \DateTimeInterface) {
                 $user->setBirthdate($birth->format('Y-m-d H:i:s'));
             }
-            if ($dbHandler->newEntity($user)) {
+            try {
+                $userRepository->save($user);
                 return $this->redirectToRoute('ex05_listTable');
+            } catch (\Exception $e) {
             }
         }
 

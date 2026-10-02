@@ -5,8 +5,9 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\ORMTableRepository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: ORMTableRepository::class)]
 #[ORM\Table(name: 'ORM_table')]
 class ORMTable {
 
@@ -18,8 +19,6 @@ class ORMTable {
     #[ORM\Column(type:"string", length:255, unique: true)]
     #[Assert\NotBlank(message: 'The username cannot be empty.')]
     private ?string $username;
-
-// ----------------------------------------------------------
 
     public function getId(): ?int {
         return $this->id;

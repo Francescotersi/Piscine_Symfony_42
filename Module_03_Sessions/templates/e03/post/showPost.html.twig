@@ -21,6 +21,11 @@
                 <button type='button'>Dislike ( {{ post.dislikesCount }} )</button>
             </a>
         </p>
-        <p><a href="{{ path('e01_home') }}">Back to Homepage<bu</a></p>
+        <p>
+            <a href="{{ path('e06_post_edit', {'postId': post.id}) }}">
+                <button type='button'>Edit</button>
+            </a>
+        </p>
+        <p><a href="{{ path('e01_home') }}">Back to Homepage</a></p>
     </div>
 {% endblock %}

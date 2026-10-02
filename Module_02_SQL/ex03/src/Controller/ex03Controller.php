@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\userModel;
+use App\Repository\userModelRepository;
 use App\Service\databaseHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,34 +15,37 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
-class ex03Controller extends AbstractController {
-
-    #[Route(path:"/ex03/new", name:"ex03_newTable")]
-    public function newTable(databaseHandler $dbHandler): Response {
+class ex03Controller extends AbstractController
+{
+    #[Route(path: "/ex03/new", name: "ex03_newTable")]
+    public function newTable(databaseHandler $dbHandler): Response
+    {
         $message = $dbHandler->newTable();
         $this->addFlash('success', $message);
         return $this->redirectToRoute('ex03_listTable');
     }
 
-    #[Route(path:"/ex03/delete", name:"ex03_deleteTable")]
-    public function deleteTable(databaseHandler $dbHandler): Response {
+    #[Route(path: "/ex03/delete", name: "ex03_deleteTable")]
+    public function deleteTable(databaseHandler $dbHandler): Response
+    {
         $message = $dbHandler->deleteTable();
         $this->addFlash('success', $message);
         return $this->redirectToRoute('ex03_listTable');
     }
 
-    #[Route(path:"/ex03/list", name:"ex03_listTable")]
-    public function listTable(databaseHandler $dbHandler): Response {
-        $users = $dbHandler->fetchAll(userModel::class);
+    #[Route(path: "/ex03/list", name: "ex03_listTable")]
+    public function listTable(userModelRepository $userRepository): Response
+    {
+        $users = $userRepository->getAll();
 
         return $this->render('database/listTable.html.twig', [
             'users' => $users,
         ]);
     }
 
-    #[Route(path:"/ex03/update", name:"ex03_updateTable")]
-    public function updateTable(Request $request, databaseHandler $dbHandler): Response {
+    #[Route(path: "/ex03/update", name: "ex03_updateTable")]
+    public function updateTable(Request $request, userModelRepository $userRepository): Response
+    {
         $user = new userModel();
         $form = $this->createFormBuilder($user)
             ->add('username', TextType::class, ['label' => 'Username'])
@@ -72,8 +76,10 @@ class ex03Controller extends AbstractController {
             if ($birth instanceof \DateTimeInterface) {
                 $user->setBirthdate($birth->format('Y-m-d H:i:s'));
             }
-            if ($dbHandler->newEntity($user)) {
+            try {
+                $userRepository->save($user);
                 return $this->redirectToRoute('ex03_listTable');
+            } catch (\Exception $e) {
             }
         }
 

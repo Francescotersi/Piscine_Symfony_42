@@ -2,36 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use App\Service\SqlDatabaseManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\DBAL\Connection;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+class ex11Controller extends AbstractController
+{
+    public function __construct(private SqlDatabaseManager $dbManager)
+    {
+    }
 
-class ex11Controller extends AbstractController {
-    public function __construct(private Connection $connection) {}
-
-    #[Route(path:'/new', name:'ex11_newTable')]
-    public function newTable(): Response {
+    #[Route(path: '/new', name: 'ex11_newTable')]
+    public function newTable(): Response
+    {
         try {
-            $sql = '                
-                CREATE TABLE IF NOT EXISTS persons (
-                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                username VARCHAR(255) NOT NULL,
-                name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL);
-                
-                CREATE TABLE IF NOT EXISTS bank_accounts (
-                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                money INTEGER NOT NULL,
-                owner_id INTEGER NOT NULL UNIQUE,
-                FOREIGN KEY (owner_id) REFERENCES persons(id)
-                ON DELETE CASCADE
-                );
-            ';
-
-            $this->connection->executeStatement($sql);
+            $this->dbManager->createTables();
             $this->addFlash('success', 'tables has been created');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating tables: ' . $e->getMessage());
@@ -39,13 +26,14 @@ class ex11Controller extends AbstractController {
         return $this->redirectToRoute('ex11_listTable');
     }
 
-    #[Route(path:"/list", name:"ex11_listTable", methods:["GET"])]
-    public function listTable(Request $request): Response {
+    #[Route(path: "/list", name: "ex11_listTable", methods: ["GET"])]
+    public function listTable(Request $request): Response
+    {
         try {
             $allowedSortColumns = ['p.name', 'p.username', 'b.money'];
             $sort = $request->query->get('sort', 'p.name');
             if (!in_array($sort, $allowedSortColumns)) {
-                $sort = 'p.name'; 
+                $sort = 'p.name';
             }
 
             $order = strtoupper($request->query->get('order', 'ASC'));
@@ -53,24 +41,10 @@ class ex11Controller extends AbstractController {
                 $order = 'ASC';
             }
             $nameFilter = $request->query->get('name');
-            $minMoneyFilter = $request->query->get('min_money');
-            $sql = '
-                SELECT p.id, p.username, p.name, p.email, b.money
-                FROM persons p
-                JOIN bank_accounts b ON p.id = b.owner_id
-                WHERE 1=1
-            ';
-            $params = [];
-            if (!empty($nameFilter)) {
-                $sql .= ' AND p.name LIKE :name';
-                $params['name'] = '%' . $nameFilter . '%';
-            }
-            if (is_numeric($minMoneyFilter)) {
-                $sql .= ' AND b.money >= :min_money';
-                $params['min_money'] = (int) $minMoneyFilter;
-            }
-            $sql .= sprintf(' ORDER BY %s %s', $sort, $order);
-            $results = $this->connection->fetchAllAssociative($sql, $params);
+            $rawMinMoney = $request->query->get('min_money');
+            $minMoneyFilter = is_numeric($rawMinMoney) ? (int) $rawMinMoney : null;
+
+            $results = $this->dbManager->findAccountsWithFilterAndSort($nameFilter, $minMoneyFilter, $sort, $order);
 
             return $this->render('listTable.html.twig', [
                 'accounts' => $results,
@@ -83,8 +57,9 @@ class ex11Controller extends AbstractController {
         }
     }
 
-    #[Route(path:'/seed', name:'ex11_seedTable')]
-    public function seedTable(): Response {
+    #[Route(path: '/seed', name: 'ex11_seedTable')]
+    public function seedTable(): Response
+    {
         try {
             $users = [
                 ['mario99', 'Mario Rossi', 'mario@example.com', 1500],
@@ -96,17 +71,7 @@ class ex11Controller extends AbstractController {
                 ['wario_w', 'Wario Ware', 'wario@example.com', 8500],
             ];
 
-            foreach ($users as $u) {
-                $result = $this->connection->executeQuery(
-                    'INSERT INTO persons (username, name, email) VALUES (:u, :n, :e) RETURNING id',
-                    ['u' => $u[0], 'n' => $u[1], 'e' => $u[2]]
-                );
-                $personId = $result->fetchOne();
-                $this->connection->executeStatement(
-                    'INSERT INTO bank_accounts (money, owner_id) VALUES (:m, :o)',
-                    ['m' => $u[3], 'o' => $personId]
-                );
-            }
+            $this->dbManager->seedUsers($users);
             $this->addFlash('success', count($users) . ' utenti fittizi inseriti con successo!');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Errore durante il seed: ' . $e->getMessage());

@@ -6,11 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\personEntityRepository;
 
-// php bin/console make:migration
-// php bin/console doctrine:migrations:migrate
-
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: personEntityRepository::class)]
 #[ORM\Table(name: 'persons')]
 class personEntity {
 
@@ -53,8 +51,6 @@ class personEntity {
     public function __construct() {
         $this->addresses = new ArrayCollection();
     }
-
-// ----------------------------------------------------------
 
     public function getId(): ?int {
         return $this->id;

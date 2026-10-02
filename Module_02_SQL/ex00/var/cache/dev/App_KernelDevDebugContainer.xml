@@ -176,6 +176,9 @@
         <argument type="service" id=".service_locator.TJNRSaV.App\Controller\ex00controller"/>
       </call>
     </service>
+    <service id="App\Service\SqlDatabaseManager" class="App\Service\SqlDatabaseManager" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.dbal.default_connection"/>
+    </service>
     <service id="parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ContainerBag">
       <argument type="service" id="service_container"/>
     </service>
@@ -346,7 +349,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" priority="-50">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.cktNzux"/>
+      <argument type="service" id=".service_locator.G_0zHp6"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" priority="-100">controller.argument_value_resolver</tag>
@@ -1458,7 +1461,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.cktNzux"/>
+      <argument type="service" id=".service_locator.G_0zHp6"/>
     </service>
     <service id="debug.console.argument_resolver" class="Symfony\Component\Console\ArgumentResolver\TraceableArgumentResolver">
       <tag name="container.decorator" id="console.argument_resolver" inner="debug.console.argument_resolver.inner"/>
@@ -3286,29 +3289,29 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.1vYpZ1B" method="withContext"/>
     </service>
-    <service id=".service_locator.sWWUFdD" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.LHyHen4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="connection" type="service_closure" id="doctrine.dbal.default_connection"/>
+        <argument key="dbManager" type="service_closure" id="App\Service\SqlDatabaseManager"/>
       </argument>
     </service>
-    <service id=".service_locator.sWWUFdD.App\Controller\ex00controller::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.LHyHen4.App\Controller\ex00controller::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ex00controller::index()"/>
       <argument>App\Controller\ex00controller::index()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.sWWUFdD" method="withContext"/>
+      <factory service=".service_locator.LHyHen4" method="withContext"/>
     </service>
-    <service id=".service_locator.cktNzux" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.G_0zHp6" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
-        <argument key="App\Controller\ex00controller::index" type="service_closure" id=".service_locator.sWWUFdD.App\Controller\ex00controller::index()"/>
+        <argument key="App\Controller\ex00controller::index" type="service_closure" id=".service_locator.LHyHen4.App\Controller\ex00controller::index()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
-        <argument key="App\Controller\ex00controller:index" type="service_closure" id=".service_locator.sWWUFdD.App\Controller\ex00controller::index()"/>
+        <argument key="App\Controller\ex00controller:index" type="service_closure" id=".service_locator.LHyHen4.App\Controller\ex00controller::index()"/>
       </argument>
     </service>
     <service id=".service_locator.nqEKT7G" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -4353,7 +4356,7 @@
     <service id="Twig\Environment" alias="twig"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.ryAvHi4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.cktNzux"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.G_0zHp6"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.W55Po6X"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -4364,7 +4367,7 @@
     <service id="twig.error_renderer.html.inner" alias="error_handler.error_renderer.html"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.c0wzfI4" alias=".service_locator.1vYpZ1B"/>
-    <service id=".service_locator.xer2AWF" alias=".service_locator.sWWUFdD"/>
+    <service id=".service_locator.ScjvvpF" alias=".service_locator.LHyHen4"/>
     <service id=".service_locator.SYPUa4V" alias=".service_locator.TJNRSaV"/>
   </services>
 </container>

@@ -169,6 +169,10 @@
       <tag name="container.excluded" source="because it's a Doctrine entity"/>
       <tag name="container.excluded" source="with #[Doctrine\ORM\Mapping\Entity] attribute"/>
     </service>
+    <service id="App\Repository\userModelRepository" class="App\Repository\userModelRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Service\databaseHandler" class="App\Service\databaseHandler" autowire="true" autoconfigure="true">
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
@@ -681,7 +685,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" priority="-50">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.jI8BwyK"/>
+      <argument type="service" id=".service_locator.BLWD1Op"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" priority="-100">controller.argument_value_resolver</tag>
@@ -2490,7 +2494,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.dpiLQ5O"/>
+      <argument type="service" id=".service_locator.VS_sbLb"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -3015,6 +3019,8 @@
     <service id=".abstract.instanceof.App\Controller\ex03Controller" class="App\Controller\ex03Controller" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.App\Entity\userModel.0.App\Entity\userModel" class="App\Entity\userModel" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Entity\userModel" class="App\Entity\userModel" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\userModelRepository" class="App\Repository\userModelRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\userModelRepository" class="App\Repository\userModelRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.ryAvHi4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -3081,19 +3087,25 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.N26aNU." method="withContext"/>
     </service>
-    <service id=".service_locator.N26aNU..App\Controller\ex03Controller::listTable()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.0M2jooq" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="userRepository" type="service_closure" id="App\Repository\userModelRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.0M2jooq.App\Controller\ex03Controller::listTable()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ex03Controller::listTable()"/>
       <argument>App\Controller\ex03Controller::listTable()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.N26aNU." method="withContext"/>
+      <factory service=".service_locator.0M2jooq" method="withContext"/>
     </service>
-    <service id=".service_locator.N26aNU..App\Controller\ex03Controller::updateTable()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.0M2jooq.App\Controller\ex03Controller::updateTable()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ex03Controller::updateTable()"/>
       <argument>App\Controller\ex03Controller::updateTable()</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.N26aNU." method="withContext"/>
+      <factory service=".service_locator.0M2jooq" method="withContext"/>
     </service>
-    <service id=".service_locator.jI8BwyK" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.BLWD1Op" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
@@ -3102,14 +3114,14 @@
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
         <argument key="App\Controller\ex03Controller::newTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::newTable()"/>
         <argument key="App\Controller\ex03Controller::deleteTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::deleteTable()"/>
-        <argument key="App\Controller\ex03Controller::listTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::listTable()"/>
-        <argument key="App\Controller\ex03Controller::updateTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::updateTable()"/>
+        <argument key="App\Controller\ex03Controller::listTable" type="service_closure" id=".service_locator.0M2jooq.App\Controller\ex03Controller::listTable()"/>
+        <argument key="App\Controller\ex03Controller::updateTable" type="service_closure" id=".service_locator.0M2jooq.App\Controller\ex03Controller::updateTable()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.1vYpZ1B.kernel::registerContainerConfiguration()"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.1vYpZ1B.kernel::loadRoutes()"/>
         <argument key="App\Controller\ex03Controller:newTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::newTable()"/>
         <argument key="App\Controller\ex03Controller:deleteTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::deleteTable()"/>
-        <argument key="App\Controller\ex03Controller:listTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::listTable()"/>
-        <argument key="App\Controller\ex03Controller:updateTable" type="service_closure" id=".service_locator.N26aNU..App\Controller\ex03Controller::updateTable()"/>
+        <argument key="App\Controller\ex03Controller:listTable" type="service_closure" id=".service_locator.0M2jooq.App\Controller\ex03Controller::listTable()"/>
+        <argument key="App\Controller\ex03Controller:updateTable" type="service_closure" id=".service_locator.0M2jooq.App\Controller\ex03Controller::updateTable()"/>
       </argument>
     </service>
     <service id=".service_locator.CBIx4lB" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -3150,6 +3162,12 @@
         <argument key="doctrine.orm.listeners.pdo_session_handler_schema_listener" type="service_closure" id="doctrine.orm.listeners.pdo_session_handler_schema_listener"/>
         <argument key="doctrine.orm.listeners.lock_store_schema_listener" type="service_closure" id="doctrine.orm.listeners.lock_store_schema_listener"/>
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service_closure" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
+      </argument>
+    </service>
+    <service id=".service_locator.VS_sbLb" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="App\Repository\userModelRepository" type="service_closure" id="App\Repository\userModelRepository"/>
       </argument>
     </service>
     <service id=".service_locator.W55Po6X" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -3749,7 +3767,7 @@
     <service id="Twig\Environment" alias="twig"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.ryAvHi4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.jI8BwyK"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.BLWD1Op"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.W55Po6X"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
@@ -3757,6 +3775,7 @@
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.c0wzfI4" alias=".service_locator.1vYpZ1B"/>
     <service id=".service_locator.cxiN4nA" alias=".service_locator.N26aNU."/>
+    <service id=".service_locator.eeO.Ecd" alias=".service_locator.0M2jooq"/>
     <service id=".service_locator.YyTAIYt" alias=".service_locator.TJNRSaV"/>
   </services>
 </container>

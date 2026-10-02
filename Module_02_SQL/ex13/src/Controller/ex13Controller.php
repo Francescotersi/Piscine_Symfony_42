@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use App\Entity\Employee;
 use App\Repository\EmployeeRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,16 +16,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class ex13Controller extends AbstractController {
-
-    #[Route(path:'/new', name:'ex13_newTable')]
-    public function newTable(EntityManagerInterface $em): Response {
+class ex13Controller extends AbstractController
+{
+    #[Route(path: '/new', name: 'ex13_newTable')]
+    public function newTable(EmployeeRepository $employeeRepository): Response
+    {
         try {
-            $schemaTool = new SchemaTool($em);
-            $metadata = [$em->getClassMetadata(Employee::class)];
-            $schemaTool->updateSchema($metadata);
-            $schemaTool->dropSchema($metadata);
-            $schemaTool->createSchema($metadata);
+            $employeeRepository->createOrResetSchema();
             $this->addFlash('success', 'Successfully created/updated Employee table.');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Error: ' . $e->getMessage());
@@ -36,8 +30,9 @@ class ex13Controller extends AbstractController {
         return $this->redirectToRoute('ex13_listTable');
     }
 
-    #[Route(path:'/list', name:'ex13_listTable')]
-    public function listTable(EmployeeRepository $employeeRepository): Response {
+    #[Route(path: '/list', name: 'ex13_listTable')]
+    public function listTable(EmployeeRepository $employeeRepository): Response
+    {
         $employees = $employeeRepository->findAll();
         return $this->render('ex13/list.html.twig', [
             'employees' => $employees
@@ -94,20 +89,15 @@ class ex13Controller extends AbstractController {
                 'required' => false,
                 'placeholder' => 'No Manager',
                 'query_builder' => function (EmployeeRepository $er) use ($employee) {
-                    $qb = $er->createQueryBuilder('e');
-                    $qb->where($qb->expr()->in('e.position', ['manager', 'account_manager', 'qa_manager', 'dev_manager', 'ceo', 'coo']));
-                    if ($employee && $employee->getId()) {
-                        $qb->andWhere('e.id != :myId')
-                           ->setParameter('myId', $employee->getId());
-                    }
-                    return $qb;
+                    return $er->findPotentialManagersQueryBuilder($employee->getId());
                 },
             ])
             ->getForm();
     }
 
-    #[Route(path:'/edit/employee/{id}', name:'ex13_editEmployee')]
-    public function editTable(int $id, Request $request, EntityManagerInterface $em, EmployeeRepository $employeeRepository): Response {
+    #[Route(path: '/edit/employee/{id}', name: 'ex13_editEmployee')]
+    public function editTable(int $id, Request $request, EmployeeRepository $employeeRepository): Response
+    {
         $employee = $employeeRepository->find($id);
 
         if (!$employee) {
@@ -119,7 +109,7 @@ class ex13Controller extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $employeeRepository->save($employee);
             $this->addFlash('success', 'Employee updated successfully!');
             return $this->redirectToRoute('ex13_listTable');
         }
@@ -130,30 +120,30 @@ class ex13Controller extends AbstractController {
         ]);
     }
 
-    #[Route(path:'/delete/employee/{id}', name:'ex13_deleteEmployee')]
-    public function deleteEmployee(int $id, EntityManagerInterface $em, EmployeeRepository $employeeRepository): Response {
+    #[Route(path: '/delete/employee/{id}', name: 'ex13_deleteEmployee')]
+    public function deleteEmployee(int $id, EmployeeRepository $employeeRepository): Response
+    {
         $employee = $employeeRepository->find($id);
 
         if (!$employee) {
             $this->addFlash('error', 'Cannot delete: Employee not found!');
         } else {
-            $em->remove($employee);
-            $em->flush();
+            $employeeRepository->remove($employee);
             $this->addFlash('success', 'Employee deleted successfully!');
         }
 
         return $this->redirectToRoute('ex13_listTable');
     }
 
-    #[Route(path:'/create', name:'ex13_createEmployee')]
-    public function createEmployee(Request $request, EntityManagerInterface $em): Response {
+    #[Route(path: '/create', name: 'ex13_createEmployee')]
+    public function createEmployee(Request $request, EmployeeRepository $employeeRepository): Response
+    {
         $employee = new Employee();
         $form = $this->buildEmployeeForm($employee);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($employee);
-            $em->flush();
+            $employeeRepository->save($employee);
             $this->addFlash('success', 'New employee created successfully!');
             return $this->redirectToRoute('ex13_listTable');
         }
@@ -164,8 +154,9 @@ class ex13Controller extends AbstractController {
         ]);
     }
 
-    #[Route(path:'/seed', name:'ex13_seedEmployee')]
-    public function seedEmployee(): Response {
+    #[Route(path: '/seed', name: 'ex13_seedEmployee')]
+    public function seedEmployee(): Response
+    {
         $this->addFlash('error', 'Seed not implemented.');
         return $this->redirectToRoute('ex13_listTable');
     }

@@ -2,38 +2,31 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use App\Entity\bankAccountEntity;
 use App\Entity\personEntity;
 use App\Repository\personRepository;
 
-class ex12Controller extends AbstractController {
-
-    #[Route(path:'/new', name:'ex12_newTable')]
-    public function newTable(EntityManagerInterface $em): Response {
-        try{
-            $schemaTool = new SchemaTool($em);
-            $metadata = [
-                $em->getClassMetadata(personEntity::class),
-                $em->getClassMetadata(bankAccountEntity::class)
-            ];
-            $schemaTool->updateSchema($metadata);
+class ex12Controller extends AbstractController
+{
+    #[Route(path: '/new', name: 'ex12_newTable')]
+    public function newTable(personRepository $personRepository): Response
+    {
+        try {
+            $personRepository->createTables();
             $this->addFlash('success', 'Successfully created two tables');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', 'Error while creating two tables: ' . $e->getMessage());
         }
         return $this->redirectToRoute('ex12_listTable');
     }
 
-    #[Route(path:"/create", name:"ex12_createPerson")]
-    public function createPerson(EntityManagerInterface $em): Response {
+    #[Route(path: "/create", name: "ex12_createPerson")]
+    public function createPerson(personRepository $personRepository): Response
+    {
         $person = new personEntity();
         $newBankAccount = new bankAccountEntity();
         $uniq = uniqid();
@@ -43,15 +36,15 @@ class ex12Controller extends AbstractController {
         $newBankAccount->setBalance(rand(0, 100000));
         $person->setBankAccount($newBankAccount);
 
-        $em->persist($person);
-        $em->flush();
+        $personRepository->save($person);
 
         $this->addFlash('success', 'Created PersonEntity with ID: ' . $person->getId());
         return $this->redirectToRoute('ex12_listTable');
     }
 
-    #[Route(path:'/seed', name:'ex12_seedTable')]
-    public function seedTable(EntityManagerInterface $em): Response {
+    #[Route(path: '/seed', name: 'ex12_seedTable')]
+    public function seedTable(personRepository $personRepository): Response
+    {
         try {
             $users = [
                 ['mario99', 'Mario Rossi', 'mario@example.com', 1500],
@@ -63,19 +56,8 @@ class ex12Controller extends AbstractController {
                 ['wario_w', 'Wario Ware', 'wario@example.com', 8500],
             ];
 
-            foreach ($users as $u) {
-                $newUser = new personEntity();
-                $newBankAccount = new bankAccountEntity();
-                $newUser->setUsername($u[0]);
-                $newUser->setName($u[1]);
-                $newUser->setEmail($u[2]);
-                $newBankAccount->setBalance($u[3]);
-                $newUser->setBankAccount($newBankAccount);
-                $em->persist($newUser);
-            }
+            $personRepository->seed($users);
             $this->addFlash('success', count($users) . ' utenti fittizi inseriti con successo!');
-
-            $em->flush();
             $this->addFlash('success', 'Fake accounts created');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Errore durante il seed: ' . $e->getMessage());
@@ -83,14 +65,15 @@ class ex12Controller extends AbstractController {
         return $this->redirectToRoute('ex12_listTable');
     }
 
-    #[Route(path:'/list', name:'ex12_listTable', methods:['GET'])]
-    public function listTable(Request $request, personRepository $personRepository): Response {
+    #[Route(path: '/list', name: 'ex12_listTable', methods: ['GET'])]
+    public function listTable(Request $request, personRepository $personRepository): Response
+    {
         $allowedSort = [
             'name' => 'person.name',
             'username' => 'person.username',
             'money' => 'bank.balance'
         ];
-        
+
         $sortParam = $request->query->get('sort', 'name');
         $sortBy = $allowedSort[$sortParam] ?? 'person.name';
 
@@ -99,7 +82,7 @@ class ex12Controller extends AbstractController {
 
         $nameFilter = $request->query->get('name');
         $rawMinMoney = $request->query->get('min_money');
-        $minMoneyFilter = is_numeric($rawMinMoney) ? (int)$rawMinMoney : null;
+        $minMoneyFilter = is_numeric($rawMinMoney) ? (int) $rawMinMoney : null;
 
         $people = $personRepository->findWithAccountFilteredAndSorted(
             $nameFilter,

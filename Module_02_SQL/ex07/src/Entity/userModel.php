@@ -5,8 +5,9 @@ namespace App\Entity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\userModelRepository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: userModelRepository::class)]
 #[ORM\Table(name: 'users')]
 #[UniqueEntity(fields: ['username'], message: 'This username is already in use, choose another one')]
 #[UniqueEntity(fields: ['email'], message: 'This email is already in use, choose another one')]
@@ -40,8 +41,6 @@ class userModel {
     #[ORM\Column(type:"text", length: 4294967295, nullable: true)]
     #[Assert\NotBlank(message: 'The address cannot be empty.')]
     private ?string $address;
-
-// ----------------------------------------------------------
 
     public function getId(): ?int {
         return $this->id;
