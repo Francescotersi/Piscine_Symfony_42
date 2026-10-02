@@ -9,6 +9,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'posts')]
@@ -39,10 +40,18 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostVote::class)]
     private Collection $votes;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $lastEditTime;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $lastEditAuthor;
+
 
     public function __construct() {
         $this->created = new DateTime();
         $this->votes = new ArrayCollection();
+        $this->lastEditTime = null;
+        $this->lastEditAuthor = null;
     }
 
     public function getCreated(): DateTime {
@@ -106,5 +115,21 @@ class Post
             }
         }
         return $count;
+    }
+
+    public function getLastEditTime(): ?DateTime {
+        return $this->lastEditTime;
+    }
+
+    public function setLastEditTime(?DateTime $lastEditTime): void {
+        $this->lastEditTime = $lastEditTime;
+    }
+
+    public function getLastEditAuthor(): ?string {
+        return $this->lastEditAuthor;
+    }
+
+    public function setLastEditAuthor(?string $lastEditAuthor): void {
+        $this->lastEditAuthor = $lastEditAuthor;
     }
 }

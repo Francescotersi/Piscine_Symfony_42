@@ -30,10 +30,15 @@ class PostLike extends AbstractController {
         }
 
         $voteRepo = $manager->getRepository(PostVote::class);
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->getReputation() >= 3) {
             $existingVote = $voteRepo->findOneBy(['post' => $post, 'user' => $user]);
         } else {
-            $existingVote = $voteRepo->findOneBy(['post' => $post, 'admin' => $user]);
+            if ($user instanceof Admin) {
+                $existingVote = $voteRepo->findOneBy(['post' => $post, 'admin' => $user]);
+            } else {
+                $this->addFlash('error', 'You must have atleast 3 reputation to like posts');
+                return $this->redirectToRoute('e03_post_show', ['id' => $postId]);
+            }
         }
         if ($existingVote) {
             if ($existingVote->getType() === 'LIKE') {

@@ -31,10 +31,15 @@ class PostDislike extends AbstractController
         }
 
         $voteRepo = $manager->getRepository(PostVote::class);
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->getReputation() >= 6) {
             $existingVote = $voteRepo->findOneBy(['post' => $post, 'user' => $user]);
         } else {
-            $existingVote = $voteRepo->findOneBy(['post' => $post, 'admin' => $user]);
+            if ($user instanceof Admin) {
+                $existingVote = $voteRepo->findOneBy(['post' => $post, 'admin' => $user]);
+            } else {
+                $this->addFlash('error', 'You must have atleast 6 reputation to dislike posts');
+                return $this->redirectToRoute('e03_post_show', ['id' => $postId]);
+            }
         }
         if ($existingVote) {
             if ($existingVote->getType() === 'DISLIKE') {

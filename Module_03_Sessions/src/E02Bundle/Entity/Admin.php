@@ -85,6 +85,9 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface {
         foreach ($this->posts as $post) {
             $reputation += $post->getLikesCount() - $post->getDislikesCount();
         }
+        if ($reputation < 0) {
+            $reputation = 0;
+        }
         return $reputation;
     }
 }

@@ -7,8 +7,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\common\Collections\ArrayCollection;
-use Doctrine\common\Collections\Collection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -88,6 +88,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface{
         $reputation = 0;
         foreach ($this->posts as $post) {
             $reputation += $post->getLikesCount() - $post->getDislikesCount();
+        }
+        if ($reputation < 0) {
+            $reputation = 0;
         }
         return $reputation;
     }

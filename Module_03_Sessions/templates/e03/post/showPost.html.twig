@@ -14,6 +14,11 @@
         </div>
         <hr>
         <p>
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger" style="color: #d80303; margin-bottom: 10px;">
+                {{ message }}
+            </div>
+            {% endfor %}
             <a href="{{ path('e05_post_like', {'postId': post.id}) }}">
                 <button type='button'>Like ( {{ post.likesCount }} )</button>
             </a>
@@ -21,11 +26,18 @@
                 <button type='button'>Dislike ( {{ post.dislikesCount }} )</button>
             </a>
         </p>
+        {% if app.user and (app.user.id == post.author.id or is_granted('ROLE_ADMIN') or app.user.getReputation() >= 9) %}
         <p>
             <a href="{{ path('e06_post_edit', {'postId': post.id}) }}">
                 <button type='button'>Edit</button>
             </a>
         </p>
+        {% endif %}
+        {% if post.lastEditTime %}
+        <p style="color: #666;">
+                Last edited by <strong>{{ post.lastEditAuthor }}</strong> on {{ post.lastEditTime|date('d/m/Y H:i') }}
+        </p>
+        {% endif %}
         <p><a href="{{ path('e01_home') }}">Back to Homepage</a></p>
     </div>
 {% endblock %}

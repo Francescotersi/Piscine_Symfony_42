@@ -15,15 +15,15 @@ class PostController extends AbstractController
 {
     #[Route('/e03/post/new', name: 'e03_post_new')]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setAuthor($this->getUser());
-            $em->persist($post);
-            $em->flush();
+            $manager->persist($post);
+            $manager->flush();
             return $this->redirectToRoute('e01_home');
         }
         return $this->render('e03/post/newPost.html.twig', [
