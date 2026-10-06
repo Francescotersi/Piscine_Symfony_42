@@ -73,7 +73,6 @@ class ex05Controller extends AbstractController
             ->add('birthdate', DateTimeType::class, [
                 'label' => 'Birthdate',
                 'widget' => 'single_text',
-                'input' => 'string',
                 'html5' => true,
             ])
             ->add('address', TextType::class, ['label' => 'Address'])
@@ -84,10 +83,6 @@ class ex05Controller extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $birth = $user->getBirthdate();
-            if ($birth instanceof \DateTimeInterface) {
-                $user->setBirthdate($birth->format('Y-m-d H:i:s'));
-            }
             try {
                 $userRepository->save($user);
                 return $this->redirectToRoute('ex05_listTable');

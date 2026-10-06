@@ -38,7 +38,7 @@ class ex09Controller extends AbstractController
         $person->setName("Name " . $uniq);
         $person->setEmail("email_" . $uniq . "@test.com");
         $person->setEnable(true);
-        $person->setBirthdate("1990-01-01");
+        $person->setBirthdate(new \DateTime('1990-01-01 00:00:00'));
 
         $personRepository->save($person);
 

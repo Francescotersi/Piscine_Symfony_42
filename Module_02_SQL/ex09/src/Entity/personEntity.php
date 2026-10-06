@@ -33,9 +33,9 @@ class personEntity {
     #[Assert\NotNull(message: 'The enable feature cannot be empty.')]
     private ?bool $enable;
 
-    #[ORM\Column(type:"string", length:255)]
-    #[Assert\NotBlank(message: 'The birthdate cannot be empty.')]
-    private ?string $birthdate;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\NotNull(message: 'The birthdate cannot be empty.')]
+    private ?\DateTimeInterface $birthdate = null;
 
     #[ORM\Column(type:"integer", options: ["default" => 4])]
     private ?int $rings = 4;
@@ -92,11 +92,11 @@ class personEntity {
         return $this;
     }
 
-    public function getBirthdate(): ?string {
+    public function getBirthdate(): ?\DateTimeInterface {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?string $birthdate) {
+    public function setBirthdate(?\DateTimeInterface $birthdate): self {
         $this->birthdate = $birthdate;
         return $this;
     }

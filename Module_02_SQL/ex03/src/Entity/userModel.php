@@ -34,9 +34,9 @@ class userModel {
     #[Assert\NotNull(message: 'The enable feature cannot be empty.')]
     private ?bool $enable;
 
-    #[ORM\Column(type:"string", length:255)]
-    #[Assert\NotBlank(message: 'The birthdate cannot be empty.')]
-    private ?string $birthdate;
+    #[ORM\Column(type: "datetime")]
+    #[Assert\NotNull(message: 'The birthdate cannot be empty.')]
+    private ?\DateTimeInterface $birthdate = null;
 
     #[ORM\Column(type:"text", length: 4294967295, nullable: true)]
     #[Assert\NotBlank(message: 'The address cannot be empty.')]
@@ -73,20 +73,20 @@ class userModel {
         return $this;
     }
 
-    public function isEnable() {
+    public function isEnable(): ?bool {
         return $this->enable;
     }
 
-    public function setEnable(bool $enable) {
+    public function setEnable(?bool $enable): self {
         $this->enable = $enable;
         return $this;
     }
 
-    public function getBirthdate(): ?string {
+    public function getBirthdate(): ?\DateTimeInterface {
         return $this->birthdate;
     }
 
-    public function setBirthdate(?string $birthdate) {
+    public function setBirthdate(?\DateTimeInterface $birthdate): self {
         $this->birthdate = $birthdate;
         return $this;
     }

@@ -81,7 +81,6 @@ class ex07Controller extends AbstractController
             ->add('birthdate', DateTimeType::class, [
                 'label' => 'Birthdate',
                 'widget' => 'single_text',
-                'input' => 'string',
                 'html5' => true,
             ])
             ->add('address', TextType::class, ['label' => 'Address'])

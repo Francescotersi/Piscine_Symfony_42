@@ -38,7 +38,7 @@
                     {% else %}
                         <td>no</td>
                     {% endif %}
-                    <td>{{ user.birthdate }}</td>
+                    <td>{{ user.birthdate ? user.birthdate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ user.address }}</td>
                     <td>
                         <form action="{{ path('ex05_deleteUser', {id: user.id}) }}" method="post" onsubmit="return confirm('Delete this user?');">

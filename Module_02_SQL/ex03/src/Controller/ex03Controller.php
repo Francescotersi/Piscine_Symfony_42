@@ -36,11 +36,18 @@ class ex03Controller extends AbstractController
     #[Route(path: "/ex03/list", name: "ex03_listTable")]
     public function listTable(userModelRepository $userRepository): Response
     {
-        $users = $userRepository->getAll();
+        try {
+            $users = $userRepository->getAll();
 
-        return $this->render('database/listTable.html.twig', [
-            'users' => $users,
-        ]);
+            return $this->render('database/listTable.html.twig', [
+                'users' => $users,
+            ]);
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Error: table does not exist');
+            return $this->render('database/listTable.html.twig', [
+                'users' => [],
+            ]);
+        }
     }
 
     #[Route(path: "/ex03/update", name: "ex03_updateTable")]
@@ -61,7 +68,6 @@ class ex03Controller extends AbstractController
             ->add('birthdate', DateTimeType::class, [
                 'label' => 'Birthdate',
                 'widget' => 'single_text',
-                'input' => 'string',
                 'html5' => true,
             ])
             ->add('address', TextType::class, ['label' => 'Address'])
@@ -72,10 +78,6 @@ class ex03Controller extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $birth = $user->getBirthdate();
-            if ($birth instanceof \DateTimeInterface) {
-                $user->setBirthdate($birth->format('Y-m-d H:i:s'));
-            }
             try {
                 $userRepository->save($user);
                 return $this->redirectToRoute('ex03_listTable');
