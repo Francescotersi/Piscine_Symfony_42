@@ -53,11 +53,13 @@ class __TwigTemplate_25ce69b4186b6e1d9abdeb5747765c56 extends Template
         // line 5
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
         yield "</title>
+    </head>
     <body>
         ";
-        // line 7
+        // line 18
+        yield "        ";
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 8
+        // line 19
         yield "    </body>
 </html>
 ";
@@ -84,7 +86,7 @@ class __TwigTemplate_25ce69b4186b6e1d9abdeb5747765c56 extends Template
         yield from [];
     }
 
-    // line 7
+    // line 18
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -113,7 +115,7 @@ class __TwigTemplate_25ce69b4186b6e1d9abdeb5747765c56 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  88 => 7,  71 => 5,  61 => 8,  59 => 7,  54 => 5,  48 => 1,);
+        return array (  90 => 18,  73 => 5,  63 => 19,  60 => 18,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -123,7 +125,18 @@ class __TwigTemplate_25ce69b4186b6e1d9abdeb5747765c56 extends Template
     <head>
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
+    </head>
     <body>
+        {# {% for message in app.flashes(\x27success\x27) %}
+            <div style=\"background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px;\">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes(\x27error\x27) %}
+            <div style=\"background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 15px;\">
+                {{ message }}
+            </div>
+        {% endfor %} #}
         {% block body %}{% endblock %}
     </body>
 </html>
