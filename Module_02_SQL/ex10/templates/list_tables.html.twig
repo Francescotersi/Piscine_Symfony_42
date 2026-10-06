@@ -3,6 +3,18 @@
 {% block title %}Ex10 - List Tables{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div style="color: green; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div style="color: red; margin-bottom: 15px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>SQL_table (Raw SQL)</h1>
     <table border="1" cellpadding="10" cellspacing="0" style="width: 50%; text-align: left; margin-bottom: 40px;">
         <thead>

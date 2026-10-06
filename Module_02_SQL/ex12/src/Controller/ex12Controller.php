@@ -57,7 +57,6 @@ class ex12Controller extends AbstractController
             ];
 
             $personRepository->seed($users);
-            $this->addFlash('success', count($users) . ' utenti fittizi inseriti con successo!');
             $this->addFlash('success', 'Fake accounts created');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Errore durante il seed: ' . $e->getMessage());

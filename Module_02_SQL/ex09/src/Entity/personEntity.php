@@ -37,8 +37,8 @@ class personEntity {
     #[Assert\NotNull(message: 'The birthdate cannot be empty.')]
     private ?\DateTimeInterface $birthdate = null;
 
-    #[ORM\Column(type:"integer", options: ["default" => 4])]
-    private ?int $rings = 4;
+    // #[ORM\Column(type:"integer", options: ["default" => 4])]
+    // private ?int $rings = 4;
 
 
     #[ORM\OneToOne(targetEntity: bankAccountEntity::class, inversedBy: 'owner', cascade: ['persist', 'remove'])]

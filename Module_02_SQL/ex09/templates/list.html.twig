@@ -16,8 +16,8 @@
                 <th>Email</th>
                 <th>Bank Account Balance</th>
                 <th>Addresses</th>
-                <th>Actions</th>
                 {# <th>Rings</th> #}
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -45,7 +45,7 @@
                             <em>No Addresses</em>
                         {% endif %}
                     </td>
-                    <td>{{ person.rings }}</td>
+                    {# <td>{{ person.rings }}</td> #}
                     <td>
                         <a href="/person/{{ person.id }}/add-bank-account">Add Bank Account</a><br>
                         <a href="/person/{{ person.id }}/add-address">Add Address</a>
@@ -53,7 +53,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">No persons found in the database.</td>
+                    <td colspan="8">No persons found in the database.</td>
                 </tr>
             {% endfor %}
         </tbody>

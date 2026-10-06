@@ -36,11 +36,18 @@ class ex07Controller extends AbstractController
     #[Route(path: "/ex07/list", name: "ex07_listTable")]
     public function listTable(userModelRepository $userRepository): Response
     {
-        $users = $userRepository->getAll();
+        try {
+            $users = $userRepository->getAll();
 
-        return $this->render('database/listTable.html.twig', [
-            'users' => $users,
-        ]);
+            return $this->render('database/listTable.html.twig', [
+                'users' => $users,
+            ]);
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Error:Table not found');
+            return $this->render('database/listTable.html.twig', [
+                'users' => [],
+            ]);
+        }
     }
 
     #[Route(path: "/ex07/delete/{id}", name: "ex07_deleteUser", methods: ["POST"])]
