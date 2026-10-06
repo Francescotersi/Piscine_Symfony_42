@@ -83,7 +83,39 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
+        yield "    ";
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 6, $this->source); })()), "flashes", ["success"], "method", false, false, false, 6));
+        foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+            // line 7
+            yield "        <div style=\"color: green;\">";
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
+            yield "</div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent);
+        $context += $_parent;
+        // line 9
         yield "
+    ";
+        // line 10
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 10, $this->source); })()), "flashes", ["error"], "method", false, false, false, 10));
+        foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+            // line 11
+            yield "        <div style=\"color: red;\">";
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
+            yield "</div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent);
+        $context += $_parent;
+        // line 13
+        yield "    
     <div style=\"max-width: 600px; margin: 20px auto;\">
         <h2>Database Content</h2>
         
@@ -101,55 +133,55 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
             </thead>
             <tbody>
             ";
-        // line 23
+        // line 30
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 23, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 30, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
-            // line 24
+            // line 31
             yield "                <tr>
                     <td>";
-            // line 25
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "id", [], "any", false, false, false, 25), "html", null, true);
+            // line 32
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "id", [], "any", false, false, false, 32), "html", null, true);
             yield "</td>
                     <td>";
-            // line 26
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "username", [], "any", false, false, false, 26), "html", null, true);
+            // line 33
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "username", [], "any", false, false, false, 33), "html", null, true);
             yield "</td>
                     <td>";
-            // line 27
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 27), "html", null, true);
-            yield "</td>
-                    <td>";
-            // line 28
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 28), "html", null, true);
-            yield "</td>
-                    ";
-            // line 29
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["user"], "enable", [], "any", false, false, false, 29)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 30
-                yield "                        <td>yes</td>
-                    ";
-            } else {
-                // line 32
-                yield "                        <td>no</td>
-                    ";
-            }
             // line 34
-            yield "                    <td>";
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "birthdate", [], "any", false, false, false, 34), "html", null, true);
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 34), "html", null, true);
             yield "</td>
                     <td>";
             // line 35
-            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "address", [], "any", false, false, false, 35), "html", null, true);
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 35), "html", null, true);
+            yield "</td>
+                    ";
+            // line 36
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["user"], "enable", [], "any", false, false, false, 36)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 37
+                yield "                        <td>yes</td>
+                    ";
+            } else {
+                // line 39
+                yield "                        <td>no</td>
+                    ";
+            }
+            // line 41
+            yield "                    <td>";
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "birthdate", [], "any", false, false, false, 41), "html", null, true);
+            yield "</td>
+                    <td>";
+            // line 42
+            yield (string) $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "address", [], "any", false, false, false, 42), "html", null, true);
             yield "</td>
                 </tr>
             ";
             $context['_iterated'] = true;
         }
-        // line 37
+        // line 44
         if (!$context['_iterated']) {
-            // line 38
+            // line 45
             yield "                <tr>
                     <td colspan=\"3\">No data currently in the database.</td>
                 </tr>
@@ -159,13 +191,13 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
         unset($context['_seq'], $context['_key'], $context['user'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent);
         $context += $_parent;
-        // line 42
+        // line 49
         yield "            </tbody>
         </table>
         
         <br>
         <a href=\"";
-        // line 46
+        // line 53
         yield (string) $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ex02_updateTable");
         yield "\">&larr; Insert New Record</a>
     </div>
@@ -198,7 +230,7 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  169 => 46,  163 => 42,  153 => 38,  151 => 37,  144 => 35,  139 => 34,  135 => 32,  131 => 30,  129 => 29,  125 => 28,  121 => 27,  117 => 26,  113 => 25,  110 => 24,  105 => 23,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
+        return array (  201 => 53,  195 => 49,  185 => 45,  183 => 44,  176 => 42,  171 => 41,  167 => 39,  163 => 37,  161 => 36,  157 => 35,  153 => 34,  149 => 33,  145 => 32,  142 => 31,  137 => 30,  118 => 13,  108 => 11,  104 => 10,  101 => 9,  91 => 7,  86 => 6,  76 => 5,  59 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -208,7 +240,14 @@ class __TwigTemplate_5ee254d3a4b7272d97986f6d653e03ca extends Template
 {% block title %} Listing the database {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes(\x27success\x27) %}
+        <div style=\"color: green;\">{{ message }}</div>
+    {% endfor %}
 
+    {% for message in app.flashes(\x27error\x27) %}
+        <div style=\"color: red;\">{{ message }}</div>
+    {% endfor %}
+    
     <div style=\"max-width: 600px; margin: 20px auto;\">
         <h2>Database Content</h2>
         

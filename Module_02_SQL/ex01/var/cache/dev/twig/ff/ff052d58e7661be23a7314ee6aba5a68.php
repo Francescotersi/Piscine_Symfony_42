@@ -85,7 +85,7 @@ class __TwigTemplate_bd1855ae7ebf6055884b2c4f6ca04309 extends Template
         // line 6
         yield "    <div>
         <h1>Database Table Generator</h1>
-        <p>Click the button below to execute the raw SQL query and create the database table.</p>
+        <p>Click the button below to execute the raw ORM query and create the database table.</p>
         ";
         // line 9
         if ((($tmp = (isset($context["message"]) || array_key_exists("message", $context) ? $context["message"] : (function () { throw new RuntimeError('Variable "message" does not exist.', 9, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
@@ -156,7 +156,7 @@ class __TwigTemplate_bd1855ae7ebf6055884b2c4f6ca04309 extends Template
 {% block body %}
     <div>
         <h1>Database Table Generator</h1>
-        <p>Click the button below to execute the raw SQL query and create the database table.</p>
+        <p>Click the button below to execute the raw ORM query and create the database table.</p>
         {% if message %}
             <div>
                 {{ message }}
