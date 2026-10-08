@@ -12,4 +12,5 @@ return [
     App\E05Bundle\E05Bundle::class => ['all' => true],
     App\E06Bundle\E06Bundle::class => ['all' => true],
     App\E07Bundle\E07Bundle::class => ['all' => true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
 ];
