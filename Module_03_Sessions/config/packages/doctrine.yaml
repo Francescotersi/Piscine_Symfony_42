@@ -22,6 +22,10 @@ doctrine:
                 alias: App
             E04Bundle:
                 mapping: false
+            E06Bundle:
+                mapping: false
+            E07Bundle:
+                mapping: false
 
 when@test:
     doctrine:
