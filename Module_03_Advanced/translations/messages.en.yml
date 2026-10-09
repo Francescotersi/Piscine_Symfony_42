@@ -1,0 +1,3 @@
+ex02:
+  number: 'The config number is %number%'
+  count: '{0} none|{1} one|]1,Inf[ number %count%'
