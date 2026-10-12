@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ex03{% endblock %}
+
+{% block body %}
+    <h2>Uppercase Filter</h2>
+    <p>Original: {{ 'ex03.filter_txt' | trans }}</p>
+    <p>Uppercase: {{ 'ex03.filter_txt' | trans|uppercaseWords }}</p>
+
+    <h2>Count Function:</h2>
+    <p>Original: {{ 'ex03.function_txt'|trans }}</p>
+    <p>Count: {{ countNumbers('ex03.function_txt'|trans) }}</p>
+{% endblock %}
