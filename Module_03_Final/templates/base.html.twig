@@ -5,6 +5,15 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
     </head>
     <body>
+        <nav>
+            {% if app.user %}
+                <p>Welcome, {{ app.user.username }}!</p>
+                <a href="{{ path('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('login') }}">Login</a>
+            {% endif %}
+        </nav>
+        <hr>
         {% block body %}{% endblock %}
     </body>
 </html>

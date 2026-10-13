@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Login</h1>
+
+    <div id="login-error" style="color: red; margin-bottom: 15px;"></div>
+    <form id="login-form">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function(e){
+            e.preventDefault();
+            const errorDiv = document.getElementById('login-error');
+            errorDiv.textContent = '';
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            try {
+                const response = await fetch('{{ path('login') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    const data = await response.json();
+                    errorDiv.textContent = data.error || 'Invalid credentials.';
+                }
+            } catch (err) {
+                errorDiv.textContent = 'Error connecting to the server.';
+            }
+        })
+
+    </script>
+
+{% endblock %}
