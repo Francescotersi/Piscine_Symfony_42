@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends app.current_route == 'login' ? 'base.html.twig' : 'empty.html.twig' %}
 
 {% block title %}Login{% endblock %}
 
@@ -11,39 +11,56 @@
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
         </div>
+        <br>
         <div>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
+        <br>
         <button type="submit">Login</button>
     </form>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', async function(e){
-            e.preventDefault();
-            const errorDiv = document.getElementById('login-error');
-            errorDiv.textContent = '';
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            try {
-                const response = await fetch('{{ path('login') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
+        (function() {
+            const loginForm = document.getElementById('login-form');
+            if (loginForm && !loginForm.dataset.bound) {
+                loginForm.dataset.bound = 'true';
+                loginForm.addEventListener('submit', async function(e){
+                    e.preventDefault();
+                    const errorDiv = document.getElementById('login-error');
+                    if (errorDiv) {
+                        errorDiv.textContent = '';
+                    }
+
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+
+                    try {
+                        const response = await fetch('{{ path('login') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ username, password })
+                        });
+
+                        if (response.ok) {
+                            const loginContainer = document.getElementById('login-container');
+                            const postContainer = document.getElementById('post-container');
+                            if (loginContainer && postContainer) {
+                                loginContainer.style.display = 'none';
+                                postContainer.style.display = 'block';
+                            } else {
+                                window.location.href = '/';
+                            }
+                        } else {
+                            alert('Bad credentials!');
+                        }
+                    } catch (err) {
+                        alert('Error communicating with the server.');
+                    }
                 });
-                if (response.ok) {
-                    window.location.href = '/';
-                } else {
-                    const data = await response.json();
-                    errorDiv.textContent = data.error || 'Invalid credentials.';
-                }
-            } catch (err) {
-                errorDiv.textContent = 'Error connecting to the server.';
             }
-        })
-
+        })();
     </script>
-
 {% endblock %}
