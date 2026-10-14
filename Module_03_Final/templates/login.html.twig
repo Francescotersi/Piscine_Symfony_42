@@ -47,15 +47,17 @@
                         if (response.ok) {
                             const loginContainer = document.getElementById('login-container');
                             const postContainer = document.getElementById('post-container');
-                            if (loginContainer && postContainer) {
+                            const userHeader = document.getElementById('user-header');
+                            if (loginContainer && postContainer && userHeader) {
                                 loginContainer.style.display = 'none';
                                 postContainer.style.display = 'block';
+                                userHeader.style.display = 'block';
+                                const welcomeUser = document.getElementById('welcome-user');
+                                if (welcomeUser) {
+                                    welcomeUser.textContent = ' ' + username + '!';
+                                }
                             } else {
                                 window.location.href = '/';
-                            }
-                            const welcomeUser = document.getElementById('welcome-user');
-                            if (welcomeUser) {
-                                welcomeUser.textContent = ' ' + username + '!';
                             }
                         } else {
                             alert('Bad credentials!');

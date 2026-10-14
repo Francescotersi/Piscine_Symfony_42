@@ -41,9 +41,8 @@ class PostController extends AbstractController
             $em->flush();
 
             return new JsonResponse(['success' => true, 'message' => 'Post was successfully added', 'post' => [
+                'id' => $post->getId(),
                 'title' => $post->getTitle(),
-                'author' => $post->getAuthor()->getUsername(),
-                'content' => $post->getContent(),
                 'created' => $post->getCreated()->format('Y-m-d H:i:s'),
             ]], Response::HTTP_CREATED);
         }
@@ -56,5 +55,41 @@ class PostController extends AbstractController
             'success' => false,
             'error' => $errorMessage
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    #[Route('/view/{id}', name: 'view_post')]
+    public function viewAction(int $id, EntityManagerInterface $manager): Response {
+        $post = $manager->getRepository(Post::class)->find($id);
+        if (!$post) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'Post not found.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        return new JsonResponse(['success' => true, 'message' => 'Post was successfully fetched', 'post' => [
+                'id' => $post->getId(),
+                'title' => $post->getTitle(),
+                'author' => $post->getAuthor()->getUsername(),
+                'content' => $post->getContent(),
+                'created' => $post->getCreated()->format('Y-m-d H:i:s'),
+        ]], Response::HTTP_OK);
+    }
+
+    #[Route('/delete/{id}', name: 'delete_post', methods: ['DELETE'])]
+    #[IsGranted('ROLE_USER')]
+    public function deleteAction(int $id, EntityManagerInterface $manager): Response {
+        $post = $manager->getRepository(Post::class)->find($id);
+        if (!$post) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => 'Post not found.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $manager->remove($post);
+        $manager->flush();
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Post was successfully deleted'
+        ], Response::HTTP_OK);
     }
 }

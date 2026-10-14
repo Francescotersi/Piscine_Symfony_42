@@ -9,13 +9,22 @@
         {% endif %}
     </div>
 
-    <div id="post-container" style="display: {{ app.user ? 'block' : 'none' }};">
+    <div id="user-header" style="display: {{ app.user ? 'block' : 'none' }};">
             <h2>Welcome<span id="welcome-user">{% if app.user %} {{ app.user.username }}{% else %} Guest{% endif %}!</span></h2>
             <a href="{{ path('logout') }}">Logout</a>
             <hr>
+    </div>
 
+    <div id="post-detail" style="display: none;">
+        <h4 id="detail-title"></h4>
+        <p id="detail-content"></p>
+        <small id="detail-author"></small>
+        <button id="delete-post">Delete</button>
+    </div>
+
+    <div id="post-container" style="display: {{ app.user ? 'block' : 'none' }};">
         <h3>Create Post</h3>
-        <div id="post-confirmation" style="color: green; font-weight: bold; margin-bottom: 15px;"></div>
+        <div id="post-confirmation" style="color: green; font-weight: bold; margin-bottom: 5px;"></div>
 
         <form action="{{ path('post_new') }}" id="post-form" method="POST">
             <div>
@@ -36,12 +45,12 @@
 
     <div>
         <h3>Posts</h3>
+        <div id="post-delete-confirmation" style="color: green; font-weight: bold; margin-bottom: 5px;"></div>
         <ul id="posts-list">
             {% for post in posts %}
-                <li>
-                    <strong>{{ post.title }}</strong><br>
-                    {{ post.content }}<br>
-                    <small>By {{ post.author.username }} on {{ post.created|date('Y-m-d H:i') }}</small>
+                <li class="post-item" data-id="{{ post.id }}" style="cursor: pointer;">
+                    <strong><a href="{{ path('view_post', { 'id': post.id }) }}">{{ post.title }}</a></strong><br>
+                    <small>Created on {{ post.created|date('Y-m-d H:i') }}</small>
                 </li>
             {% else %}
                 <li id="no-posts">No posts available.</li>
@@ -85,10 +94,11 @@
                                 noPosts.remove();
                             }
                             const newPost = document.createElement('li');
+                            newPost.classList.add('post-item');
+                            newPost.dataset.id = data.post.id;
                             newPost.innerHTML = `
                                     <strong>${data.post.title}</strong><br>
-                                    ${data.post.content}<br>
-                                    <small>By ${data.post.author} on ${data.post.created}</small>`;
+                                    <small>Created on ${data.post.created}</small>`;
                             postsList.appendChild(newPost);
                         }
                     } else {
@@ -98,6 +108,65 @@
                     alert('Error communicating with the server.');
                 }
                 
+            });
+        }
+
+        const viewPost = document.getElementById('posts-list');
+        if (viewPost) {
+            viewPost.addEventListener('click', async function(e){
+                e.preventDefault();
+                const post = e.target.closest('.post-item');
+                if (!post) return;
+                const postId = post.dataset.id;
+                try {
+                    const response = await fetch(`/view/${postId}`);
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        document.getElementById('detail-title').textContent = 'Title:' + data.post.title;
+                        document.getElementById('detail-content').textContent = data.post.content;
+                        document.getElementById('detail-author').textContent = `Author: ${data.post.author}`;
+                        document.getElementById('post-detail').style.display = 'block';
+                        document.getElementById('delete-post').dataset.id = data.post.id;
+                    } else {
+                        alert(data.error || 'Error fetching post details.');
+                    }
+                } catch (err) {
+                    alert('Error communicating with the server.');
+                }
+            });
+        }
+
+        const deletePostButton = document.getElementById('delete-post');
+        if (deletePostButton) {
+            deletePostButton.addEventListener('click', async function(e){
+                e.preventDefault();
+                if (!confirm('Are you sure you want to delete this post?')) return;
+                const postId = this.dataset.id;
+                if (!postId) return;
+                const confirmationDiv = document.getElementById('post-delete-confirmation');
+                if (confirmationDiv) {
+                    confirmationDiv.textContent = '';
+                }
+                const response = await fetch(`/delete/${postId}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    if (confirmationDiv) {
+                        confirmationDiv.textContent = data.message;
+                    }
+                    const postDetail = document.getElementById('post-detail');
+                    if (postDetail) {
+                        postDetail.style.display = 'none';
+                    }
+                    const postItem = document.querySelector(`.post-item[data-id="${postId}"]`);
+                    if (postItem) {
+                        postItem.remove();
+                    }
+
+                } else {
+                    alert(data.error || 'Error deleting post.');
+                }
             });
         }
     </script>
