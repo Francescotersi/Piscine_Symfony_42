@@ -10,11 +10,9 @@
     </div>
 
     <div id="post-container" style="display: {{ app.user ? 'block' : 'none' }};">
-        {% if app.user %}
-            <h2>Welcome, {{ app.user.username }}!</h2>
+            <h2>Welcome<span id="welcome-user">{% if app.user %} {{ app.user.username }}{% else %} Guest{% endif %}!</span></h2>
             <a href="{{ path('logout') }}">Logout</a>
             <hr>
-        {% endif %}
 
         <h3>Create Post</h3>
         <div id="post-confirmation" style="color: green; font-weight: bold; margin-bottom: 15px;"></div>
@@ -32,6 +30,23 @@
             <br>
             <button type="submit">Publish Post</button>
         </form>
+    </div>
+
+    <hr>
+
+    <div>
+        <h3>Posts</h3>
+        <ul id="posts-list">
+            {% for post in posts %}
+                <li>
+                    <strong>{{ post.title }}</strong><br>
+                    {{ post.content }}<br>
+                    <small>By {{ post.author.username }} on {{ post.created|date('Y-m-d H:i') }}</small>
+                </li>
+            {% else %}
+                <li id="no-posts">No posts available.</li>
+            {% endfor %}
+        </ul>
     </div>
 
     <script>
@@ -57,18 +72,32 @@
                     });
 
                     const data = await response.json();
-
                     if (response.ok && data.success) {
                         if (confirmationDiv) {
                             confirmationDiv.textContent = data.message;
                         }
                         postForm.reset();
+
+                        const postsList = document.getElementById('posts-list');
+                        if (postsList && data.post) {
+                            const noPosts = document.getElementById('no-posts');
+                            if (noPosts) {
+                                noPosts.remove();
+                            }
+                            const newPost = document.createElement('li');
+                            newPost.innerHTML = `
+                                    <strong>${data.post.title}</strong><br>
+                                    ${data.post.content}<br>
+                                    <small>By ${data.post.author} on ${data.post.created}</small>`;
+                            postsList.appendChild(newPost);
+                        }
                     } else {
                         alert(data.error || 'Error creating post.');
                     }
                 } catch (err) {
                     alert('Error communicating with the server.');
                 }
+                
             });
         }
     </script>

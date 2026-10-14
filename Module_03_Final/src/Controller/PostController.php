@@ -16,11 +16,12 @@ class PostController extends AbstractController
 {
 
     #[Route('/', name: 'home')]
-    public function defaultAction(): Response {
+    public function defaultAction(EntityManagerInterface $manager): Response {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         return $this->render('index.html.twig', [
             'postForm' => $form->createView(),
+            'posts' => $manager->getRepository(Post::class)->findAll(),
         ]);
     }
 
@@ -36,15 +37,24 @@ class PostController extends AbstractController
         $form->submit($data);
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setAuthor($this->getUser());
-
             $em->persist($post);
             $em->flush();
 
-            return new JsonResponse(['success' => true, 'message' => 'Post was successfully added']);
+            return new JsonResponse(['success' => true, 'message' => 'Post was successfully added', 'post' => [
+                'title' => $post->getTitle(),
+                'author' => $post->getAuthor()->getUsername(),
+                'content' => $post->getContent(),
+                'created' => $post->getCreated()->format('Y-m-d H:i:s'),
+            ]], Response::HTTP_CREATED);
         }
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+        $errorMessage = !empty($errors) ? $errors[0] : 'Invalid form data.';
         return new JsonResponse([
             'success' => false,
-            'error' => 'Invalid form data.'
+            'error' => $errorMessage
         ], Response::HTTP_BAD_REQUEST);
     }
 }

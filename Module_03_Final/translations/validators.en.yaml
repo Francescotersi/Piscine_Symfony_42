@@ -1,0 +1,2 @@
+post.title_unique: 'This title is already in use. Please choose a different one.'
+post.title_not_blank: 'Title cannot be blank.'

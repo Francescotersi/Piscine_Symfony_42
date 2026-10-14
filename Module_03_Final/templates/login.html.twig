@@ -53,6 +53,10 @@
                             } else {
                                 window.location.href = '/';
                             }
+                            const welcomeUser = document.getElementById('welcome-user');
+                            if (welcomeUser) {
+                                welcomeUser.textContent = ' ' + username + '!';
+                            }
                         } else {
                             alert('Bad credentials!');
                         }

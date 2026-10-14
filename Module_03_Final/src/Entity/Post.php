@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: 'posts')]
+#[UniqueEntity(fields: ['title'], message: 'post.title_unique')]
 class Post
 {
     #[ORM\Id]
@@ -15,6 +18,7 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'post.title_not_blank')]
     private ?string $title = null;
 
     #[ORM\Column(type: 'text')]
