@@ -3,5 +3,5 @@ ex02:
   count: '{0} aucun|{1} un|]1,Inf[ nombre %count%'
 
 ex03:
-  filter_txt: 'filtre twig chaîne'
-  function_txt: 'fonction twig 3 65 chaîne nombre 1 2 4'
+  filter_txt: 'paris filtre twig chaîne'
+  function_txt: ' Lyon fonction twig chaîne nombre 1 2 4'
