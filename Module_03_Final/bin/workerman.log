@@ -15,3 +15,32 @@ Stack trace:
 #11 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/autoload_runtime.php(32): Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner->run()
 #12 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/bin/console(15): require_once('...')
 #13 {main}
+2026-10-20 13:00:06 pid:12280 Workerman[console] start in DEBUG mode
+2026-10-20 13:00:06 pid:12280 RuntimeException: stream_socket_server(): Unable to connect to tcp://0.0.0.0:8080 (Address already in use) in /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/workerman/workerman/src/Worker.php:2581
+Stack trace:
+#0 [internal function]: Workerman\Worker::{closure:Workerman\Worker::checkPortAvailable():2580}()
+#1 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/workerman/workerman/src/Worker.php(2583): stream_socket_server()
+#2 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/workerman/workerman/src/Worker.php(617): Workerman\Worker::checkPortAvailable()
+#3 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/src/Command/WebsocketStartCommand.php(47): Workerman\Worker::runAll()
+#4 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/console/Command/Command.php(285): App\Command\WebsocketStartCommand->execute()
+#5 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/console/Application.php(1152): Symfony\Component\Console\Command\Command->run()
+#6 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/framework-bundle/Console/Application.php(123): Symfony\Component\Console\Application->doRunCommand()
+#7 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/console/Application.php(380): Symfony\Bundle\FrameworkBundle\Console\Application->doRunCommand()
+#8 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/framework-bundle/Console/Application.php(86): Symfony\Component\Console\Application->doRun()
+#9 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/console/Application.php(219): Symfony\Bundle\FrameworkBundle\Console\Application->doRun()
+#10 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/symfony/runtime/Runner/Symfony/ConsoleApplicationRunner.php(49): Symfony\Component\Console\Application->run()
+#11 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/vendor/autoload_runtime.php(32): Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner->run()
+#12 /home/francesco/Desktop/Piscine_Symfony_42/Module_03_Final/bin/console(15): require_once('...')
+#13 {main}
+2026-10-20 13:00:50 pid:12602 Workerman[console] start in DEBUG mode
+2026-10-20 13:03:57 pid:12602 Workerman[console] received signal SIGINT
+2026-10-20 13:03:57 pid:12602 Workerman[console] stopping
+2026-10-20 13:03:57 pid:12602 Workerman[console] has been stopped
+2026-10-20 13:06:17 pid:13648 Workerman[console] start in DEBUG mode
+2026-10-20 13:08:56 pid:13648 Workerman[console] received signal SIGINT
+2026-10-20 13:08:56 pid:13648 Workerman[console] stopping
+2026-10-20 13:08:56 pid:13648 Workerman[console] has been stopped
+2026-10-20 13:10:50 pid:15898 Workerman[console] start in DEBUG mode
+2026-10-20 13:12:29 pid:15898 Workerman[console] received signal SIGINT
+2026-10-20 13:12:29 pid:15898 Workerman[console] stopping
+2026-10-20 13:12:29 pid:15898 Workerman[console] has been stopped

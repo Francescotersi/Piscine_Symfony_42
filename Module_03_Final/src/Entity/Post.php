@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: 'posts')]
 #[UniqueEntity(fields: ['title'], message: 'post.title_unique')]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
@@ -30,11 +31,6 @@ class Post
     #[ORM\ManyToOne(inversedBy: 'Posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
-
-    public function __construct()
-    {
-        $this->created = new \DateTimeImmutable();
-    }
 
     public function getId(): ?int
     {
@@ -70,6 +66,7 @@ class Post
         return $this->created;
     }
 
+    #[ORM\PrePersist]
     public function setCreated(): void
     {
         $this->created = new \DateTimeImmutable();

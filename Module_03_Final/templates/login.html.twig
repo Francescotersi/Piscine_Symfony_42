@@ -56,6 +56,10 @@
                                 if (welcomeUser) {
                                     welcomeUser.textContent = ' ' + username + '!';
                                 }
+                                const deleteBtn = document.getElementById('delete-post');
+                                if (deleteBtn && deleteBtn.dataset.id) {
+                                    deleteBtn.style.display = 'inline-block';
+                                }
                             } else {
                                 window.location.href = '/';
                             }

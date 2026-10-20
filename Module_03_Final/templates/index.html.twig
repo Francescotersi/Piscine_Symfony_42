@@ -19,7 +19,8 @@
         <h4 id="detail-title"></h4>
         <p id="detail-content"></p>
         <small id="detail-author"></small>
-        <button id="delete-post">Delete</button>
+        <br>
+        <button id="delete-post" style="display: {{ app.user ? 'inline-block' : 'none' }};">Delete</button>
     </div>
 
     <div id="post-container" style="display: {{ app.user ? 'block' : 'none' }};">
@@ -99,8 +100,8 @@
                             newPost.classList.add('post-item');
                             newPost.dataset.id = data.post.id;
                             newPost.innerHTML = `
-                                    <strong>${data.post.title}</strong><br>
-                                    <small>Created on ${data.post.created}</small>`;
+                                <strong><a href="/view/${data.post.id}">${data.post.title}</a></strong><br>
+                                <small>Created on ${data.post.created}</small>`;
                             postsList.appendChild(newPost);
                             if (socket && socket.readyState === WebSocket.OPEN) {
                                 socket.send(JSON.stringify({
@@ -134,7 +135,12 @@
                         document.getElementById('detail-content').textContent = data.post.content;
                         document.getElementById('detail-author').textContent = `Author: ${data.post.author}`;
                         document.getElementById('post-detail').style.display = 'block';
-                        document.getElementById('delete-post').dataset.id = data.post.id;
+                        const deleteButton = document.getElementById('delete-post');
+                        if (deleteButton) {
+                            deleteButton.dataset.id = data.post.id;
+                            const isUserLoggedIn = document.getElementById('user-header').style.display !== 'none';
+                            deleteButton.style.display = isUserLoggedIn ? 'inline-block' : 'none';
+                        }
                     } else {
                         alert(data.error || 'Error fetching post details.');
                     }
