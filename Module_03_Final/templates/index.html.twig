@@ -59,6 +59,8 @@
     </div>
 
     <script>
+        const socket = new WebSocket(`ws://${window.location.hostname}:8080`);
+
         const postForm = document.getElementById('post-form');
         if (postForm) {
             postForm.addEventListener('submit', async function(e) {
@@ -100,6 +102,12 @@
                                     <strong>${data.post.title}</strong><br>
                                     <small>Created on ${data.post.created}</small>`;
                             postsList.appendChild(newPost);
+                            if (socket && socket.readyState === WebSocket.OPEN) {
+                                socket.send(JSON.stringify({
+                                    action: 'newPost',
+                                    post: data.post
+                                }));
+                            }
                         }
                     } else {
                         alert(data.error || 'Error creating post.');
@@ -162,6 +170,12 @@
                     const postItem = document.querySelector(`.post-item[data-id="${postId}"]`);
                     if (postItem) {
                         postItem.remove();
+                        if (socket && socket.readyState === WebSocket.OPEN) {
+                            socket.send(JSON.stringify({
+                                action: 'deletePost',
+                                id: postId
+                            }));
+                        }
                     }
 
                 } else {
@@ -169,5 +183,47 @@
                 }
             });
         }
+
+        socket.addEventListener('open', () => {
+            console.log('Connected to the WebSocket on port 8080');
+        })
+
+        socket.addEventListener('message', (event) => {
+            try {
+                const data = JSON.parse(event.data);
+
+                if (data.action === 'newPost' && data.post) {
+                    if (!document.querySelector(`.post-item[data-id="${data.post.id}"]`)) {
+                        const postsList = document.getElementById('posts-list')
+                        if (postsList) {
+                            const noPosts = document.getElementById('no-posts');
+                            if (noPosts) {
+                                noPosts.remove();
+                            }
+                            const newPost = document.createElement('li');
+                            newPost.classList.add('post-item');
+                            newPost.dataset.id = data.post.id;
+                            newPost.style.cursor = 'pointer';
+                            newPost.innerHTML = `
+                                <strong><a href="/view/${data.post.id}">${data.post.title}</a></strong><br>
+                                <small>Created on ${data.post.created}</small>`;
+                            postsList.appendChild(newPost);
+                        }
+                    }
+                }
+                if (data.action === 'deletePost' && data.id) {
+                    const postItem = document.querySelector(`.post-item[data-id="${data.id}"]`);
+                    if (postItem) {
+                        postItem.remove();
+                    }
+                    const deleteBtn = document.getElementById('delete-post');
+                    if (deleteBtn && deleteBtn.dataset.id == data.id) {
+                        document.getElementById('post-detail').style.display = 'none';
+                }
+            }
+        } catch (err) {
+            console.error('Websocket error: ', err);
+        }
+        });
     </script>
 {% endblock %}
